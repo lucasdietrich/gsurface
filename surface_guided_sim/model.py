@@ -4,7 +4,9 @@ import numpy as np
 
 import abc
 
-ui, vi = 0, 0
+from typing import Iterable, Union
+
+ui, vi = 0, 1
 
 xyz = range(3)
 
@@ -44,14 +46,34 @@ class Surface(abc.ABC):
     def eval_all(self, u: float, v: float) -> np.ndarray:
         raise NotImplementedError()
 
+    # return rebuild evals for data
+    def evals(self, uv: np.ndarray) -> np.ndarray:
+        evals = np.zeros((uv.shape[0], 3))
+
+        for i, (u, v) in enumerate(uv):
+            evals[i] = self.eval(u, v)
+
+        return evals
+
+    # U, V must be 1d arrays
+    def mesh(self, U: np.ndarray, V: np.ndarray):
+        mesh = np.zeros((3, U.shape[0], V.shape[0]))
+
+        for i, u in enumerate(U):
+            for j, v in enumerate(V):
+                mesh[:, i, j] = self.eval(u, v)
+
+        return mesh
+
+
 class SurfaceGuidedFallSystem(ODESystem):
-    def __init__(self, sys: Surface):
-        self.sys = sys
+    def __init__(self, surface: Surface):
+        self.surface = surface
 
         s0 = np.array([
             0.0,    # u
-            1.0,    # vu
-            0.0,    # v
+            0.0,    # vu
+            1.0,    # v
             0.0     # vu
         ])
 
@@ -85,16 +107,12 @@ class SurfaceGuidedFallSystem(ODESystem):
         ])
 
     def _derivs(self, s: np.ndarray, t: float) -> np.ndarray:
-        ds = np.copy(s)
+        u, du, v, dv = s
 
-        u, v = s[0], s[2]
-
-        w = np.array([u, v]).transpose()
-
-        du, dv = s[1], s[3]
+        dw = np.array([du, dv])
 
         # eval
-        eval = self.sys.eval_all(u, v)
+        eval = self.surface.eval_all(u, v)
 
         # eval force:
         F = self.force(u, v, t, eval)
@@ -104,35 +122,30 @@ class SurfaceGuidedFallSystem(ODESystem):
         H = self.dim_hessian(eval)
 
         # build intermediate symbols
-        Duu = np.sum(J[X, ui]**2 for X in xyz)
-        Dvv = np.sum(J[X, vi]**2 for X in xyz)
 
-        wT_HSX_w = lambda X: w.transpose() @ H[X] @ w
+        Duu, Dvv = np.sum(J**2, axis=0)
+
+        wHw = dw.T @ H @ dw
 
         # build common mult
-        Puv = np.sum(
-            J[X, ui] * J[X, vi] for X in xyz
-        )
+        Puv = np.sum(J[:, ui] * J[:, vi])
 
         # build residual
-        Ru = np.sum(
-            J[X, ui] * wT_HSX_w(X) for X in xyz
-        ) - np.vdot(F, J[:, ui]) / self.m
-
-        Rv = np.sum(
-            J[X, vi] * wT_HSX_w(X) for X in xyz
-        ) - np.vdot(F, J[:, vi]) / self.m
+        Ru = np.sum(J[:, ui] * wHw) - np.vdot(F, J[:, ui]) / self.m
+        Rv = np.sum(J[:, vi] * wHw) - np.vdot(F, J[:, vi]) / self.m
 
         D = Duu * Dvv - Puv**2
 
-        # build der state
-        # u
-        ds[0] = du
-        ds[1] = (Rv*Puv - Ru*Dvv) / D
+        # build derivative state
+        ds = np.array([
+            # u
+            du,
+            (Rv * Puv - Ru * Dvv) / D,
 
-        # v
-        ds[2] = dv
-        ds[3] = (Ru*Puv - Rv*Duu) / D
+            # v
+            dv,
+            (Ru * Puv - Rv * Duu) / D
+        ])
 
         return ds
 

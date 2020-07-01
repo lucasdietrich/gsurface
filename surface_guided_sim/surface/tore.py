@@ -8,11 +8,11 @@ class SurfaceTore(Surface):
         self.R = 1.0
 
     def eval(self, u, v):
-        Rrcos = self.R + self.r * np.cos(v)
+        Rrcos = self.R + self.r * np.sin(v)
 
         x = Rrcos * np.cos(u)
         y = Rrcos * np.sin(u)
-        z = self.r * np.sin(v)
+        z = - self.r * np.cos(v)
 
         return np.array([x, y, z])
 
@@ -20,24 +20,23 @@ class SurfaceTore(Surface):
         x, y, z = self.eval(u, v)
 
         dux = -y
-        dvx = -self.r*np.sin(v)*np.cos(u)
-
         duy = x
-        dvy = -self.r*np.sin(v)*np.sin(u)
-
         duz = 0
-        dvz = self.r*np.cos(v)
+
+        dvx = self.r*np.cos(u)*np.cos(v)
+        dvy = self.r*np.sin(u)*np.cos(v)
+        dvz = self.r*np.sin(v)
 
         duux = -x
-        duvx = -dvy
-        dvvx = -dvz*np.cos(u)
-
         duuy = -y
-        duvy = -dvx
-        dvvy = -dvz*np.sin(u)
-
         duuz = 0
+
+        duvx = -dvy
+        duvy = dvx
         duvz = 0
+
+        dvvx = -dvz*np.cos(u)
+        dvvy = -dvz*np.sin(u)
         dvvz = -z
 
         return np.array([

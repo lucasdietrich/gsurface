@@ -1,0 +1,6 @@
+Guide :
+https://docs.enthought.com/mayavi/mayavi/installation.html
+
+use this command ! 
+
+pip install git+https://github.com/enthought/mayavi.git

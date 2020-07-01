@@ -1,0 +1,9 @@
+seperate plot function
+
+rebuild data function
+- speeds
+- kinetic energy and other energy
+- check model ok
+
+save pictures
+
