@@ -18,29 +18,32 @@ class Sphere(Surface):
 
         sinu = np.sin(u)
         cosu = np.cos(u)
-        x = self.R * sinv * cosu
-        y = self.R * sinv * sinu
-        z = - self.R * cosv
+
+        R = self.R
+
+        x = R * cosu * sinv
+        y = R * sinu * sinv
+        z = - R * cosv
 
         dux = -y
         duy = x
-        duz = 0
+        duz = 0.0
 
-        dvx = self.r*cosu*cosv
-        dvy = self.r*sinu*cosv
-        dvz = self.r*sinv
+        dvx = R*cosu*cosv
+        dvy = R*sinu*cosv
+        dvz = R*sinv
 
-        duux = -x
-        duuy = -y
-        duuz = 0
+        duux = -R*sinv*cosu
+        duuy = -R*sinu*sinv
+        duuz = 0.0
 
-        duvx = -dvy
-        duvy = dvx
-        duvz = 0
+        duvx = -R*sinu*cosv
+        duvy = R*cosu*cosv
+        duvz = 0.0
 
-        dvvx = -dvz*cosu
-        dvvy = -dvz*sinu
-        dvvz = -z
+        dvvx = -R*sinu*cosv
+        dvvy = -R*sinu*sinv
+        dvvz = R*cosv
 
         return np.array([
             x, y, z,

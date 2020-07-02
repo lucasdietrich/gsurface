@@ -90,10 +90,10 @@ class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
         self.dir = dir
 
         super(SurfaceGuidedFallMassSystem, self).__init__(
-            surface, s0, m, self.force
+            surface, s0, m, self.gravity
         )
 
-    def force(self, u: float, v: float, t: float, S: np.ndarray, J: np.ndarray, H: np.ndarray):
+    def gravity(self, u: float, v: float, t: float, S: np.ndarray, J: np.ndarray, H: np.ndarray):
         return self.m * self.g * self.dir / np.linalg.norm(self.dir, 2)
 
 
