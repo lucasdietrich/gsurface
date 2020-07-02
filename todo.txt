@@ -7,3 +7,4 @@ rebuild data function
 
 save pictures
 
+boite à oeufs, lancée de bille : https://mathcurve.com/surfaces/boiteaoeufs/boiteaoeufs.shtml

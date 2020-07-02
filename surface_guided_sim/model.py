@@ -1,110 +1,41 @@
 from ode.system import ODESystem
 
+from .surface.surface import Surface
+
 import numpy as np
 
-import abc
+from .indexes import *
 
-from typing import Iterable, Union
+from typing import Callable
 
-ui, vi = 0, 1
-
-xyz = range(3)
-
-[
-    xi, yi, zi,
-    duxi, dvxi, duyi, dvyi, duzi, dvzi,
-    duuxi, duvxi, dvvxi, duuyi, duvyi, dvvyi, duuzi, duvzi, dvvzi
-] = list(range(18))
-
-# eval return 18 elements long
-# 18 elements list
-# =====
-# x
-# y
-# z
-# ∂_u X
-# ∂_v X
-# ∂_u Y
-# ∂_v Y
-# ∂_u Z
-# ∂_v Z
-# ∂_u^2 X
-# ∂_(u,v)^2 X
-# ∂_v^2 X
-# ∂_u^2 Y
-# ∂_(u,v)^2 Y
-# ∂_v^2 Y
-# ∂_u^2 Z
-# ∂_(u,v)^2 Z
-# ∂_v^2 Z
-class Surface(abc.ABC):
-    # return position x, y, z in a 1D vector
-    def eval(self, u: float, v: float) -> np.ndarray:
-        raise NotImplementedError()
-
-    # return all Du Dv Duu Dvv Duv of x y z
-    def eval_all(self, u: float, v: float) -> np.ndarray:
-        raise NotImplementedError()
-
-    # return rebuild evals for data
-    def evals(self, uv: np.ndarray) -> np.ndarray:
-        evals = np.zeros((uv.shape[0], 3))
-
-        for i, (u, v) in enumerate(uv):
-            evals[i] = self.eval(u, v)
-
-        return evals
-
-    # U, V must be 1d arrays
-    def mesh(self, U: np.ndarray, V: np.ndarray):
-        mesh = np.zeros((3, U.shape[0], V.shape[0]))
-
-        for i, u in enumerate(U):
-            for j, v in enumerate(V):
-                mesh[:, i, j] = self.eval(u, v)
-
-        return mesh
+ForceType = Callable[
+                [float, float, float, np.ndarray, np.ndarray, np.ndarray],
+                np.ndarray
+            ]
 
 
-class SurfaceGuidedFallSystem(ODESystem):
-    def __init__(self, surface: Surface):
-        self.surface = surface
+class SurfaceGuidedMassSystem(ODESystem):
+    def __init__(
+            self, surface: Surface,
+            s0: np.ndarray = None,
+            m: float = 1.0,
+            force: ForceType = None
+    ):
+        self.surface: Surface = surface
 
-        s0 = np.array([
-            0.0,    # u
-            0.0,    # vu
-            1.0,    # v
-            0.0     # vu
-        ])
+        self.force: ForceType = force
 
-        self.m = 1.0
+        if s0 is None:
+            s0 = np.array([
+                0.0,  # u
+                0.0,  # vu
+                0.0,  # v
+                0.0  # vu
+            ])
 
-        super(SurfaceGuidedFallSystem, self).__init__(s0)
+        self.m = m
 
-    def jacobian(self, eval):
-        return np.array(eval[duxi: duxi + 6]).reshape((3, 2))
-
-    # x : xyz = 0
-    # y : xyz = 1
-    # z : xyz = 2
-    def hessian(self, eval, xyz=0):
-        shift = xyz*3
-        return np.array([
-            [eval[duuxi + shift], eval[duvxi + shift]],
-            [eval[duvxi + shift], eval[dvvxi + shift]]
-        ])
-
-    def dim_hessian(self, eval):
-        return np.array([
-            self.hessian(eval, xyz=X) for X in xyz
-        ])
-
-    def force(self, u, v, t, eval):
-        return np.array([
-            0.0,
-            0.0,
-            0.0
-        ])
+        super(SurfaceGuidedMassSystem, self).__init__(s0)
 
     def _derivs(self, s: np.ndarray, t: float) -> np.ndarray:
         u, du, v, dv = s
@@ -112,17 +43,12 @@ class SurfaceGuidedFallSystem(ODESystem):
         dw = np.array([du, dv])
 
         # eval
-        eval = self.surface.eval_all(u, v)
+        eval, S, J, H = self.surface.SJH(u, v)
 
         # eval force:
-        F = self.force(u, v, t, eval)
-
-        # builds matrices
-        J = self.jacobian(eval)
-        H = self.dim_hessian(eval)
+        F = self.force(u, v, t, S, J, H)
 
         # build intermediate symbols
-
         Duu, Dvv = np.sum(J**2, axis=0)
 
         wHw = dw.T @ H @ dw
@@ -149,5 +75,25 @@ class SurfaceGuidedFallSystem(ODESystem):
 
         return ds
 
+
+class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
+    def __init__(self, surface: Surface, s0: np.ndarray = None, m: float = 1.0, g: float = 9.81, dir: np.ndarray = None):
+        self.g = g
+
+        if dir is None:
+            dir = np.array([
+                0.0,
+                0.0,
+                -1.0
+            ])
+
+        self.dir = dir
+
+        super(SurfaceGuidedFallMassSystem, self).__init__(
+            surface, s0, m, self.force
+        )
+
+    def force(self, u: float, v: float, t: float, S: np.ndarray, J: np.ndarray, H: np.ndarray):
+        return self.m * self.g * self.dir / np.linalg.norm(self.dir, 2)
 
 

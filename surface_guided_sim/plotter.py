@@ -12,8 +12,8 @@ def mayavi_plot_surface(mesh: np.ndarray):
     mlab.figure(1, bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
     mlab.clf()
 
-    mlab.mesh(*mesh, opacity=0.8, color=(0.6, 0.6, 0.6))  # , color=(0.1, 0.1, 0.6)
-    mlab.mesh(*mesh, opacity=0.3, color=(0, 0, 0), representation='wireframe')
+    mlab.buildsurface(*mesh, opacity=0.8, color=(0.6, 0.6, 0.6))  # , color=(0.1, 0.1, 0.6)
+    mlab.buildsurface(*mesh, opacity=0.3, color=(0, 0, 0), representation='wireframe')
 
     mlab.orientation_axes()
 

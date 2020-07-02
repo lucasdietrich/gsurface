@@ -1,31 +1,38 @@
-from surface_guided_sim.model import Surface
+from .surface import Surface
+
 import numpy as np
 
 
-class SurfaceTore(Surface):
+class Tore(Surface):
+    plimits = [
+        (0.0, 2*np.pi),   # u
+        (-np.pi, np.pi),  # v
+    ]
+
     def __init__(self, r=0.5, R=1.0):
         self.r = r
-        self.R = 1.0
+        self.R = R
 
     def eval(self, u, v):
-        Rrcos = self.R + self.r * np.sin(v)
+        sinv = np.sin(v)
+        cosv = np.cos(v)
 
-        x = Rrcos * np.cos(u)
-        y = Rrcos * np.sin(u)
-        z = - self.r * np.cos(v)
+        sinu = np.sin(u)
+        cosu = np.cos(u)
 
-        return np.array([x, y, z])
+        Rrcos = self.R + self.r * sinv
 
-    def eval_all(self, u, v):
-        x, y, z = self.eval(u, v)
+        x = Rrcos * cosu
+        y = Rrcos * sinu
+        z = - self.r * cosv
 
         dux = -y
         duy = x
         duz = 0
 
-        dvx = self.r*np.cos(u)*np.cos(v)
-        dvy = self.r*np.sin(u)*np.cos(v)
-        dvz = self.r*np.sin(v)
+        dvx = self.r*cosu*cosv
+        dvy = self.r*sinu*cosv
+        dvz = self.r*sinv
 
         duux = -x
         duuy = -y
@@ -35,8 +42,8 @@ class SurfaceTore(Surface):
         duvy = dvx
         duvz = 0
 
-        dvvx = -dvz*np.cos(u)
-        dvvy = -dvz*np.sin(u)
+        dvvx = -dvz*cosu
+        dvvy = -dvz*sinu
         dvvz = -z
 
         return np.array([

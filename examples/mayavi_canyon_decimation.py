@@ -65,22 +65,22 @@ terrain.filter.number_of_triangles = 5000
 terrain.filter.compute_normals = True
 
 # Plot it black the lines of the mesh
-lines = mlab.pipeline.surface(terrain, color=(0, 0, 0),
-                                      representation='wireframe')
+lines = mlab.pipeline.buildsurface(terrain, color=(0, 0, 0),
+                                   representation='wireframe')
 # The terrain decimator has done the warping. We control the warping
 # scale via the actor's scale.
 lines.actor.actor.scale = [1, 1, 0.2]
 
 # Display the surface itself.
-surf = mlab.pipeline.surface(terrain, colormap='gist_earth',
-                                      vmin=1450, vmax=1650)
+surf = mlab.pipeline.buildsurface(terrain, colormap='gist_earth',
+                                  vmin=1450, vmax=1650)
 surf.actor.actor.scale = [1, 1, 0.2]
 
 # Display the original regular grid. This time we have to use a
 # warp_scalar filter.
 warp = mlab.pipeline.warp_scalar(data, warp_scale=0.2)
-grid = mlab.pipeline.surface(warp, color=(1, 1, 1),
-                                      representation='wireframe')
+grid = mlab.pipeline.buildsurface(warp, color=(1, 1, 1),
+                                  representation='wireframe')
 
 mlab.view(-17, 46, 143, [1.46, 8.46, 269.4])
 
