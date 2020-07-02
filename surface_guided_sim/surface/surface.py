@@ -79,7 +79,6 @@ class Surface(abc.ABC):
 
         return evals
 
-
     def mesh(self, umesh=50, vmesh=50):
         return (
             np.linspace(*self.plimits[ui], umesh),

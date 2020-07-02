@@ -1,5 +1,5 @@
 from surface_guided_sim.model import *
-from surface_guided_sim.surface import Tore
+from surface_guided_sim.surface import Tore, Plan
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -11,40 +11,48 @@ from surface_guided_sim.plotter import matplotlib_plot_surface, mayavi_plot_surf
 import numpy as np
 
 tore = Tore(0.5, 1.0)
+plan = Plan(0.0, 0.0)
+
+surface = tore
 
 ######################################
 # Simulation
 ######################################
-sim = SurfaceGuidedFallSystem(tore)
-
-# check this
-sim.s0 = np.array([
-    1.0, 1.0,
-    np.pi/2 - 1.0, 0.0
+s0 = np.array([
+    1.0, 0.0,
+    np.pi/2, 0.0
 ])
 
-sim.s0 = np.array([
-    1.0, 0.2,
-    0.0, 2.0
+gdir = np.array([
+    0.0,
+    -1.0,
+    -0.1
 ])
 
-time = np.linspace(0, 8, 1000)
+sim = SurfaceGuidedFallMassSystem(surface, s0, dir=gdir)
+
+time = np.linspace(0, 5, 1000)
 
 data = sim.solve(time)
 
-# rebuild all evals
-evals = sim.surface.trajectory(data[:, 0::2])
+# build trajectory
+trajectory = sim.surface.trajectory(data[:, 0::2])
+# speed = sim.surface.speed(data)
+# kinetic_energy = 1/2*sim.m*np.linalg.norm(speed, 2)**2
+
+# build speed
+
 
 ######################################
 # Plot
 ######################################
-U, V = np.linspace(0, 2*np.pi, 80), np.linspace(0, 2*np.pi, 20)
-mesh = tore.buildsurface(U, V)
+U, V = surface.mesh(80, 20)
+surface_mesh = surface.buildsurface(U, V)
 
 
 if 1:
-    mayavi_plot_surface(mesh)
-    mlab.plot3d(evals[:, 0], evals[:, 1], evals[:, 2], color=(1, 0, 0), tube_radius=0.01)
+    mayavi_plot_surface(surface_mesh)
+    mlab.plot3d(trajectory[:, 0], trajectory[:, 1], trajectory[:, 2], color=(1, 0, 0), tube_radius=0.01)
 
     plt.figure()
     plt.subplot(1, 2, 1)

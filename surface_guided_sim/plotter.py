@@ -12,8 +12,8 @@ def mayavi_plot_surface(mesh: np.ndarray):
     mlab.figure(1, bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
     mlab.clf()
 
-    mlab.buildsurface(*mesh, opacity=0.8, color=(0.6, 0.6, 0.6))  # , color=(0.1, 0.1, 0.6)
-    mlab.buildsurface(*mesh, opacity=0.3, color=(0, 0, 0), representation='wireframe')
+    mlab.mesh(*mesh, opacity=0.8, color=(0.6, 0.6, 0.6))  # , color=(0.1, 0.1, 0.6)
+    mlab.mesh(*mesh, opacity=0.3, color=(0, 0, 0), representation='wireframe')
 
     mlab.orientation_axes()
 
@@ -33,3 +33,8 @@ def matplotlib_plot_surface(mesh: np.ndarray) -> Axes3D:
     ax.plot_surface(*mesh, color=(0.6, 0.6, 0.6, 0.8), rstride=1, cstride=1)
 
     return ax
+
+
+def matplotlib_plot_trajectory(ax:Axes3D, trajectory: np.ndarray) -> Axes3D:
+    # Plot the surface
+    ax.plot3D(trajectory[:, 0], trajectory[:, 1], trajectory[:, 2], color=(1, 0, 0))
