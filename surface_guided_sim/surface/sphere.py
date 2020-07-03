@@ -4,10 +4,10 @@ import numpy as np
 
 
 class Sphere(Surface):
-    plimits = [
-        (0.0, 2*np.pi),   # u
-        (-np.pi, np.pi),  # v
-    ]
+    plimits = np.array([
+        [0.0, 2*np.pi],   # u
+        [-np.pi, np.pi],  # v
+    ])
 
     def __init__(self, R=1.0):
         self.R = R

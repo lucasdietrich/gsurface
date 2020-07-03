@@ -81,4 +81,3 @@ class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
             surface, s0, m, Gravity(m, g)
         )
 
-

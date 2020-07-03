@@ -133,7 +133,6 @@ class Surface(abc.ABC):
     # todo faire le calcul direct dans le sim principale
     # def traj_speed(self, data: np.ndarray) -> np.ndarray:
 
-
     def mesh(self, nu=50, nv=50):
         return (
             np.linspace(*self.plimits[ui], nu),
