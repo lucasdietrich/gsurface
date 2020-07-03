@@ -4,10 +4,10 @@ import numpy as np
 
 
 class Tore(Surface):
-    plimits = [
-        (0.0, 2*np.pi),   # u
-        (-np.pi, np.pi),  # v
-    ]
+    plimits = np.array([
+            [0.0, 2*np.pi],
+            [-np.pi, np.pi]
+        ])
 
     def __init__(self, r=0.5, R=1.0):
         self.r = r

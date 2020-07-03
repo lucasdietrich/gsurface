@@ -6,12 +6,9 @@ import numpy as np
 
 from .indexes import *
 
-from typing import Callable
+from typing import Callable, Union, Iterable
 
-ForceType = Callable[
-                [float, float, float, np.ndarray, np.ndarray, np.ndarray],
-                np.ndarray
-            ]
+from .forces import Force, Gravity, NoForce, ForceSum
 
 
 class SurfaceGuidedMassSystem(ODESystem):
@@ -19,11 +16,11 @@ class SurfaceGuidedMassSystem(ODESystem):
             self, surface: Surface,
             s0: np.ndarray = None,
             m: float = 1.0,
-            force: ForceType = None
+            forces: Union[Force, ForceSum, Iterable[Force]] = None
     ):
         self.surface: Surface = surface
 
-        self.force: ForceType = force
+        self.forces: ForceSum = ForceSum(forces)
 
         if s0 is None:
             s0 = np.array([
@@ -40,13 +37,15 @@ class SurfaceGuidedMassSystem(ODESystem):
     def _derivs(self, s: np.ndarray, t: float) -> np.ndarray:
         u, du, v, dv = s
 
+        w = np.array([u, v])
+
         dw = np.array([du, dv])
 
         # eval
         eval, S, J, H = self.surface.SJH(u, v)
 
         # eval force:
-        F = self.force(u, v, t, S, J, H)
+        F = self.forces.eval(w, dw, t, S, J)
 
         # build intermediate symbols
         Duu, Dvv = np.sum(J**2, axis=0)
@@ -77,23 +76,9 @@ class SurfaceGuidedMassSystem(ODESystem):
 
 
 class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
-    def __init__(self, surface: Surface, s0: np.ndarray = None, m: float = 1.0, g: float = 9.81, dir: np.ndarray = None):
-        self.g = g
-
-        if dir is None:
-            dir = np.array([
-                0.0,
-                0.0,
-                -1.0
-            ])
-
-        self.dir = dir
-
+    def __init__(self, surface: Surface, s0: np.ndarray = None, m: float = 1.0, g: np.ndarray = None):
         super(SurfaceGuidedFallMassSystem, self).__init__(
-            surface, s0, m, self.gravity
+            surface, s0, m, Gravity(g)
         )
-
-    def gravity(self, u: float, v: float, t: float, S: np.ndarray, J: np.ndarray, H: np.ndarray):
-        return self.m * self.g * self.dir / np.linalg.norm(self.dir, 2)
 
 

@@ -8,12 +8,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def mayavi_plot_surface(mesh: np.ndarray, trajectory: np.ndarray):
+def mayavi_plot_surface(mesh: np.ndarray, trajectory: np.ndarray = None):
     mlab.figure(1, bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
     mlab.clf()
 
-    mlab.mesh(*mesh, opacity=0.8, color=(0.6, 0.6, 0.6))  # , color=(0.1, 0.1, 0.6)
-    mlab.mesh(*mesh, opacity=0.3, color=(0, 0, 0), representation='wireframe')
+    # mlab.mesh(*mesh, opacity=0.8, color=(0.6, 0.6, 0.6))  # , color=(0.1, 0.1, 0.6)
+    # colormap=cool / warm / binary / gray
+    mlab.mesh(*mesh, opacity=1.0, colormap='binary')  # , color=(0.1, 0.1, 0.6)
+    mlab.mesh(*mesh, opacity=0.1, color=(0, 0, 0), representation='wireframe')
 
     mlab.orientation_axes()
 
@@ -21,7 +23,7 @@ def mayavi_plot_surface(mesh: np.ndarray, trajectory: np.ndarray):
         mlab.plot3d(trajectory[:, 0], trajectory[:, 1], trajectory[:, 2], color=(1, 0, 0), tube_radius=0.01)
 
 
-def matplotlib_plot_surface(mesh: np.ndarray, trajectory: np.ndarray) -> Axes3D:
+def matplotlib_plot_surface(mesh: np.ndarray, trajectory: np.ndarray = None) -> Axes3D:
     fig = plt.figure(figsize=(6, 6))
 
     ax: Axes3D = fig.add_subplot(111, projection='3d')

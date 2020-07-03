@@ -1,13 +1,17 @@
+from __future__ import annotations
+
 from .surface import Surface
 
 import numpy as np
 
 
+# todo definir le plan a partir de'angles de rotations autour des axes
+# parameters are x = u, v = y
 class Plan(Surface):
-    plimits = [
-        (-2, 2),   # u
-        (-2, 2),  # v
-    ]
+
+    @staticmethod
+    def from_xz_rotation(angle: float = 0.0) -> Plan:
+        return Plan(np.tan(angle), 0.0)
 
     def __init__(self, a: float, b: float):
         self.a = a

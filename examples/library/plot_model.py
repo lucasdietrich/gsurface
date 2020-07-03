@@ -1,5 +1,5 @@
 from surface_guided_sim.model import *
-from surface_guided_sim.surface import Tore, Plan, Sphere
+from surface_guided_sim.surface import Tore, Plan, Sphere, EggBox
 
 from surface_guided_sim.plotter import *
 
@@ -8,24 +8,25 @@ import numpy as np
 tore = Tore(0.5, 1.0)
 plan = Plan(0.0, 0.0)
 sphere = Sphere(1.0)
+eggbox = EggBox(1/(2*np.pi)).multlims(6.0)
 
-surface = sphere
+surface = eggbox
 
 ######################################
 # Simulation
 ######################################
 s0 = np.array([
-    1.0, -0.03,
-    np.pi/2, -2.0
+    0.0, 0.1,
+    0.0, 0.2
 ])
 
-gdir = np.array([
+g = np.array([
     0.0,
-    -1.0,
-    0.0
+    0.0,
+    -1.0
 ])
 
-sim = SurfaceGuidedFallMassSystem(surface, s0, dir=gdir, g=0)
+sim = SurfaceGuidedFallMassSystem(surface, s0, g=g)
 
 time = np.linspace(0, 10, 20000)
 
@@ -42,7 +43,7 @@ trajectory = sim.surface.trajectory(data[:, 0::2])
 ######################################
 # Plot
 ######################################
-U, V = surface.mesh(60, 40)
+U, V = surface.mesh(200, 200)
 surface_mesh = surface.buildsurface(U, V)
 
 # matplotlib_plot_surface(surface_mesh, trajectory)

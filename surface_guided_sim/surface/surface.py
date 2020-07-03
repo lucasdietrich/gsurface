@@ -1,10 +1,12 @@
-import abc
+from __future__ import annotations
 
-from typing import Iterable, Union, Tuple
+import abc
+from typing import Tuple
+
+import numpy as np
 
 from ..indexes import *
 
-import numpy as np
 
 # eval return 18 elements long
 # 18 elements list
@@ -24,11 +26,31 @@ import numpy as np
 # ∂_u^2 Z       ∂_(u,v)^2 Z
 # ∂_(u,v)^2 Z   ∂_v^2 Z
 
+
 class Surface(abc.ABC):
-    plimits = [
-        (0.0, 1.0),  # u
-        (0.0, 1.0),  # v
-    ]
+    plimits = np.array([
+        [-1.0, 1.0],  # u lims
+        [-1.0, 1.0]   # v lims
+    ])
+
+    def multlims(self, k: float = 2.0) -> Surface:
+        self.plimits *= k
+        return self
+
+    def setlims(self, u_ll: float = None, u_ul: float = None, v_ll: float = None, v_ul: float = None) -> Surface:
+        if u_ll is not None:
+            self.plimits[ui, 0] = u_ll
+
+        if u_ul is not None:
+            self.plimits[ui, 1] = u_ul
+
+        if v_ll is not None:
+            self.plimits[vi, 0] = v_ll
+
+        if v_ul is not None:
+            self.plimits[vi, 1] = v_ul
+
+        return self
 
     @staticmethod
     def position(eval: np.ndarray):
@@ -55,6 +77,21 @@ class Surface(abc.ABC):
             Surface.hessian(eval, xyz=X) for X in xyz
         ])
 
+    @staticmethod
+    def buildevalreturn(
+            x=0, y=0, z=0,
+            dux=0, dvx=0, duy=0,
+            dvy=0, duz=0, dvz=0,
+            duux=0, duvx=0, dvvx=0,
+            duuy=0, duvy=0, dvvy=0,
+            duuz=0, duvz=0, dvvz=0
+    ):
+        return np.array([
+            x, y, z,
+            dux, dvx, duy, dvy, duz, dvz,
+            duux, duvx, dvvx, duuy, duvy, dvvy, duuz, duvz, dvvz
+        ])
+
     # return all Du Dv Duu Dvv Duv of x y z
     @abc.abstractmethod
     def eval(self, u: float, v: float) -> np.ndarray:
@@ -79,10 +116,28 @@ class Surface(abc.ABC):
 
         return evals
 
-    def mesh(self, umesh=50, vmesh=50):
+    # vectorial speed
+    def speed(self, data: np.ndarray) -> np.ndarray:
+        speed = np.zeros((data.shape[0], 3))
+
+        for i, (u, du, v, dv) in enumerate(data):
+            eval, S, J, H = self.SJH(u, v)
+
+            dw = np.array([du, dv])
+
+            speed[i] = J @ dw.T
+
+        return speed
+
+    # todo, optimisation, calculer traj et speed en même temps
+    # todo faire le calcul direct dans le sim principale
+    # def traj_speed(self, data: np.ndarray) -> np.ndarray:
+
+
+    def mesh(self, nu=50, nv=50):
         return (
-            np.linspace(*self.plimits[ui], umesh),
-            np.linspace(*self.plimits[vi], vmesh),
+            np.linspace(*self.plimits[ui], nu),
+            np.linspace(*self.plimits[vi], nv),
         )
 
     # U, V must be 1d arrays
