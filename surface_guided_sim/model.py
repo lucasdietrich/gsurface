@@ -27,7 +27,7 @@ class SurfaceGuidedMassSystem(ODESystem):
                 0.0,  # u
                 0.0,  # vu
                 0.0,  # v
-                0.0  # vu
+                0.0,  # vu
             ])
 
         self.m = m
@@ -78,7 +78,7 @@ class SurfaceGuidedMassSystem(ODESystem):
 class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
     def __init__(self, surface: Surface, s0: np.ndarray = None, m: float = 1.0, g: np.ndarray = None):
         super(SurfaceGuidedFallMassSystem, self).__init__(
-            surface, s0, m, Gravity(g)
+            surface, s0, m, Gravity(m, g)
         )
 
 
