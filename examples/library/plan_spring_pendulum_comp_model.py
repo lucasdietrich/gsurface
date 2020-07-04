@@ -1,6 +1,6 @@
 from surface_guided_sim import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
 
-from surface_guided_sim.surface import Tore
+from surface_guided_sim.surface.plan import Plan
 
 import matplotlib.pyplot as plt
 from mayavi import mlab
@@ -9,34 +9,34 @@ import numpy as np
 
 # config
 
-u0, du0 = 0.0, 0.5
+x0, vx0 = 2.0, 0.0
 
-v0, dv0 = 1.0, 0.0
+y0, vy0 = 0.0, 4.0
 
 # model
 
-tore = Tore(0.5, 1.0)
+plan = Plan.from_xz_rotation(angle=0.0).setlims(-2, 2.5, -3.5, 5).multlims(1)
 
 m = 1.0
 
 system = SurfaceGuidedMassSystem(
-    surface=tore,
-    s0=np.array([u0, du0, v0, dv0]),
+    surface=plan,
+    s0=np.array([x0, vx0, y0, vy0]),
     m=m,
     forces=[
-        SpringForce(stiffness=5.0, clip=np.array([0.0, 0.0, 0.0])),
-        # LengthedSpringForce(stiffness=5.0, clip=np.array([0.0, 0.0, 0.0]), l0=1.0),
-        ViscousFriction(mu=0.4),
+        Gravity(m=m, g=np.array([0.0, 0.0, -9.81])),
+        LengthedSpringForce(stiffness=1.0, clip=np.array([0.0, 0.0, 0.0]), l0=1.0),
+        ViscousFriction(mu=0.15),  # test for mu=0.2 and 0.8
     ]
 )
 
 # simulate
-time = np.linspace(0, 40, 5000)
+time = np.linspace(0, 60, 6000)
 
 data = system.solve(time)
 
 # build (todo opti)
-mesh = tore.buildsurface(*tore.mesh(100, 100))
+mesh = plan.buildsurface(*plan.mesh(100, 100))
 trajectory = system.surface.trajectory(data[:, 0::2])
 speed = system.surface.speed(data)
 abs_speed = np.linalg.norm(speed, 2, 1)
@@ -44,13 +44,11 @@ abs_speed = np.linalg.norm(speed, 2, 1)
 # plot surface & trajectory
 mlab.figure(1, bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
 
-mlab.mesh(*mesh, opacity=0.3, colormap='cool')  # , color=(0.1, 0.1, 0.6)
+mlab.mesh(*mesh, opacity=1.0, colormap='binary')  # , color=(0.1, 0.1, 0.6)
 mlab.mesh(*mesh, opacity=0.1, color=(0, 0, 0), representation='wireframe')
 
-mlab.points3d(*trajectory[0], color=(0, 0, 1), scale_factor=0.05)
-
+mlab.points3d(*trajectory[0], color=(0, 0, 1), scale_factor=0.1)
 mlab.points3d(0, 0, 0, color=(0, 1, 0), scale_factor=0.05)
-# mlab.points3d(0, -1, 0, color=(0, 1, 0), scale_factor=0.05)
 
 mlab.plot3d(trajectory[:, 0], trajectory[:, 1], trajectory[:, 2], color=(1, 0, 0), tube_radius=0.01)
 

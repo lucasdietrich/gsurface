@@ -109,12 +109,12 @@ class Surface(abc.ABC):
 
     # return rebuild evals for data
     def trajectory(self, uv: np.ndarray) -> np.ndarray:
-        evals = np.zeros((uv.shape[0], 3))
+        traj = np.zeros((uv.shape[0], 3))
 
         for i, (u, v) in enumerate(uv):
-            evals[i] = self.position(self.eval(u, v))
+            traj[i] = self.position(self.eval(u, v))
 
-        return evals
+        return traj
 
     # vectorial speed
     def speed(self, data: np.ndarray) -> np.ndarray:
@@ -148,3 +148,36 @@ class Surface(abc.ABC):
                 mesh[:, i, j] = self.position(self.eval(u, v))
 
         return mesh
+
+    # check integrity
+    def check(self, nu: int = 20, nv: int = 20, tolerance = 1e-7):
+        from . import diff
+
+        emat = diff.get_diff_surface_errors(self, *self.mesh(nu, nv))
+
+        return np.max(emat) <= tolerance
+
+    # check integrity
+    def check_verbose(self, nu: int = 20, nv: int = 20, tolerance = 1e-7):
+        from . import diff
+
+        emat = diff.get_diff_surface_errors(self, *self.mesh(nu, nv))
+
+        elist = np.max(emat, axis=(1, 2))
+
+        index_str = ["xi", "yi", "zi", "duxi", "dvxi", "duyi", "dvyi", "duzi", "dvzi"]
+
+        print("=== Checking surface definition ===")
+        print("U {0} points from {1} to {2}".format(nu, *self.plimits[0]))
+        print("V {0} points from {1} to {2}".format(nv, *self.plimits[1]))
+        print("Tolerance : {0:.1E}".format(tolerance))
+
+        for index in range(duuxi):
+            print("index[{0} : {1}] max err = {2:.1E} [{3}]".format(
+                index, index_str[index], elist[index], elist[index] <= tolerance
+            ))
+
+        return np.max(elist) <= tolerance
+
+
+

@@ -13,7 +13,7 @@ class Plan(Surface):
     def from_xz_rotation(angle: float = 0.0) -> Plan:
         return Plan(np.tan(angle), 0.0)
 
-    def __init__(self, a: float, b: float):
+    def __init__(self, a: float = 1.0, b: float = 1.0):
         self.a = a
         self.b = b
 

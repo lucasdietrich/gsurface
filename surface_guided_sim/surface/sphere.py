@@ -33,17 +33,17 @@ class Sphere(Surface):
         dvy = R*sinu*cosv
         dvz = R*sinv
 
-        duux = -R*sinv*cosu
-        duuy = -R*sinu*sinv
+        duux = -x
+        duuy = -y
         duuz = 0.0
 
-        duvx = -R*sinu*cosv
-        duvy = R*cosu*cosv
+        duvx = -dvy
+        duvy = dvx
         duvz = 0.0
 
-        dvvx = -R*sinu*cosv
-        dvvy = -R*sinu*sinv
-        dvvz = R*cosv
+        dvvx = -duy
+        dvvy = -y
+        dvvz = -z
 
         return np.array([
             x, y, z,

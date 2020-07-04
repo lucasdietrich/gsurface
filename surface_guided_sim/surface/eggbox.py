@@ -6,7 +6,7 @@ from typing import Callable
 
 
 class EggBox(Surface):
-    def __init__(self, R: float = 1.0, a: float = 2*np.pi, b: float = 2*np.pi):
+    def __init__(self, R: float = 1.0, a: float = 1.0, b: float = 1.0):
         self.R = R
         self.a = a
         self.b = b
@@ -38,7 +38,7 @@ class EggBox(Surface):
 
             duvx=0,
             duvy=0,
-            duvz=-R*a*b*sinau*sinbv,
+            duvz=R*a*b*sinau*sinbv,
 
             dvvx=0,
             dvvy=0,
