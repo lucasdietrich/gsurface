@@ -9,6 +9,8 @@ import numpy as np
 # parameters are x = u, v = y
 class Plan(Surface):
 
+    __repr_str__ = "(a={a:.2f}, a={b:.2f})"
+
     @staticmethod
     def from_xz_rotation(angle: float = 0.0) -> Plan:
         return Plan(np.tan(angle), 0.0)
@@ -18,33 +20,14 @@ class Plan(Surface):
         self.b = b
 
     def eval(self, u: float, v: float):
+        return self.buildevalreturn(
+            x=u,
+            y=v,
+            z=self.a*u + self.b*v,
 
-        x = u
-        y = v
-        z = self.a*u + self.b*v
+            dux=1,
+            duz=self.a,
 
-        dux = 1
-        duy = 0
-        duz = self.a
-
-        dvx = 0
-        dvy = 1
-        dvz = self.b
-
-        duux = 0
-        duuy = 0
-        duuz = 0
-
-        duvx = 0
-        duvy = 0
-        duvz = 0
-
-        dvvx = 0
-        dvvy = 0
-        dvvz = 0
-
-        return np.array([
-            x, y, z,
-            dux, dvx, duy, dvy, duz, dvz,
-            duux, duvx, dvvx, duuy, duvy, dvvy, duuz, duvz, dvvz
-        ])
+            dvy=1,
+            dvz=self.b
+        )

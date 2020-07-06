@@ -6,6 +6,8 @@ from typing import Callable
 
 
 class EggBox(Surface):
+    __repr_str__ = "(R={R:.2f}, a={a:.2f}, a={b:.2f})"
+
     def __init__(self, R: float = 1.0, a: float = 1.0, b: float = 1.0):
         self.R = R
         self.a = a

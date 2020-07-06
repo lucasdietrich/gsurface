@@ -4,6 +4,8 @@ import numpy as np
 
 
 class Sphere(Surface):
+    __repr_str__ = "(R={R:.2f})"
+
     plimits = np.array([
         [0.0, 2*np.pi],   # u
         [-np.pi, np.pi],  # v

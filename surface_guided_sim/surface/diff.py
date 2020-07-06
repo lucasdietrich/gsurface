@@ -11,6 +11,7 @@ from scipy.optimize import check_grad
 
 # https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.check_grad.html
 
+
 def surface_eval_grad_slice(index: int) -> slice:
     if index in (xi, yi, zi):
         duXi = 3 + 2*index

@@ -107,28 +107,6 @@ class Surface(abc.ABC):
             self.dim_hessian(eval)
         )
 
-    # return rebuild evals for data
-    def trajectory(self, uv: np.ndarray) -> np.ndarray:
-        traj = np.zeros((uv.shape[0], 3))
-
-        for i, (u, v) in enumerate(uv):
-            traj[i] = self.position(self.eval(u, v))
-
-        return traj
-
-    # vectorial speed
-    def speed(self, data: np.ndarray) -> np.ndarray:
-        speed = np.zeros((data.shape[0], 3))
-
-        for i, (u, du, v, dv) in enumerate(data):
-            eval, S, J, H = self.SJH(u, v)
-
-            dw = np.array([du, dv])
-
-            speed[i] = J @ dw.T
-
-        return speed
-
     # todo, optimisation, calculer traj et speed en même temps
     # todo faire le calcul direct dans le sim principale
     # def traj_speed(self, data: np.ndarray) -> np.ndarray:
@@ -149,6 +127,14 @@ class Surface(abc.ABC):
 
         return mesh
 
+    # todo translation only affect S
+    def translate(self, x: np.ndarray) -> Surface:
+        raise NotImplementedError()
+
+    # todo rotation only affect S
+    def rotate(self, x: np.ndarray, angle: float) -> Surface:
+        raise NotImplementedError()
+
     # check integrity
     def check(self, nu: int = 20, nv: int = 20, tolerance = 1e-7):
         from . import diff
@@ -158,7 +144,7 @@ class Surface(abc.ABC):
         return np.max(emat) <= tolerance
 
     # check integrity
-    def check_verbose(self, nu: int = 20, nv: int = 20, tolerance = 1e-7):
+    def check_verbose(self, nu: int = 20, nv: int = 20, tolerance=1e-7):
         from . import diff
 
         emat = diff.get_diff_surface_errors(self, *self.mesh(nu, nv))
@@ -179,5 +165,11 @@ class Surface(abc.ABC):
 
         return np.max(elist) <= tolerance
 
+    __repr_str__ = ""
+    __repr_ljust__ = 50
 
+    def __repr__(self):
+        return (
+            "Surface:{0}" + self.__repr_str__
+        ).format(self.__class__.__name__, **self.__dict__).ljust(self.__repr_ljust__)
 

@@ -4,6 +4,8 @@ import numpy as np
 
 
 class Tore(Surface):
+    __repr_str__ = "(r={r:.2f}, R={R:.2f})"
+
     plimits = np.array([
             [0.0, 2*np.pi],
             [-np.pi, np.pi]
