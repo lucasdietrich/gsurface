@@ -129,7 +129,9 @@ class Surface(abc.ABC):
 
     # todo translation only affect S
     def translate(self, x: np.ndarray) -> Surface:
-        raise NotImplementedError()
+        raise np.array([
+
+        ])
 
     # todo rotation only affect S
     def rotate(self, x: np.ndarray, angle: float) -> Surface:

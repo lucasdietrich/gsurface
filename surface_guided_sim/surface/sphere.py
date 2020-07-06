@@ -27,28 +27,29 @@ class Sphere(Surface):
         y = R * sinu * sinv
         z = - R * cosv
 
-        dux = -y
-        duy = x
-        duz = 0.0
+        dvx = R * cosu * cosv
+        dvy = R * sinu * cosv
 
-        dvx = R*cosu*cosv
-        dvy = R*sinu*cosv
-        dvz = R*sinv
+        return self.buildevalreturn(
+            x=x,
+            y=y,
+            z=z,
 
-        duux = -x
-        duuy = -y
-        duuz = 0.0
+            dux=-y,
+            duy=x,
 
-        duvx = -dvy
-        duvy = dvx
-        duvz = 0.0
+            dvx=dvx,
+            dvy=dvy,
+            dvz=R*sinv,
 
-        dvvx = -duy
-        dvvy = -y
-        dvvz = -z
+            duux=-x,
+            duuy=-y,
 
-        return np.array([
-            x, y, z,
-            dux, dvx, duy, dvy, duz, dvz,
-            duux, duvx, dvvx, duuy, duvy, dvvy, duuz, duvz, dvvz
-        ])
+            duvx=-dvy,
+            duvy=dvx,
+
+            dvvx=-x,
+            dvvy=-y,
+            dvvz=-z,
+        )
+

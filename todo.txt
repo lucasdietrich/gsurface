@@ -1,13 +1,10 @@
 seperate plot function
 
-rebuild data function (optimize)
-- speeds
-- kinetic energy and other energy
-- check model ok
-
 save pictures
 
 animation
+
+animation convert to MP4 : https://stackoverflow.com/questions/24958669/saving-a-mayavi-animation
 
 save config (create a design pattern for this kind of system)
 
@@ -16,3 +13,7 @@ surface translation / rotation
 add potential/work calculation to forces
 
 checker la médianne plutot que le max des erreurs pour certaines surfaces avec singularitées
+
+Surfaces :
+- https://mathcurve.com/surfaces/conoide_parabolique/conoide_parabolique.shtml
+

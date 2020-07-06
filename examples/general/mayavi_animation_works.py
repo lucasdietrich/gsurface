@@ -20,6 +20,5 @@ def anim():
             plt.mlab_source.set(x=x, y=y, z=z)
             yield
 
-
 anim()
 mlab.show()

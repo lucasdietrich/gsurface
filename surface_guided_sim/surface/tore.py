@@ -28,28 +28,29 @@ class Tore(Surface):
         y = Rrcos * sinu
         z = - self.r * cosv
 
-        dux = -y
-        duy = x
-        duz = 0
-
         dvx = self.r*cosu*cosv
         dvy = self.r*sinu*cosv
         dvz = self.r*sinv
 
-        duux = -x
-        duuy = -y
-        duuz = 0
+        return self.buildevalreturn(
+            x=x,
+            y=y,
+            z=z,
 
-        duvx = -dvy
-        duvy = dvx
-        duvz = 0
+            dux=-y,
+            duy=x,
 
-        dvvx = -dvz*cosu
-        dvvy = -dvz*sinu
-        dvvz = -z
+            dvx=dvx,
+            dvy=dvy,
+            dvz=dvz,
 
-        return np.array([
-            x, y, z,
-            dux, dvx, duy, dvy, duz, dvz,
-            duux, duvx, dvvx, duuy, duvy, dvvy, duuz, duvz, dvvz
-        ])
+            duux=-x,
+            duuy=-y,
+
+            duvx=-dvy,
+            duvy=dvx,
+
+            dvvx=-dvz*cosu,
+            dvvy=-dvz*sinu,
+            dvvz=-z,
+        )
