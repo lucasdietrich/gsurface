@@ -1,9 +1,11 @@
 from surface_guided_sim import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
 
 from surface_guided_sim.surface.plan import Plan
+from surface_guided_sim.indexes import Si, Vi, Fi, Eci, nFi, nVi
 
 import matplotlib.pyplot as plt
 from mayavi import mlab
+
 
 import numpy as np
 
@@ -32,15 +34,18 @@ system = SurfaceGuidedMassSystem(
 )
 
 # simulate
-time = np.linspace(0, 40, 5000)
+time = np.linspace(0, 40, 10000)
 
-data = system.solve(time)
+states = system.solve(time)
 
-# build (todo opti)
 mesh = plan.buildsurface(*plan.mesh(100, 100))
-trajectory = system.surface.trajectory(data[:, 0::2])
-speed = system.surface.speed(data)
-abs_speed = np.linalg.norm(speed, 2, 1)
+
+physics = system.solutions(states, time)
+
+trajectory = physics[:, Si]
+speed = physics[:, Vi]
+abs_speed = physics[:, nVi]
+
 
 # plot surface & trajectory
 mlab.figure(1, bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))

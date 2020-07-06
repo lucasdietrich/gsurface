@@ -6,7 +6,7 @@ import numpy as np
 
 from .indexes import *
 
-from typing import Callable, Union, Iterable
+from typing import Callable, Union, Iterable, Tuple
 
 from .forces import Force, Gravity, NoForce, ForceSum
 
@@ -73,6 +73,34 @@ class SurfaceGuidedMassSystem(ODESystem):
         ])
 
         return ds
+
+    def solutions(self, states: np.ndarray, time: np.ndarray):
+        assert states.shape[0] == time.shape[0]
+
+        physics = np.zeros((states.shape[0], 12))
+
+        for i, (s, t) in enumerate(zip(states, time)):
+
+            w = s[0::2]
+            dw = s[1::2]
+
+            eval, S, J, H = self.surface.SJH(*w)
+
+            F = self.forces.eval(w, dw, t, S, J)
+
+            V = J @ dw.T
+            normV = np.linalg.norm(V, 2)
+
+            physics[i] = np.concatenate([
+                S,
+                V,
+                F,
+                [normV],
+                [np.linalg.norm(F, 2)],
+                [0.5 * self.m * normV**2]
+            ])
+
+        return physics
 
 
 class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):

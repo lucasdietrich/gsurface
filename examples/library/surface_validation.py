@@ -8,8 +8,8 @@ print(surface.check_verbose())
 
 # invalid surface check
 
-class InvalidSurface(Surface):
 
+class InvalidSurface(Surface):
     def eval(self, u: float, v: float) -> np.ndarray:
         exp = np.exp(v)
 

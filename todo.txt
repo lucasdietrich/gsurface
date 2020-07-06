@@ -1,10 +1,12 @@
 seperate plot function
 
-rebuild data function
+rebuild data function (optimize)
 - speeds
 - kinetic energy and other energy
 - check model ok
 
 save pictures
 
-boite à oeufs, lancée de bille : https://mathcurve.com/surfaces/boiteaoeufs/boiteaoeufs.shtml
+animation
+
+save config (create a design pattern for this kind of system)

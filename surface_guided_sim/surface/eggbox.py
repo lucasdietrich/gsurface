@@ -25,22 +25,14 @@ class EggBox(Surface):
             z=R*cosau*cosbv,
 
             dux=1,
-            duy=0,
             duz=-R*a*sinau*cosbv,
 
-            dvx=0,
             dvy=1,
             dvz=-R*b*sinbv*cosau,
 
-            duux=0,
-            duuy=0,
             duuz=-R*a**2*cosau*cosbv,
 
-            duvx=0,
-            duvy=0,
             duvz=R*a*b*sinau*sinbv,
 
-            dvvx=0,
-            dvvy=0,
             dvvz=-R*b**2*cosau*cosbv
         )

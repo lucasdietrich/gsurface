@@ -23,12 +23,12 @@ system = SurfaceGuidedMassSystem(
     forces=[
         Gravity(m=m, g=g),
         SpringForce(stiffness=k, clip=clip),
-        # ViscousFriction(mu=0.2),
+        ViscousFriction(mu=0.2),
     ]
 )
 
 # simulate
-time = np.linspace(0, 10, 5000)
+time = np.linspace(0, 20, 5000)
 
 data = system.solve(time)
 
