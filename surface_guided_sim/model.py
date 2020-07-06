@@ -6,9 +6,9 @@ import numpy as np
 
 from .indexes import *
 
-from typing import Callable, Union, Iterable, Tuple
+from typing import Union, Iterable
 
-from .forces import Force, Gravity, NoForce, ForceSum
+from .forces import Force, Gravity, ForceSum
 
 
 class SurfaceGuidedMassSystem(ODESystem):
@@ -50,14 +50,13 @@ class SurfaceGuidedMassSystem(ODESystem):
         # build intermediate symbols
         Duu, Dvv = np.sum(J**2, axis=0)
 
+        # build common mult
+        Puv = np.vdot(J[:, ui], J[:, vi])
+
         wHw = dw.T @ H @ dw
 
-        # build common mult
-        Puv = np.sum(J[:, ui] * J[:, vi])
-
         # build residual
-        Ru = np.sum(J[:, ui] * wHw) - np.vdot(F, J[:, ui]) / self.m
-        Rv = np.sum(J[:, vi] * wHw) - np.vdot(F, J[:, vi]) / self.m
+        Ru, Rv = np.dot(wHw - F, J) / self.m
 
         D = Duu * Dvv - Puv**2
 
@@ -108,4 +107,3 @@ class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
         super(SurfaceGuidedFallMassSystem, self).__init__(
             surface, s0, m, Gravity(m, g)
         )
-
