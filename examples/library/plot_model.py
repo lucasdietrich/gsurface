@@ -5,12 +5,7 @@ from surface_guided_sim.plotter import *
 
 import numpy as np
 
-tore = Tore(0.5, 1.0)
-plan = Plan(0.0, 0.0)
-sphere = Sphere(1.0)
-eggbox = EggBox(1/(2*np.pi)).multlims(6.0)
-
-surface = eggbox
+surface = EggBox(1).multlims(20.0)
 
 ######################################
 # Simulation
@@ -30,14 +25,12 @@ sim = SurfaceGuidedFallMassSystem(surface, s0, g=g)
 
 time = np.linspace(0, 10, 20000)
 
-data = sim.solve(time)
+states = sim.solve(time)
 
-# build trajectory
-trajectory = sim.surface.trajectory(data[:, 0::2])
-# speed = sim.surface.speed(data)
-# kinetic_energy = 1/2*sim.m*np.linalg.norm(speed, 2)**2
+physics = sim.solutions(states, time)
 
-# build speed
+trajectory = physics[:, Si]
+speed = physics[:, Vi]
 
 
 ######################################
@@ -54,7 +47,7 @@ plt.subplot(1, 2, 1)
 plt.title("position")
 plt.xlabel("time (sec)")
 plt.ylabel("parameters")
-plt.plot(time, data[:, 0::2])
+plt.plot(time, states[:, 0::2])
 plt.legend(["u", "v"])
 plt.grid(True)
 
@@ -62,7 +55,7 @@ plt.subplot(1, 2, 2)
 plt.title("speed")
 plt.xlabel("time (sec)")
 plt.ylabel("dt parameters")
-plt.plot(time, data[:, 1::2])
+plt.plot(time, states[:, 1::2])
 plt.legend(["du", "dv"])
 plt.grid(True)
 

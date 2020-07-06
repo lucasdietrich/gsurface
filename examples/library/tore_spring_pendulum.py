@@ -2,6 +2,8 @@ from surface_guided_sim import SurfaceGuidedMassSystem, SpringForce, LengthedSpr
 
 from surface_guided_sim.surface import Tore
 
+from surface_guided_sim.indexes import *
+
 import matplotlib.pyplot as plt
 from mayavi import mlab
 
@@ -33,13 +35,15 @@ system = SurfaceGuidedMassSystem(
 # simulate
 time = np.linspace(0, 40, 5000)
 
-data = system.solve(time)
+states = system.solve(time)
 
-# build (todo opti)
 mesh = tore.buildsurface(*tore.mesh(100, 100))
-trajectory = system.surface.trajectory(data[:, 0::2])
-speed = system.surface.speed(data)
-abs_speed = np.linalg.norm(speed, 2, 1)
+
+physics = system.solutions(states, time)
+
+trajectory = physics[:, Si]
+speed = physics[:, Vi]
+abs_speed = physics[:, nVi]
 
 # plot surface & trajectory
 mlab.figure(1, bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))

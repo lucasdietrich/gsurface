@@ -1,4 +1,5 @@
 from surface_guided_sim import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
+from surface_guided_sim.indexes import *
 
 from surface_guided_sim.surface import Sphere, Plan, Tore
 
@@ -23,20 +24,23 @@ system = SurfaceGuidedMassSystem(
     forces=[
         Gravity(m=m, g=g),
         SpringForce(stiffness=k, clip=clip),
-        ViscousFriction(mu=0.2),
+        # ViscousFriction(mu=0.2),
     ]
 )
 
 # simulate
 time = np.linspace(0, 20, 5000)
 
-data = system.solve(time)
+states = system.solve(time)
 
 # build (todo opti)
 mesh = sphere.buildsurface(*sphere.mesh(50, 50))
-trajectory = system.surface.trajectory(data[:, 0::2])
-speed = system.surface.speed(data)
-abs_speed = np.linalg.norm(speed, 2, 1)
+
+physics = system.solutions(states, time)
+
+trajectory = physics[:, Si]
+speed = physics[:, Vi]
+abs_speed = physics[:, nVi]
 
 Ec = 0.5 * m * abs_speed**2
 

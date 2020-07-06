@@ -8,14 +8,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def mayavi_plot_surface(mesh: np.ndarray, trajectory: np.ndarray = None):
+def mayavi_plot_surface(mesh: np.ndarray, trajectory: np.ndarray = None, plot_style=0):
     mlab.figure(1, bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
     mlab.clf()
 
-    # mlab.mesh(*mesh, opacity=0.8, color=(0.6, 0.6, 0.6))  # , color=(0.1, 0.1, 0.6)
     # colormap=cool / warm / binary / gray
-    mlab.mesh(*mesh, opacity=1.0, colormap='binary')  # , color=(0.1, 0.1, 0.6)
-    mlab.mesh(*mesh, opacity=0.1, color=(0, 0, 0), representation='wireframe')
+    if plot_style == 0:
+        mlab.mesh(*mesh, opacity=0.3, colormap='cool')  # , color=(0.1, 0.1, 0.6)
+        mlab.mesh(*mesh, opacity=0.1, color=(0, 0, 0), representation='wireframe')
+    elif plot_style == 1:
+        mlab.mesh(*mesh, opacity=1.0, colormap='binary')  # , color=(0.1, 0.1, 0.6)
+        mlab.mesh(*mesh, opacity=0.1, color=(0, 0, 0), representation='wireframe')
+    else:
+        raise Exception("plot_style undefined")
 
     mlab.orientation_axes()
 
