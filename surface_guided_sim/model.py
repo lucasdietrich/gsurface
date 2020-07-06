@@ -76,7 +76,7 @@ class SurfaceGuidedMassSystem(ODESystem):
     def solutions(self, states: np.ndarray, time: np.ndarray):
         assert states.shape[0] == time.shape[0]
 
-        physics = np.zeros((states.shape[0], 12))
+        physics = np.zeros((states.shape[0], 14))
 
         for i, (s, t) in enumerate(zip(states, time)):
 
@@ -90,13 +90,19 @@ class SurfaceGuidedMassSystem(ODESystem):
             V = J @ dw.T
             normV = np.linalg.norm(V, 2)
 
+            Ek = 0.5 * self.m * normV**2
+            Ep = 0.0
+            Em = Ek + Ep
+
             physics[i] = np.concatenate([
                 S,
                 V,
                 F,
                 [normV],
                 [np.linalg.norm(F, 2)],
-                [0.5 * self.m * normV**2]
+                [Ek],
+                [Ep],
+                [Em]
             ])
 
         return physics

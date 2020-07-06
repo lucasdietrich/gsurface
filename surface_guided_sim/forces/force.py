@@ -26,6 +26,9 @@ class Force(abc.ABC):
     def __add__(self, other: Union[Force, ForceSum, Iterable[Force]]) -> ForceSum:
         return ForceSum(other).append(self)
 
+    def potential(self, t: float, s: np.ndarray):
+        raise NotImplementedError()
+
     def __repr__(self):
         return "{0}".format(self.__class__.__name__)
 

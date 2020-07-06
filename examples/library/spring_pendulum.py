@@ -1,7 +1,7 @@
 from surface_guided_sim import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
 
 from surface_guided_sim.surface.plan import Plan
-from surface_guided_sim.indexes import Si, Vi, Fi, Eci, nFi, nVi
+from surface_guided_sim.indexes import Si, Vi, Fi, Eki, nFi, nVi
 
 import matplotlib.pyplot as plt
 from mayavi import mlab

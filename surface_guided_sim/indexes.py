@@ -15,5 +15,6 @@ Fi = slice(0, 3)
 (
     vxi, vyi, vzi,
     fxi, fyi, fzi,
-    nVi, nFi, Eci
-) = list(range(3, 12))
+    nVi, nFi,
+    Eki, Epi, Emi
+) = list(range(3, 14))
