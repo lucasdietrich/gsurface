@@ -8,7 +8,11 @@ from surface_guided_sim.indexes import *
 
 from typing import Union, Iterable
 
-from surface_guided_sim.forces import Force, Gravity, ForceSum
+from surface_guided_sim.forces import Force, Gravity, ForceSum, ConservativeForce
+
+
+def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):
+    return np.array([u0, du0, v0, dv0])
 
 
 class SurfaceGuidedMassSystem(ODESystem):
@@ -93,7 +97,7 @@ class SurfaceGuidedMassSystem(ODESystem):
             normV = np.linalg.norm(V, 2)
 
             Ek = 0.5 * self.m * normV**2
-            Ep = 0.0
+            Ep = np.sum(force.potential(t, S) for force in self.forces.get_conservative_forces())
             Em = Ek + Ep
 
             physics[i] = np.concatenate([
@@ -106,7 +110,6 @@ class SurfaceGuidedMassSystem(ODESystem):
                     Ek,
                     Ep,
                     Em,
-
                 ]
             ])
 

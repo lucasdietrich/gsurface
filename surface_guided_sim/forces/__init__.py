@@ -1,4 +1,4 @@
-from .force import Force, NoForce, ForceFunction, ForceEvalType, ForceSum
+from .force import Force, NoForce, ForceFunction, ForceEvalType, ForceSum, ConservativeForce
 from .gravity import Gravity
 from .friction import ViscousFriction, AirFriction
 from .spring import SpringForce, LengthedSpringForce

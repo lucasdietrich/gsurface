@@ -1,4 +1,4 @@
-from .force import Force, np
+from .force import Force, ConservativeForce, np
 
 
 # l0 = 0, linear spring force
@@ -7,7 +7,7 @@ from .force import Force, np
 # F = -k CS dir(CS_v)
 # F = -k CS_v
 # F = -k (S - C)
-class SpringForce(Force):
+class SpringForce(ConservativeForce):
     def __init__(self, stiffness: float = 1.0, clip: np.ndarray = None):
         self.stiffness = stiffness
 
@@ -17,6 +17,9 @@ class SpringForce(Force):
 
     def eval(self, w: np.ndarray, dw: np.ndarray, t: float, s: np.ndarray = None, j: np.ndarray = None) -> np.ndarray:
         return -self.stiffness*(s - self.clip)
+
+    def potential(self, t: float, S: np.ndarray) -> float:
+        return 0.5*self.stiffness * np.linalg.norm(S - self.clip, 2)**2
 
     def __repr__(self):
         return super(SpringForce, self).__repr__() + " stiffness = {stiffness} N/m, clip = {clip}".format(**self.__dict__)
@@ -42,6 +45,9 @@ class LengthedSpringForce(SpringForce):
             return np.zeros((3,))
         else:
             return -self.stiffness*(1 - self.l0 / CS) * CS_vec
+
+    def potential(self, t: float, S: np.ndarray) -> float:
+        return 0.5*self.stiffness*(np.linalg.norm(S - self.clip) - self.l0)**2
 
     def __repr__(self):
         return super(LengthedSpringForce, self).__repr__() + ", l0 = {l0} m".format(**self.__dict__)
