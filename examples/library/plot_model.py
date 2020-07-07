@@ -1,7 +1,5 @@
 from surface_guided_sim.model import *
-from surface_guided_sim.surface import Tore, Plan, Sphere, EggBox
-
-from surface_guided_sim.plotter import *
+from surface_guided_sim.surface import EggBox
 
 import numpy as np
 

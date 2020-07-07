@@ -1,4 +1,4 @@
 from .surface import *
 from .forces import *
-from .model import *
+from surface_guided_sim.model import *
 from .plotter import *

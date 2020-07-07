@@ -35,6 +35,7 @@ class Surface(abc.ABC):
 
     def multlims(self, k: float = 2.0) -> Surface:
         self.plimits *= k
+
         return self
 
     def setlims(self, u_ll: float = None, u_ul: float = None, v_ll: float = None, v_ul: float = None) -> Surface:
@@ -98,13 +99,13 @@ class Surface(abc.ABC):
         raise NotImplementedError()
 
     def SJH(self, u: float, v: float) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        eval = self.eval(u, v)
+        e = self.eval(u, v)
 
         return (
-            eval,
-            self.position(eval),
-            self.jacobian(eval),
-            self.dim_hessian(eval)
+            e,
+            self.position(e),
+            self.jacobian(e),
+            self.dim_hessian(e)
         )
 
     # todo, optimisation, calculer traj et speed en même temps
@@ -129,9 +130,7 @@ class Surface(abc.ABC):
 
     # todo translation only affect S
     def translate(self, x: np.ndarray) -> Surface:
-        raise np.array([
-
-        ])
+        raise NotImplementedError()
 
     # todo rotation only affect S
     def rotate(self, x: np.ndarray, angle: float) -> Surface:

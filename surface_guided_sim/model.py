@@ -1,14 +1,14 @@
 from ode.system import ODESystem
 
-from .surface.surface import Surface
+from surface_guided_sim.surface.surface import Surface
 
 import numpy as np
 
-from .indexes import *
+from surface_guided_sim.indexes import *
 
 from typing import Union, Iterable
 
-from .forces import Force, Gravity, ForceSum
+from surface_guided_sim.forces import Force, Gravity, ForceSum
 
 
 class SurfaceGuidedMassSystem(ODESystem):
@@ -55,8 +55,10 @@ class SurfaceGuidedMassSystem(ODESystem):
 
         wHw = dw.T @ H @ dw
 
+        G = wHw - F / self.m
+
         # build residual
-        Ru, Rv = np.dot(wHw - F / self.m, J)
+        Ru, Rv = np.dot(G, J)
 
         D = Duu * Dvv - Puv**2
 
@@ -103,7 +105,8 @@ class SurfaceGuidedMassSystem(ODESystem):
                     np.linalg.norm(F, 2),
                     Ek,
                     Ep,
-                    Em
+                    Em,
+
                 ]
             ])
 
