@@ -1,9 +1,3 @@
-from surface_guided_sim.model import SurfaceGuidedMassSystem
-
-from surface_guided_sim.indexes import *
-
-from typing import Tuple, Iterable
-
 from mayavi import mlab
 
 import numpy as np
@@ -30,7 +24,7 @@ def mayavi_plot_surface(smesh: np.ndarray, trajectory: np.ndarray = None, surfac
     mlab.orientation_axes()
 
 
-def mayavi_animate_surface_trajectory(smesh: np.ndarray, trajectory: np.ndarray = None, norm_speed: np.ndarray = None):
+def mayavi_animate_surface_trajectory(smesh: np.ndarray, trajectory: np.ndarray = None):
     mlab.figure(bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
     mlab.clf()
 
@@ -38,7 +32,6 @@ def mayavi_animate_surface_trajectory(smesh: np.ndarray, trajectory: np.ndarray 
     mlab.mesh(*smesh, opacity=0.1, color=(0, 0, 0), representation='wireframe')
 
     solid_point = mlab.points3d(*trajectory[0], color=(1, 0, 0), scale_factor=0.05)
-    solid_traj = mlab.plot3d(trajectory[:, xi], trajectory[:, yi], trajectory[:, zi], norm_speed, tube_radius=0.01)
 
     mlab.orientation_axes()
 

@@ -54,28 +54,28 @@ class Surface(abc.ABC):
         return self
 
     @staticmethod
-    def position(eval: np.ndarray):
-        return np.array(eval[:zi + 1])
+    def position(e: np.ndarray):
+        return np.array(e[:zi + 1])
 
     @staticmethod
-    def jacobian(eval: np.ndarray):
-        return np.array(eval[duxi: duxi + 6]).reshape((3, 2))
+    def jacobian(e: np.ndarray):
+        return np.array(e[duxi: duxi + 6]).reshape((3, 2))
 
     # x : xyz = 0
     # y : xyz = 1
     # z : xyz = 2
     @staticmethod
-    def hessian(eval: np.ndarray, xyz=0):
-        shift = xyz*3
+    def hessian(e: np.ndarray, X=0):
+        shift = X * 3
         return np.array([
-            [eval[duuxi + shift], eval[duvxi + shift]],
-            [eval[duvxi + shift], eval[dvvxi + shift]]
+            [e[duuxi + shift], e[duvxi + shift]],
+            [e[duvxi + shift], e[dvvxi + shift]]
         ])
 
     @staticmethod
-    def dim_hessian(eval: np.ndarray):
+    def dim_hessian(e: np.ndarray):
         return np.array([
-            Surface.hessian(eval, xyz=X) for X in xyz
+            Surface.hessian(e, X=X) for X in xyz
         ])
 
     @staticmethod
@@ -129,15 +129,15 @@ class Surface(abc.ABC):
         return mesh
 
     # todo translation only affect S
-    def translate(self, x: np.ndarray) -> Surface:
-        raise NotImplementedError()
+    # def translate(self, x: np.ndarray) -> Surface:
+    #     raise NotImplementedError()
 
     # todo rotation only affect S
-    def rotate(self, x: np.ndarray, angle: float) -> Surface:
-        raise NotImplementedError()
+    # def rotate(self, x: np.ndarray, angle: float) -> Surface:
+    #     raise NotImplementedError()
 
     # check integrity
-    def check(self, nu: int = 20, nv: int = 20, tolerance = 1e-7):
+    def check(self, nu: int = 20, nv: int = 20, tolerance=1e-7):
         from . import diff
 
         emat = diff.get_diff_surface_errors(self, *self.mesh(nu, nv))
@@ -173,4 +173,3 @@ class Surface(abc.ABC):
         return (
             "Surface:{0}" + self.__repr_str__
         ).format(self.__class__.__name__, **self.__dict__).ljust(self.__repr_ljust__)
-

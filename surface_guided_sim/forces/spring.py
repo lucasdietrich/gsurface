@@ -1,4 +1,4 @@
-from .force import Force, ConservativeForce, np
+from .force import ConservativeForce, np
 
 
 # l0 = 0, linear spring force
@@ -22,7 +22,8 @@ class SpringForce(ConservativeForce):
         return 0.5*self.stiffness * np.linalg.norm(S - self.clip, 2)**2
 
     def __repr__(self):
-        return super(SpringForce, self).__repr__() + " stiffness = {stiffness} N/m, clip = {clip}".format(**self.__dict__)
+        return super(SpringForce, self).__repr__() + \
+               " stiffness = {stiffness} N/m, clip = {clip}".format(**self.__dict__)
 
 
 # F = -K (CS - l0) dir(CS_v)

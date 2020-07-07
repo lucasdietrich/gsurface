@@ -1,4 +1,4 @@
-from .force import Force, ConservativeForce, np
+from .force import ConservativeForce, np
 
 
 class Gravity(ConservativeForce):

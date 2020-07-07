@@ -86,5 +86,3 @@ class ForceSum(Force):
 
     def __repr__(self):
         return super(ForceSum, self).__repr__() + self.forces.__repr__()
-
-

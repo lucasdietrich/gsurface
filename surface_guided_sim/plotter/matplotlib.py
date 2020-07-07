@@ -1,5 +1,3 @@
-from surface_guided_sim.model import SurfaceGuidedMassSystem
-
 from surface_guided_sim.indexes import *
 
 from typing import Tuple, Iterable

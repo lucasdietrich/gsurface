@@ -29,4 +29,5 @@ class AirFriction(Force):
         return - 0.5 * self.Cx * self.S * self.rho * v * np.linalg.norm(v, 2)
 
     def __repr__(self):
-        return super(AirFriction, self).__repr__() + " Cx = {Cx}, S = {S} m², rho = {rho} kg/m^3".format(**self.__dict__)
+        return super(AirFriction, self).__repr__() + \
+               " Cx = {Cx}, S = {S} m², rho = {rho} kg/m^3".format(**self.__dict__)

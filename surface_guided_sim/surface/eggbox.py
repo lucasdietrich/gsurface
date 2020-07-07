@@ -2,8 +2,6 @@ from .surface import Surface
 
 import numpy as np
 
-from typing import Callable
-
 
 class EggBox(Surface):
     __repr_str__ = "(R={R:.2f}, a={a:.2f}, a={b:.2f})"

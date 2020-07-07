@@ -8,7 +8,7 @@ from surface_guided_sim.indexes import *
 
 from typing import Union, Iterable
 
-from surface_guided_sim.forces import Force, Gravity, ForceSum, ConservativeForce
+from surface_guided_sim.forces import Force, Gravity, ForceSum
 
 
 def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):
@@ -46,7 +46,7 @@ class SurfaceGuidedMassSystem(ODESystem):
         dw = np.array([du, dv])
 
         # eval
-        eval, S, J, H = self.surface.SJH(u, v)
+        e, S, J, H = self.surface.SJH(u, v)
 
         # eval force:
         F = self.forces.eval(w, dw, t, S, J)
@@ -54,14 +54,12 @@ class SurfaceGuidedMassSystem(ODESystem):
         # build intermediate symbols
         Duu, Dvv = np.sum(J**2, axis=0)
 
-        # build common mult
         Puv = np.vdot(J[:, ui], J[:, vi])
 
         wHw = dw.T @ H @ dw
 
         G = wHw - F / self.m
 
-        # build residual
         Ru, Rv = np.dot(G, J)
 
         D = Duu * Dvv - Puv**2
@@ -89,7 +87,7 @@ class SurfaceGuidedMassSystem(ODESystem):
             w = s[0::2]
             dw = s[1::2]
 
-            eval, S, J, H = self.surface.SJH(*w)
+            e, S, J, H = self.surface.SJH(*w)
 
             F = self.forces.eval(w, dw, t, S, J)
 
