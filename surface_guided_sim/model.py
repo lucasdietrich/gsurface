@@ -56,7 +56,7 @@ class SurfaceGuidedMassSystem(ODESystem):
         wHw = dw.T @ H @ dw
 
         # build residual
-        Ru, Rv = np.dot(wHw - F, J) / self.m
+        Ru, Rv = np.dot(wHw - F / self.m, J)
 
         D = Duu * Dvv - Puv**2
 
@@ -98,11 +98,13 @@ class SurfaceGuidedMassSystem(ODESystem):
                 S,
                 V,
                 F,
-                [normV],
-                [np.linalg.norm(F, 2)],
-                [Ek],
-                [Ep],
-                [Em]
+                [
+                    normV,
+                    np.linalg.norm(F, 2),
+                    Ek,
+                    Ep,
+                    Em
+                ]
             ])
 
         return physics
