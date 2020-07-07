@@ -42,7 +42,7 @@ speed = physics[:, Vi]
 abs_speed = physics[:, nVi]
 force = physics[:, Fi]
 
-matplotlib_plot_solutions(time, physics, system)
+matplotlib_plot_solutions(time, states, physics)
 
 anim = mayavi_animate_surface_trajectory(smesh, trajectory[::3], abs_speed[::3])
 

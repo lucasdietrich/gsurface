@@ -42,13 +42,21 @@ systems = [
             ViscousFriction(mu=0.5),
             Gravity(m=m, g=np.array([0.0, -3.0, 0.0])),
         ]
+    ),
+    SurfaceGuidedMassSystem(
+        surface=Catenoid().multlims(1.5),
+        s0=build_s0(du0=0.02, dv0=2),
+        m=m,
+        forces=[
+
+        ]
     )
 ]
 
-system = systems[0]
+system = systems[3]
 
 # simulate
-time = np.linspace(0, 13, 8000)
+time = np.linspace(0, 7, 20000)
 
 states = system.solve(time)
 
@@ -63,7 +71,7 @@ speed = physics[:, Vi]
 abs_speed = physics[:, nVi]
 force = physics[:, Fi]
 
-matplotlib_plot_solutions(time, physics, system)
+matplotlib_plot_solutions(time, states, physics)
 
 anim = mayavi_animate_surface_trajectory(smesh, trajectory[::3], abs_speed[::3])
 

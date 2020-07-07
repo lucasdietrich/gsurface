@@ -27,7 +27,7 @@ def _matplotlib_subplot_curves(
     plt.grid(True)
 
 
-def matplotlib_plot_solutions(time: np.ndarray, physics: np.ndarray, system: SurfaceGuidedMassSystem):
+def matplotlib_plot_solutions(time: np.ndarray, states: np.ndarray, physics: np.ndarray):
     assert time.shape[0] == physics.shape[0]
 
     plt.figure(figsize=(18, 9))
@@ -39,6 +39,7 @@ def matplotlib_plot_solutions(time: np.ndarray, physics: np.ndarray, system: Sur
     _matplotlib_subplot_curves(time, physics[:, Eki: Emi + 1], (2, 3, 3), "Energies", "Energy (J)", ["Ek", "Ep", "Em"])
     _matplotlib_subplot_curves(time, physics[:, Fi], (2, 3, 4), "SumForce", "force (N)", ["Fx", "Fy", "Fz"])
     _matplotlib_subplot_curves(time, physics[:, nVi], (2, 3, 5), "Absolute speed", "speed (m/s)", ["V"])
+    _matplotlib_subplot_curves(time, states[:, 1::2], (2, 3, 6), "Parametric speed", "(1/s)", ["du", "dv", "norm w"])
 
     plt.show()
 

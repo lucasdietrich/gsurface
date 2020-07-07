@@ -9,8 +9,8 @@ xyz = 0, 1, 2
 ) = list(range(18))
 
 Si = slice(0, 3)
-Vi = slice(0, 3)
-Fi = slice(0, 3)
+Vi = slice(3, 6)
+Fi = slice(6, 9)
 
 (
     vxi, vyi, vzi,
