@@ -44,7 +44,7 @@ systems = [
         ]
     ),
     SurfaceGuidedMassSystem(
-        surface=Catenoid().multlims(1.5),
+        surface=Catenoid().multlims(1),
         s0=build_s0(du0=0.02, dv0=2),
         m=m,
         forces=[
@@ -56,7 +56,7 @@ systems = [
 system = systems[3]
 
 # simulate
-time = np.linspace(0, 7, 20000)
+time = np.linspace(0, 4, 20000)
 
 states = system.solve(time)
 
