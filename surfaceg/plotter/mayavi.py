@@ -2,7 +2,7 @@ from mayavi import mlab
 
 import numpy as np
 
-from surface_guided_sim.indexes import *
+from ..indexes import *
 
 
 def mayavi_plot_surface(smesh: np.ndarray, trajectory: np.ndarray = None, surface_plot_style=0):

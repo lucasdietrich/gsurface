@@ -1,5 +1,5 @@
-from surface_guided_sim.model import *
-from surface_guided_sim.surface import EggBox
+from surfaceg.model import *
+from surfaceg.surface import EggBox
 
 import numpy as np
 

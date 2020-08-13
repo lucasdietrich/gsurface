@@ -1,4 +1,4 @@
-from surface_guided_sim.surface import Surface
+from .surface import Surface
 
 import numpy as np
 

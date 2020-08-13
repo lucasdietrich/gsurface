@@ -1,4 +1,4 @@
-from surface_guided_sim.indexes import *
+from ..indexes import *
 
 from typing import Tuple, Iterable
 

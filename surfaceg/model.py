@@ -1,14 +1,14 @@
 from ode.system import ODESystem
 
-from surface_guided_sim.surface.surface import Surface
+from .surface.surface import Surface
 
 import numpy as np
 
-from surface_guided_sim.indexes import *
+from .indexes import *
 
 from typing import Union, Iterable
 
-from surface_guided_sim.forces import Force, Gravity, ForceSum
+from .forces import Force, Gravity, ForceSum
 
 
 def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):

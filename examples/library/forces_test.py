@@ -1,12 +1,12 @@
 import numpy as np
 import pprint
 
-from surface_guided_sim.forces import Force, NoForce, Gravity, ForceFunction, ForceSum
+from surfaceg.forces import Force, NoForce, Gravity, ForceFunction, ForceSum
 
 h = ForceFunction(lambda u, v, t, S, J: np.array([0.0, 0.0, 0.1*t]))
-g1 = Gravity(np.array([0.0, 0.0, 1.0]))
-g2 = Gravity(np.array([0.0, -1.0, 1.0]))
-g3 = Gravity(np.array([-2.0, -1.0, 1.0]))
+g1 = Gravity(1.0, np.array([0.0, 0.0, 1.0]))
+g2 = Gravity(1.0, np.array([0.0, -1.0, 1.0]))
+g3 = Gravity(1.0, np.array([-2.0, -1.0, 1.0]))
 
 s = g1 + g2 + h + g3
 

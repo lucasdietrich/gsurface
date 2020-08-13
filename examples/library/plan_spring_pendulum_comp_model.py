@@ -1,8 +1,8 @@
-from surface_guided_sim import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
+from surfaceg import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
 
-from surface_guided_sim.surface.plan import Plan
+from surfaceg.surface.plan import Plan
 
-from surface_guided_sim.indexes import *
+from surfaceg.indexes import *
 
 import matplotlib.pyplot as plt
 from mayavi import mlab

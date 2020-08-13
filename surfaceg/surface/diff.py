@@ -1,6 +1,6 @@
-from surface_guided_sim.indexes import *
+from ..indexes import *
 
-from surface_guided_sim.surface import Surface
+from .surface import Surface
 
 import numpy as np
 

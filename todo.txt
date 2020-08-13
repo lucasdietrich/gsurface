@@ -17,3 +17,4 @@ checker la médianne plutot que le max des erreurs pour certaines surfaces avec 
 Surfaces :
 - https://mathcurve.com/surfaces/conoide_parabolique/conoide_parabolique.shtml
 
+Force(model1, model2, stiffness)

@@ -1,11 +1,11 @@
-from surface_guided_sim import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, \
+from surfaceg import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, \
     AirFriction, ViscousFriction, build_s0
 
-from surface_guided_sim.surface import Tore, Sphere, Plan, EggBox, ConicalCorner, Catenoid
+from surfaceg.surface import Tore, Sphere, Plan, EggBox, ConicalCorner, Catenoid
 
-from surface_guided_sim.indexes import *
+from surfaceg.indexes import *
 
-from surface_guided_sim.plotter import matplotlib_plot_solutions, mayavi_animate_surface_trajectory
+from surfaceg.plotter import matplotlib_plot_solutions, mayavi_animate_surface_trajectory
 
 from mayavi import mlab
 
@@ -45,18 +45,15 @@ systems = [
     ),
     SurfaceGuidedMassSystem(
         surface=Catenoid().multlims(1),
-        s0=build_s0(du0=0.02, dv0=2),
-        m=m,
-        forces=[
-
-        ]
+        s0=build_s0(du0=0.0002, dv0=2),
+        m=m
     )
 ]
 
 system = systems[3]
 
 # simulate
-time = np.linspace(0, 4, 20000)
+time = np.linspace(0, 7, 20000)
 
 states = system.solve(time)
 
@@ -73,7 +70,7 @@ force = physics[:, Fi]
 
 matplotlib_plot_solutions(time, states, physics)
 
-anim = mayavi_animate_surface_trajectory(smesh, trajectory[::3], abs_speed[::3])
+anim = mayavi_animate_surface_trajectory(smesh, trajectory[::30], abs_speed[::30])
 
 # spring clip
 mlab.points3d(0, 0, 0, color=(0, 1, 0), scale_factor=0.05)

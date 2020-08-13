@@ -55,6 +55,9 @@ class NoForce(Force):
 
 class ForceSum(Force):
     def __init__(self, forces: Union[Force, ForceSum, Iterable[Force]] = None):
+        if forces is None:
+            forces = []
+
         self.forces = []
 
         self.append(forces)
