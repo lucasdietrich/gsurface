@@ -32,7 +32,7 @@ def matplotlib_plot_solutions(time: np.ndarray, states: np.ndarray, physics: np.
 
     plt.subplots_adjust(left=0.08, bottom=0.08, right=1 - 0.04, top=1 - 0.04, wspace=0.1, hspace=0.2)
 
-    _matplotlib_subplot_curves(time, physics[:, Si], (2, 3, 1), "Trajectory", "position (m)", ["X", "Y", "Z"])
+    _matplotlib_subplot_curves(time, physics[:, Pi], (2, 3, 1), "Trajectory", "position (m)", ["X", "Y", "Z"])
     _matplotlib_subplot_curves(time, physics[:, Vi], (2, 3, 2), "Speed", "speed (m/s)", ["Vx", "Vy", "Vz"])
     _matplotlib_subplot_curves(time, physics[:, Eki: Emi + 1], (2, 3, 3), "Energies", "Energy (J)", ["Ek", "Ep", "Em"])
     _matplotlib_subplot_curves(time, physics[:, Fi], (2, 3, 4), "SumForce", "force (N)", ["Fx", "Fy", "Fz"])

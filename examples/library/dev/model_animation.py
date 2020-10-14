@@ -63,7 +63,7 @@ smesh = system.surface.buildsurface(*mesh)
 
 physics = system.solutions(states, time)
 
-trajectory = physics[:, Si]
+trajectory = physics[:, Pi]
 speed = physics[:, Vi]
 abs_speed = physics[:, nVi]
 force = physics[:, Fi]

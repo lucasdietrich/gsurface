@@ -38,7 +38,7 @@ mesh = sphere.buildsurface(*sphere.mesh(50, 50))
 
 physics = system.solutions(states, time)
 
-trajectory = physics[:, Si]
+trajectory = physics[:, Pi]
 speed = physics[:, Vi]
 abs_speed = physics[:, nVi]
 

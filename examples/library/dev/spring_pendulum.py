@@ -1,7 +1,7 @@
 from gsurface import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
 
 from gsurface.surface.plan import Plan
-from gsurface.indexes import Si, Vi, Fi, Eki, nFi, nVi
+from gsurface.indexes import Pi, Vi, Fi, Eki, nFi, nVi
 
 import matplotlib.pyplot as plt
 from mayavi import mlab
@@ -42,7 +42,7 @@ mesh = plan.buildsurface(*plan.mesh(100, 100))
 
 physics = system.solutions(states, time)
 
-trajectory = physics[:, Si]
+trajectory = physics[:, Pi]
 speed = physics[:, Vi]
 abs_speed = physics[:, nVi]
 

@@ -31,7 +31,7 @@ states = sim.solve(time)
 
 physics = sim.solutions(states, time)
 
-trajectory = physics[:, Si]
+trajectory = physics[:, Pi]
 speed = physics[:, Vi]
 
 

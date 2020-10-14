@@ -55,11 +55,15 @@ class Surface(abc.ABC):
 
         return self
 
-    def translate(self, shiftvector: np.ndarray):
+    def translate(self, shiftvector: np.ndarray) -> Surface:
         self.shiftvector: np.ndarray = shiftvector
 
-    def rotate(self, rotmat: np.ndarray):
+        return self
+
+    def rotate(self, rotmat: np.ndarray) -> Surface:
         self.rotmat: np.ndarray = rotmat
+
+        return self
 
     @staticmethod
     def jacobian(e: np.ndarray):
@@ -180,7 +184,7 @@ class Surface(abc.ABC):
         return np.max(elist) <= tolerance
 
     __repr_str__ = ""
-    __repr_ljust__ = 50
+    __repr_ljust__ = 30
 
     def __repr__(self):
         return (

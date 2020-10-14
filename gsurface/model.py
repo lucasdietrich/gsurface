@@ -33,6 +33,11 @@ class SurfaceGuidedMassSystem(ODESystem):
 
         super(SurfaceGuidedMassSystem, self).__init__(s0)
 
+    def __repr__(self):
+        return f"{self.__class__.__name__} for solid of mass={self.m}kg on surface {self.surface} " \
+               f"with s0 = {self.s0}\n" \
+               f"and forces : {self.forces}"
+
     def _derivs(self, s: np.ndarray, t: float) -> np.ndarray:
         u, du, v, dv = s
 

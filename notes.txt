@@ -1,0 +1,2 @@
+Enum in Python
+    https://stackoverflow.com/questions/36932/how-can-i-represent-an-enum-in-python

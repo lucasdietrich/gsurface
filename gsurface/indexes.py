@@ -14,13 +14,17 @@ ixe_position = slice(0, zi + 1)
 
 # solutions return
 
-Si = slice(0, 3)
-Vi = slice(3, 6)
-Fi = slice(6, 9)
+
+Tyi = slice(0, -1), slice(0, 3)  # trajectory : differents positions in time
+
+Pi = slice(0, 3)  # position
+Vi = slice(3, 6)  # speed
+Fi = slice(6, 9)  # force
 
 (
+    txi, tyi, tzi,
     vxi, vyi, vzi,
     fxi, fyi, fzi,
     nVi, nFi,
     Eki, Epi, Emi
-) = list(range(3, 14))
+) = list(range(14))
