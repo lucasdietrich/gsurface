@@ -9,14 +9,12 @@ from mayavi import mlab
 
 import numpy as np
 
-# config
-
+# initial values
 x0, vx0 = 2.0, 0.0
 
 y0, vy0 = 0.0, 4.0
 
 # model
-
 plan = Plan.from_xz_rotation(angle=0.0).setlims(-2, 2.5, -3.5, 5).multlims(1)
 
 m = 1.0
@@ -32,7 +30,7 @@ system = SurfaceGuidedMassSystem(
     ]
 )
 
-# simulate
+# simulation
 time = np.linspace(0, 60, 6000)
 
 states = system.solve(time)

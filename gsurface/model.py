@@ -119,7 +119,3 @@ class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
         super(SurfaceGuidedFallMassSystem, self).__init__(
             surface, s0, m, Gravity(m, g)
         )
-
-# class SurfaceGuidedMultipleMassSystem(SurfaceGuidedMassSystem):
-#     def __init__(self, surfaces: Iterable[Surface], s0: Iterable[np.ndarray] = None, m: Iterable):
-#         pass

@@ -5,6 +5,7 @@ from .surface import Surface
 import numpy as np
 
 
+# cette définition du plan ne peux pas être parallele à l'axe Z
 # todo definir le plan a partir d'angles de rotations autour des axes
 # parameters are x = u, v = y
 class Plan(Surface):

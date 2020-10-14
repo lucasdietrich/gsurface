@@ -9,7 +9,7 @@ class ViscousFriction(Force):
         return -self.mu * J @ dw.T
 
     def __repr__(self):
-        return super(ViscousFriction, self).__repr__() + " mu = {mu}".format(**self.__dict__)
+        return super(ViscousFriction, self).__repr__() + " mu = {mu} N.s/m".format(**self.__dict__)
 
 
 # https://fr.wikipedia.org/wiki/Chute_avec_r%C3%A9sistance_de_l%27air

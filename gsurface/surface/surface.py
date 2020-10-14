@@ -61,6 +61,8 @@ class Surface(abc.ABC):
         return self
 
     def rotate(self, rotmat: np.ndarray) -> Surface:
+        raise NotImplementedError
+
         self.rotmat: np.ndarray = rotmat
 
         return self
@@ -102,13 +104,12 @@ class Surface(abc.ABC):
         ])
 
         # apply translation
-        e[: zi + 1] += self.shiftvector
+        e[Xi] += self.shiftvector
 
         # apply rotation
         # todo notimplemented
 
         return e
-
 
     # return all Du Dv Duu Dvv Duv of x y z
     @abc.abstractmethod
@@ -120,7 +121,7 @@ class Surface(abc.ABC):
 
         return (
             e,
-            e[ixe_position],
+            e[Xi],
             self.jacobian(e),
             self.dim_hessian(e)
         )
@@ -141,7 +142,7 @@ class Surface(abc.ABC):
 
         for i, u in enumerate(U):
             for j, v in enumerate(V):
-                mesh[:, i, j] = self.eval(u, v)[ixe_position]
+                mesh[:, i, j] = self.eval(u, v)[Xi]
 
         return mesh
 
