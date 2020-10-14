@@ -19,7 +19,7 @@ class EggBox(Surface):
         cosbv = np.cos(b*v)
         sinbv = np.sin(b*v)
 
-        return Surface.buildevalreturn(
+        return Surface.process_transformations(
             x=u,
             y=v,
             z=R*cosau*cosbv,

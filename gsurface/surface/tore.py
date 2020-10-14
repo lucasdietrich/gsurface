@@ -32,7 +32,7 @@ class Tore(Surface):
         dvy = self.r*sinu*cosv
         dvz = self.r*sinv
 
-        return self.buildevalreturn(
+        return self.process_transformations(
             x=x,
             y=y,
             z=z,

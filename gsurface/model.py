@@ -27,12 +27,7 @@ class SurfaceGuidedMassSystem(ODESystem):
         self.forces: ForceSum = ForceSum(forces)
 
         if s0 is None:
-            s0 = np.array([
-                0.0,  # u
-                0.0,  # vu
-                0.0,  # v
-                0.0,  # vu
-            ])
+            s0 = build_s0()
 
         self.m = m
 
@@ -119,3 +114,7 @@ class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
         super(SurfaceGuidedFallMassSystem, self).__init__(
             surface, s0, m, Gravity(m, g)
         )
+
+# class SurfaceGuidedMultipleMassSystem(SurfaceGuidedMassSystem):
+#     def __init__(self, surfaces: Iterable[Surface], s0: Iterable[np.ndarray] = None, m: Iterable):
+#         pass

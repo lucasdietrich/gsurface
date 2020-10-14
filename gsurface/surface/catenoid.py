@@ -27,7 +27,7 @@ class Catenoid(Surface):
 
         a = self.a
 
-        return self.buildevalreturn(
+        return self.process_transformations(
             x=a*chu*cosv,
             y=a*chu*sinv,
             z=a*u,

@@ -7,7 +7,6 @@ import numpy as np
 
 from ..indexes import *
 
-
 # eval return 18 elements long
 # 18 elements list
 # =====
@@ -28,10 +27,13 @@ from ..indexes import *
 
 
 class Surface(abc.ABC):
-    plimits = np.array([
-        [-1.0, 1.0],  # u lims
-        [-1.0, 1.0]   # v lims
-    ])
+
+    # line 1 : u lims /  line 2 : v lims
+    plimits = np.ones((2, 2))
+
+    shiftvector = np.zeros((3,))
+
+    rotmat = np.identity(3)
 
     def multlims(self, k: float = 2.0) -> Surface:
         self.plimits *= k
@@ -53,9 +55,11 @@ class Surface(abc.ABC):
 
         return self
 
-    @staticmethod
-    def position(e: np.ndarray):
-        return np.array(e[:zi + 1])
+    def translate(self, shiftvector: np.ndarray):
+        self.shiftvector: np.ndarray = shiftvector
+
+    def rotate(self, rotmat: np.ndarray):
+        self.rotmat: np.ndarray = rotmat
 
     @staticmethod
     def jacobian(e: np.ndarray):
@@ -78,8 +82,8 @@ class Surface(abc.ABC):
             Surface.hessian(e, X=X) for X in xyz
         ])
 
-    @staticmethod
-    def buildevalreturn(
+    def process_transformations(
+            self,
             x=0, y=0, z=0,
             dux=0, dvx=0, duy=0,
             dvy=0, duz=0, dvz=0,
@@ -87,11 +91,20 @@ class Surface(abc.ABC):
             duuy=0, duvy=0, dvvy=0,
             duuz=0, duvz=0, dvvz=0
     ):
-        return np.array([
+        e = np.array([
             x, y, z,
             dux, dvx, duy, dvy, duz, dvz,
             duux, duvx, dvvx, duuy, duvy, dvvy, duuz, duvz, dvvz
         ])
+
+        # apply translation
+        e[: zi + 1] += self.shiftvector
+
+        # apply rotation
+        # todo notimplemented
+
+        return e
+
 
     # return all Du Dv Duu Dvv Duv of x y z
     @abc.abstractmethod
@@ -103,7 +116,7 @@ class Surface(abc.ABC):
 
         return (
             e,
-            self.position(e),
+            e[ixe_position],
             self.jacobian(e),
             self.dim_hessian(e)
         )
@@ -124,7 +137,7 @@ class Surface(abc.ABC):
 
         for i, u in enumerate(U):
             for j, v in enumerate(V):
-                mesh[:, i, j] = self.position(self.eval(u, v))
+                mesh[:, i, j] = self.eval(u, v)[ixe_position]
 
         return mesh
 

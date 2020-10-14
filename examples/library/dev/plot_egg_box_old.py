@@ -1,7 +1,11 @@
-from surfaceg.model import *
-from surfaceg.surface import EggBox
+from gsurface.model import *
+from gsurface.surface import EggBox
 
 import numpy as np
+
+from gsurface.plotter import mayavi_plot_surface
+
+import matplotlib.pyplot as plt
 
 surface = EggBox(1).multlims(20.0)
 

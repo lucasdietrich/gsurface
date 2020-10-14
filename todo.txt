@@ -18,3 +18,6 @@ Surfaces :
 - https://mathcurve.com/surfaces/conoide_parabolique/conoide_parabolique.shtml
 
 Force(model1, model2, stiffness)
+
+Add surface : try Trefoil knot : https://en.wikipedia.org/wiki/Trefoil_knot
+Add surface : Dupin Cyclide : https://en.wikipedia.org/wiki/Dupin_cyclide

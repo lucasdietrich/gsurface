@@ -1,6 +1,6 @@
-from surfaceg.surface import Sphere, Plan, Tore, Catenoid, EggBox, ConicalCorner
+from gsurface.surface import Sphere, Plan, Tore, Catenoid, EggBox, ConicalCorner
 
-from surfaceg.plotter import mayavi_plot_surface, mlab
+from gsurface.plotter import mayavi_plot_surface, mlab
 
 surface = Catenoid(1.0)
 

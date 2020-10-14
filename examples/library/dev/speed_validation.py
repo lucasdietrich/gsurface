@@ -1,7 +1,7 @@
-from surfaceg import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
-from surfaceg.indexes import *
+from gsurface import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
+from gsurface.indexes import *
 
-from surfaceg.surface import Sphere, Plan, Tore
+from gsurface.surface import Sphere, Plan, Tore
 
 import matplotlib.pyplot as plt
 from mayavi import mlab

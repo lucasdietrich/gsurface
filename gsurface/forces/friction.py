@@ -5,8 +5,8 @@ class ViscousFriction(Force):
     def __init__(self, mu: float = 1.0):
         self.mu = mu
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, s: np.ndarray = None, j: np.ndarray = None) -> np.ndarray:
-        return -self.mu * j @ dw.T
+    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+        return -self.mu * J @ dw.T
 
     def __repr__(self):
         return super(ViscousFriction, self).__repr__() + " mu = {mu}".format(**self.__dict__)
@@ -23,8 +23,8 @@ class AirFriction(Force):
         self.S = S
         self.rho = rho
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, s: np.ndarray = None, j: np.ndarray = None) -> np.ndarray:
-        v = j @ dw.T
+    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+        v = J @ dw.T
 
         return - 0.5 * self.Cx * self.S * self.rho * v * np.linalg.norm(v, 2)
 

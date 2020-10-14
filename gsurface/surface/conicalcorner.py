@@ -27,7 +27,7 @@ class ConicalCorner(Surface):
         cosv = np.cos(v)
         sinv = np.sin(v)
 
-        return self.buildevalreturn(
+        return self.process_transformations(
             x=u,
             y=k*u*cosv,
             z=k*a*sinv,

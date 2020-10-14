@@ -30,7 +30,7 @@ class Sphere(Surface):
         dvx = R * cosu * cosv
         dvy = R * sinu * cosv
 
-        return self.buildevalreturn(
+        return self.process_transformations(
             x=x,
             y=y,
             z=z,

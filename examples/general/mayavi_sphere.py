@@ -19,7 +19,7 @@ mlab.clf()
 xx, yy, zz = 1, 0, 0
 
 
-mlab.buildsurface(x, y, z, color=(0.0, 0.5, 0.5))
+mlab.mesh(x, y, z, color=(0.0, 0.5, 0.5))
 mlab.points3d(xx, yy, zz, scale_factor=0.05)
 
 

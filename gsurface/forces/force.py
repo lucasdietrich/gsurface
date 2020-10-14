@@ -6,6 +6,7 @@ import numpy as np
 
 from typing import Iterable, Callable, Union
 
+# force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), hessiens(3xH)) -> force(3)
 ForceEvalType = Callable[
     [np.ndarray, np.ndarray, float, np.ndarray, np.ndarray],
     np.ndarray
@@ -14,11 +15,11 @@ ForceEvalType = Callable[
 
 class Force(abc.ABC):
     @abc.abstractmethod
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, s: np.ndarray = None, j: np.ndarray = None) -> np.ndarray:
+    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
         raise NotImplementedError()
 
-    def __call__(self, w: np.ndarray, dw: np.ndarray, t: float, s: np.ndarray = None, j: np.ndarray = None):
-        return self.eval(w, dw, t, s, j)
+    def __call__(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None):
+        return self.eval(w, dw, t, S, J)
 
     def __radd__(self, other: Union[ForceSum, Iterable[Force]]) -> ForceSum:
         return self + other

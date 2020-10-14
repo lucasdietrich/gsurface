@@ -5,7 +5,7 @@ from .surface import Surface
 import numpy as np
 
 
-# todo definir le plan a partir de'angles de rotations autour des axes
+# todo definir le plan a partir d'angles de rotations autour des axes
 # parameters are x = u, v = y
 class Plan(Surface):
 
@@ -20,7 +20,7 @@ class Plan(Surface):
         self.b = b
 
     def eval(self, u: float, v: float):
-        return self.buildevalreturn(
+        return self.process_transformations(
             x=u,
             y=v,
             z=self.a*u + self.b*v,

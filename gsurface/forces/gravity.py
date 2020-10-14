@@ -9,7 +9,7 @@ class Gravity(ConservativeForce):
             g = np.array([0.0, 0.0, -9.81])
         self.g: np.ndarray = g
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, s: np.ndarray = None, j: np.ndarray = None) -> np.ndarray:
+    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
         return self.m*self.g
 
     def potential(self, t: float, S: np.ndarray) -> float:

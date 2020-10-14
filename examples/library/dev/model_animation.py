@@ -1,11 +1,11 @@
-from surfaceg import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, \
+from gsurface import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, \
     AirFriction, ViscousFriction, build_s0
 
-from surfaceg.surface import Tore, Sphere, Plan, EggBox, ConicalCorner, Catenoid
+from gsurface.surface import Tore, Sphere, Plan, EggBox, ConicalCorner, Catenoid
 
-from surfaceg.indexes import *
+from gsurface.indexes import *
 
-from surfaceg.plotter import matplotlib_plot_solutions, mayavi_animate_surface_trajectory
+from gsurface.plotter import matplotlib_plot_solutions, mayavi_animate_surface_trajectory
 
 from mayavi import mlab
 

@@ -1,4 +1,4 @@
-Install python 8 64 bits !!!
+Install python 3.8.5 64 bits
 
 Guide :
 https://docs.enthought.com/mayavi/mayavi/installation.html
@@ -8,6 +8,8 @@ download and install vtk wheel
 
 download and install "Build Tools For Visual Studio" under "Tools for " Visual Studio" 
 from https://visualstudio.microsoft.com/fr/visual-cpp-build-tools/
+- Visual Studio Build Tools 2019
+
 - MSVC v142 - VS 2019 C++ x64/x86 Build Tools (v14.26)
 - SDK Windows 10 (10.0.17763.0)
 
