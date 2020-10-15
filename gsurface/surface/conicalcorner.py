@@ -1,4 +1,4 @@
-from .surface import Surface
+from .surface import Surface, SJH
 
 import numpy as np
 
@@ -21,13 +21,13 @@ class ConicalCorner(Surface):
         self.k = k
         self.a = a
 
-    def eval(self, u: float, v: float) -> np.ndarray:
+    def _definition(self, u: float, v: float) -> SJH:
         k, a = self.k, self.a
 
         cosv = np.cos(v)
         sinv = np.sin(v)
 
-        return self.process_transformations(
+        return self.buildMetric(
             x=u,
             y=k*u*cosv,
             z=k*a*sinv,

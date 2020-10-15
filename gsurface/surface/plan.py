@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .surface import Surface
+from .surface import Surface, SJH
 
 import numpy as np
 
@@ -20,15 +20,14 @@ class Plan(Surface):
         self.a = a
         self.b = b
 
-    def eval(self, u: float, v: float):
-        return self.process_transformations(
-            x=u,
-            y=v,
-            z=self.a*u + self.b*v,
+    def _definition(self, u: float, v: float) -> SJH:
+        # rather than using buildMetric, we can build S, J and H manually
+        S = np.array([u, v, self.a*u + self.b*v])
+        J = np.array([
+            [1, 0],
+            [0, 1],
+            [self.a, self.b]
+        ])
+        H = np.zeros((3, 2, 2))
 
-            dux=1,
-            duz=self.a,
-
-            dvy=1,
-            dvz=self.b
-        )
+        return S, J, H

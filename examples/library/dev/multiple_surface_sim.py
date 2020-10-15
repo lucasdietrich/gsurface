@@ -10,6 +10,8 @@ from ode import solver
 
 import numpy as np
 
+import time as timelib
+
 # object 1
 sphere = Sphere(1.0)
 mesh_sphere = sphere.buildsurface(*sphere.mesh(50, 50))
@@ -17,9 +19,6 @@ mesh_sphere = sphere.buildsurface(*sphere.mesh(50, 50))
 # object 2
 tore = Tore(r=0.5, R=1.0).translate(np.array([3.0, 0.0, 0.0]))
 mesh_tore = tore.buildsurface(*tore.mesh(50, 50))
-
-print(sphere)
-print(tore)
 
 # setup simulation for tore
 tore_sim = SurfaceGuidedMassSystem(
@@ -43,21 +42,44 @@ sphere_sim = SurfaceGuidedMassSystem(
     ]
 )
 
-print(tore_sim)
-print(sphere_sim)
+if __name__ == "__main__":
+    print(tore_sim)
+    print(sphere_sim)
 
-time = np.linspace(0.0, 10.0, 1000)
+    time = np.linspace(0.0, 10.0, 1000)
 
-tore_data = tore_sim.solve(time, solver=solver.rk4)
-tore_solutions = tore_sim.solutions(tore_data, time)
+    # concept:
 
-sphere_data = sphere_sim.solve(time, solver=solver.rk4)
-sphere_solutions = sphere_sim.solutions(sphere_data, time)
+    # joint_sim = SpringInteraction(sphere_sim, tore_sim).export_simulation()
 
-# plot
-mayavi_plot_surfaces([
-    SurfacePlot(mesh_sphere, trajectory=sphere_solutions[Tyi]),
-    SurfacePlot(mesh_tore, trajectory=tore_solutions[Tyi])
-])
-mlab.show()
+    # ~ equivalent definition to
+
+    # joint_sim = SurfaceGuidedInteractedMassSystems([
+    #   sphere_sim,
+    #   tore_sim,
+    #   other_sim,
+    # ], [
+    #   SpringInteraction(sphere_sim, tore_sim),
+    #   SpringInteraction(tore_sum, other_sim),
+    # ])
+
+    # data = joint_sim.solve(time, solver=solver.rk4)
+    # solutions = joint_sim.solutions(data, time)
+
+    t1 = timelib.time()
+    tore_data = tore_sim.solve(time, solver=solver.rk4)
+    tore_solutions = tore_sim.solutions(tore_data, time)
+
+    sphere_data = sphere_sim.solve(time, solver=solver.rk4)
+    sphere_solutions = sphere_sim.solutions(sphere_data, time)
+    t2 = timelib.time()
+
+    print(t2 - t1)
+
+    # plot
+    mayavi_plot_surfaces([
+        SurfacePlot(mesh_sphere, trajectory=sphere_solutions[Tyi]),
+        SurfacePlot(mesh_tore, trajectory=tore_solutions[Tyi])
+    ])
+    mlab.show()
 

@@ -1,6 +1,6 @@
 from ..indexes import *
 
-from .surface import Surface
+from .surface import Surface, SJH
 
 import numpy as np
 
@@ -31,7 +31,7 @@ def surface_eval_grad_slice(index: int) -> slice:
 
 def build_function_eval(surface: Surface, index: int):
     def _(uv: np.ndarray) -> float:
-        return surface.eval(uv[ui], uv[vi])[index]
+        return surface.eval_SJH2e(uv[ui], uv[vi])[index]
     return _
 
 
@@ -39,7 +39,7 @@ def build_function_gradient(surface: Surface, index: int):
     slicing = surface_eval_grad_slice(index)
 
     def _(uv: np.ndarray) -> np.ndarray:
-        return surface.eval(uv[ui], uv[vi])[slicing]
+        return surface.eval_SJH2e(uv[ui], uv[vi])[slicing]
     return _
 
 

@@ -42,11 +42,20 @@ mayavi_plot_surface_styles = [
 
 @dataclass
 class SurfacePlot:
+    # surface plot
     smesh: np.ndarray
-    trajectory: np.ndarray = None
     style: int = 0
 
+    # trajectory plot
+    trajectory: np.ndarray = None
+    animate: bool = False
 
+    # physic post computed solutions and chart display
+    physics: np.ndarray = None
+    display_physics: bool = False
+
+
+# todo animate
 def mayavi_plot_surfaces(surface_plots: Iterable[SurfacePlot]):
     mlab.figure(bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
     mlab.clf()
@@ -72,7 +81,7 @@ def mayavi_plot_surfaces(surface_plots: Iterable[SurfacePlot]):
 
 # retrocompatibility
 def mayavi_plot_surface(smesh: np.ndarray, trajectory: np.ndarray = None, surface_plot_style=0):
-    sp = SurfacePlot(smesh=smesh, trajectory=trajectory, style=surface_plot_style)
+    sp = SurfacePlot(smesh=smesh, trajectory=trajectory, style=surface_plot_style, animate=False)
     return mayavi_plot_surfaces([sp])
 
 

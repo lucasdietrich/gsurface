@@ -7,6 +7,8 @@ import numpy as np
 
 from ..indexes import *
 
+SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
+
 # eval return 18 elements long
 # 18 elements list
 # =====
@@ -67,10 +69,6 @@ class Surface(abc.ABC):
 
         return self
 
-    @staticmethod
-    def jacobian(e: np.ndarray):
-        return np.array(e[duxi: duxi + 6]).reshape((3, 2))
-
     # x : xyz = 0
     # y : xyz = 1
     # z : xyz = 2
@@ -82,49 +80,59 @@ class Surface(abc.ABC):
             [e[duvxi + shift], e[dvvxi + shift]]
         ])
 
-    @staticmethod
-    def dim_hessian(e: np.ndarray):
-        return np.array([
-            Surface.hessian(e, X=X) for X in xyz
-        ])
-
-    def process_transformations(
+    def buildMetric(
             self,
-            x=0, y=0, z=0,
-            dux=0, dvx=0, duy=0,
-            dvy=0, duz=0, dvz=0,
-            duux=0, duvx=0, dvvx=0,
-            duuy=0, duvy=0, dvvy=0,
-            duuz=0, duvz=0, dvvz=0
-    ):
-        e = np.array([
-            x, y, z,
-            dux, dvx, duy, dvy, duz, dvz,
-            duux, duvx, dvvx, duuy, duvy, dvvy, duuz, duvz, dvvz
+            x=0.0, y=0.0, z=0.0,
+            dux=0.0, dvx=0.0, duy=0.0,
+            dvy=0.0, duz=0.0, dvz=0.0,
+            duux=0.0, duvx=0.0, dvvx=0.0,
+            duuy=0.0, duvy=0.0, dvvy=0.0,
+            duuz=0.0, duvz=0.0, dvvz=0.0
+    ) -> SJH:
+
+        S = np.array([x, y, z])
+
+        # jacobian
+        J = np.array([
+            [dux, dvx],
+            [duy, dvy],
+            [duz, dvz]
         ])
 
+        # dim hessian
+        H = np.array([
+            [
+                [duux, duvx],
+                [duvx, dvvx],
+            ],
+            [
+                [duuy, duvy],
+                [duvy, dvvy],
+            ],
+            [
+                [duuz, duvz],
+                [duvz, dvvz],
+            ],
+        ])
+
+        return S, J, H
+
+    def process_transformations(self, S: np.ndarray, J: np.ndarray, H: np.ndarray):
         # apply translation
-        e[Xi] += self.shiftvector
+        S += + self.shiftvector
 
         # apply rotation
         # todo notimplemented
 
-        return e
+        return S, J, H
 
     # return all Du Dv Duu Dvv Duv of x y z
     @abc.abstractmethod
-    def eval(self, u: float, v: float) -> np.ndarray:
-        raise NotImplementedError()
+    def _definition(self, u: float, v: float) -> dict:
+        raise NotImplementedError
 
-    def SJH(self, u: float, v: float) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        e = self.eval(u, v)
-
-        return (
-            e,
-            e[Xi],
-            self.jacobian(e),
-            self.dim_hessian(e)
-        )
+    def eval(self, u: float, v: float) -> SJH:
+        return self.process_transformations(*self._definition(u, v))
 
     # todo, optimisation, calculer traj et speed en même temps
     # todo faire le calcul direct dans le sim principale
@@ -142,17 +150,26 @@ class Surface(abc.ABC):
 
         for i, u in enumerate(U):
             for j, v in enumerate(V):
-                mesh[:, i, j] = self.eval(u, v)[Xi]
+                mesh[:, i, j] = self.eval(u, v)[Si]
 
         return mesh
 
-    # todo translation only affect S
-    # def translate(self, x: np.ndarray) -> Surface:
-    #     raise NotImplementedError()
+    # retrocompatibility methods
+    @staticmethod
+    def SJH2e(S: np.ndarray, J: np.ndarray, H: np.ndarray):
+        e = np.zeros((21,))
 
-    # todo rotation only affect S
-    # def rotate(self, x: np.ndarray, angle: float) -> Surface:
-    #     raise NotImplementedError()
+        e[:3] = S
+        e[3:9] = J.reshape(-1)
+        for X in xyz:
+            e[9 + 3 * X: 12 + 3 * X] = np.array([
+                H[X, 0, 0], H[X, 0, 1], H[X, 1, 1]
+            ])
+        return e
+
+    # retrocompatibility for diff
+    def eval_SJH2e(self, u: float, v: float) -> np.ndarray:
+        return Surface.SJH2e(*self.eval(u, v))
 
     # check integrity
     def check(self, nu: int = 20, nv: int = 20, tolerance=1e-7):
