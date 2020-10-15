@@ -6,7 +6,7 @@ import numpy as np
 
 from .indexes import *
 
-from typing import Union, Iterable
+from typing import Union, Iterable, Tuple
 
 from .forces import Force, Gravity, ForceSum
 
@@ -46,7 +46,10 @@ class SurfaceGuidedMassSystem(ODESystem):
         dw = np.array([du, dv])
 
         # eval
-        e, S, J, H = self.surface.SJH(u, v)
+        # todo simplify/optimize eval
+        S, J, H = self.surface.eval(u, v)
+
+        # feed all interacted forces
 
         # eval force:
         F = self.forces.eval(w, dw, t, S, J)
@@ -87,7 +90,7 @@ class SurfaceGuidedMassSystem(ODESystem):
             w = s[0::2]
             dw = s[1::2]
 
-            e, S, J, H = self.surface.SJH(*w)
+            S, J, H = self.surface.eval(*w)
 
             F = self.forces.eval(w, dw, t, S, J)
 

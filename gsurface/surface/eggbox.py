@@ -1,4 +1,4 @@
-from .surface import Surface
+from .surface import Surface, SJH
 
 import numpy as np
 
@@ -11,7 +11,7 @@ class EggBox(Surface):
         self.a = a
         self.b = b
 
-    def eval(self, u: float, v: float) -> np.ndarray:
+    def _definition(self, u: float, v: float) -> SJH:
         R, a, b = self.R, self.a, self.b
 
         cosau = np.cos(a*u)
@@ -19,7 +19,7 @@ class EggBox(Surface):
         cosbv = np.cos(b*v)
         sinbv = np.sin(b*v)
 
-        return Surface.process_transformations(
+        return self.buildMetric(
             x=u,
             y=v,
             z=R*cosau*cosbv,

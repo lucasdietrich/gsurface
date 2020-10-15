@@ -1,4 +1,4 @@
-from .surface import Surface
+from .surface import Surface, SJH
 
 import numpy as np
 
@@ -15,7 +15,7 @@ class Tore(Surface):
         self.r = r
         self.R = R
 
-    def eval(self, u, v):
+    def _definition(self, u, v) -> SJH:
         sinv = np.sin(v)
         cosv = np.cos(v)
 
@@ -32,7 +32,7 @@ class Tore(Surface):
         dvy = self.r*sinu*cosv
         dvz = self.r*sinv
 
-        return self.process_transformations(
+        return self.buildMetric(
             x=x,
             y=y,
             z=z,

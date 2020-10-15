@@ -1,4 +1,4 @@
-from .surface import Surface
+from .surface import Surface, SJH
 
 import numpy as np
 
@@ -14,7 +14,7 @@ class Sphere(Surface):
     def __init__(self, R=1.0):
         self.R = R
 
-    def eval(self, u, v):
+    def _definition(self, u: float, v: float) -> SJH:
         sinv = np.sin(v)
         cosv = np.cos(v)
 
@@ -30,7 +30,7 @@ class Sphere(Surface):
         dvx = R * cosu * cosv
         dvy = R * sinu * cosv
 
-        return self.process_transformations(
+        return self.buildMetric(
             x=x,
             y=y,
             z=z,

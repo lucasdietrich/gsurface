@@ -1,4 +1,4 @@
-from .surface import Surface, np
+from .surface import Surface, np, SJH
 
 
 class Catenoid(Surface):
@@ -18,7 +18,7 @@ class Catenoid(Surface):
         """
         self.a = a
 
-    def eval(self, u: float, v: float) -> np.ndarray:
+    def _definition(self, u: float, v: float) -> SJH:
 
         chu = np.cosh(u)
         shu = np.sinh(u)
@@ -27,7 +27,7 @@ class Catenoid(Surface):
 
         a = self.a
 
-        return self.process_transformations(
+        return self.buildMetric(
             x=a*chu*cosv,
             y=a*chu*sinv,
             z=a*u,
