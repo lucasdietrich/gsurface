@@ -1,6 +1,6 @@
 from ..indexes import *
 
-from .surface import Surface, SJH
+from .surface import Surface
 
 import numpy as np
 
@@ -10,6 +10,7 @@ from scipy.optimize import check_grad
 # check the integrity of a surface class
 
 # https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.check_grad.html
+
 
 # retrocompatibility
 def SJH_to_inline(S: np.ndarray, J: np.ndarray, H: np.ndarray):

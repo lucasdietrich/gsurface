@@ -11,7 +11,7 @@ class ConicalCorner(Surface):
         [0, 2*np.pi]   # v lims
     ])
 
-    def __init__(self, k:float = 1.0, a:float = 1.0):
+    def __init__(self, k: float = 1.0, a: float = 1.0):
         """
         Coin Conique
             https://mathcurve.com/surfaces/coinconic/coinconic.shtml
@@ -43,5 +43,3 @@ class ConicalCorner(Surface):
             dvvy=-k*u*cosv,
             dvvz=-a*k*sinv
         )
-
-

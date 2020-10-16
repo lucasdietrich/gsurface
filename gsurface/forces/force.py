@@ -4,9 +4,9 @@ import abc
 
 import numpy as np
 
-from typing import Iterable, Callable, Union
+from typing import Iterable, Callable, Union, List
 
-# force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), hessiens(3xH)) -> force(3)
+# force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), Hessian (3xH)) -> force(3)
 ForceEvalType = Callable[
     [np.ndarray, np.ndarray, float, np.ndarray, np.ndarray],
     np.ndarray
@@ -59,7 +59,7 @@ class ForceSum(Force):
         if forces is None:
             forces = []
 
-        self.forces = []
+        self.forces: List[Force] = []
 
         self.append(forces)
 

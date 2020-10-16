@@ -1,14 +1,11 @@
-from ode.system import ODESystem
-
-from .surface.surface import Surface
+from typing import Union, Iterable
 
 import numpy as np
-
-from .indexes import *
-
-from typing import Union, Iterable, Tuple
+from ode.system import ODESystem
 
 from .forces import Force, Gravity, ForceSum
+from .indexes import *
+from .surface.surface import Surface
 
 
 def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):

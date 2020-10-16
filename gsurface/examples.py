@@ -1,6 +1,6 @@
 from gsurface.surface import Sphere, Tore
 from gsurface.model import SurfaceGuidedMassSystem, build_s0
-from gsurface.forces import Force, Gravity, ViscousFriction
+from gsurface.forces import Gravity, ViscousFriction
 
 import numpy as np
 

@@ -1,7 +1,7 @@
 from . import __surfaces__
 
 
-def check_library_surfaces(nu=20, nv=20, tolerance =1e-7):
+def check_library_surfaces(nu: int = 20, nv: int = 20, tolerance: float = 1e-7):
     print("Check library surfaces")
     for SurfaceClass in __surfaces__:
         surface = SurfaceClass()
