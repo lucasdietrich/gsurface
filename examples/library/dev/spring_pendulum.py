@@ -1,13 +1,10 @@
-from gsurface import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, AirFriction, ViscousFriction
-
-from gsurface.surface.plan import Plan
-from gsurface.indexes import Pi, Vi, Fi, Eki, nFi, nVi
-
 import matplotlib.pyplot as plt
+import numpy as np
 from mayavi import mlab
 
-
-import numpy as np
+from gsurface import SurfaceGuidedMassSystem, LengthedSpringForce, Gravity, ViscousFriction
+from gsurface.indexes import Pi, Vi, nVi
+from gsurface.surface.plan import Plan
 
 # config
 
@@ -38,7 +35,7 @@ time = np.linspace(0, 40, 10000)
 
 states = system.solve(time)
 
-mesh = plan.buildsurface(*plan.mesh(100, 100))
+mesh = plan.build_surface(*plan.mesh(100, 100))
 
 physics = system.solutions(states, time)
 

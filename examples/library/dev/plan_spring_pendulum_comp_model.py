@@ -41,7 +41,7 @@ trajectory = physics[:, Pi]
 speed = physics[:, Vi]
 abs_speed = physics[:, nVi]
 
-mesh = plan.buildsurface(*plan.mesh(100, 100))
+mesh = plan.build_surface(*plan.mesh(100, 100))
 
 
 # plot surface & trajectory

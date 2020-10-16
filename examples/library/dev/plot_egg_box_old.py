@@ -39,7 +39,7 @@ speed = physics[:, Vi]
 # Plot
 ######################################
 U, V = surface.mesh(200, 200)
-surface_mesh = surface.buildsurface(U, V)
+surface_mesh = surface.build_surface(U, V)
 
 # matplotlib_plot_surface(surface_mesh, trajectory)
 mayavi_plot_surface(surface_mesh, trajectory)

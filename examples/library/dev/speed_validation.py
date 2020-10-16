@@ -34,7 +34,7 @@ time = np.linspace(0, 20, 5000)
 states = system.solve(time)
 
 # build (todo opti)
-mesh = sphere.buildsurface(*sphere.mesh(50, 50))
+mesh = sphere.build_surface(*sphere.mesh(50, 50))
 
 physics = system.solutions(states, time)
 

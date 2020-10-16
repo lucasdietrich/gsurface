@@ -1,24 +1,23 @@
 # two models of sphere of different size with one mass on each, force between this two masses
 
-from gsurface.surface import Sphere, Tore
-from gsurface.plotter.mayavi import mlab, mayavi_plot_surfaces, SurfacePlot
-from gsurface.model import SurfaceGuidedMassSystem, build_s0
-from gsurface.forces import Force, Gravity, ViscousFriction
-from gsurface.indexes import Pi, Tyi
-
-from ode import solver
+import time as timelib
 
 import numpy as np
+from ode import solver
 
-import time as timelib
+from gsurface.forces import Gravity, ViscousFriction
+from gsurface.indexes import Tyi
+from gsurface.model import SurfaceGuidedMassSystem, build_s0
+from gsurface.plotter.mayavi import mlab, mayavi_plot_surfaces, SurfacePlot
+from gsurface.surface import Sphere, Tore
 
 # object 1
 sphere = Sphere(1.0)
-mesh_sphere = sphere.buildsurface(*sphere.mesh(50, 50))
+mesh_sphere = sphere.build_surface(*sphere.mesh(50, 50))
 
 # object 2
 tore = Tore(r=0.5, R=1.0).translate(np.array([3.0, 0.0, 0.0]))
-mesh_tore = tore.buildsurface(*tore.mesh(50, 50))
+mesh_tore = tore.build_surface(*tore.mesh(50, 50))
 
 # setup simulation for tore
 tore_sim = SurfaceGuidedMassSystem(
@@ -52,7 +51,7 @@ if __name__ == "__main__":
 
     # joint_sim = SpringInteraction(sphere_sim, tore_sim).export_simulation()
 
-    # ~ equivalent definition to
+    # # equivalent definition to
 
     # joint_sim = SurfaceGuidedInteractedMassSystems([
     #   sphere_sim,

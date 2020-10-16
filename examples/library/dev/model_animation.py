@@ -59,7 +59,7 @@ states = system.solve(time)
 
 mesh = system.surface.mesh(100, 100)
 
-smesh = system.surface.buildsurface(*mesh)
+smesh = system.surface.build_surface(*mesh)
 
 physics = system.solutions(states, time)
 

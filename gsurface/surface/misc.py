@@ -12,3 +12,4 @@ def check_library_surfaces(nu=20, nv=20, tolerance =1e-7):
 
         if not valid:
             surface.check_verbose(nu, nv, tolerance)
+    print("Done")

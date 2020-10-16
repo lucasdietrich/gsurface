@@ -31,7 +31,10 @@ SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 class Surface(abc.ABC):
 
     # line 1 : u lims /  line 2 : v lims
-    plimits = np.ones((2, 2))
+    plimits = np.array([
+        [-1, 1],
+        [-1, 1]
+    ])
 
     shiftvector = np.zeros((3,))
 
@@ -73,15 +76,15 @@ class Surface(abc.ABC):
     # y : xyz = 1
     # z : xyz = 2
     @staticmethod
-    def hessian(e: np.ndarray, X=0):
+    def _hessian(e: np.ndarray, X=0):
         shift = X * 3
         return np.array([
             [e[duuxi + shift], e[duvxi + shift]],
             [e[duvxi + shift], e[dvvxi + shift]]
         ])
 
+    @staticmethod
     def buildMetric(
-            self,
             x=0.0, y=0.0, z=0.0,
             dux=0.0, dvx=0.0, duy=0.0,
             dvy=0.0, duz=0.0, dvz=0.0,
@@ -117,7 +120,7 @@ class Surface(abc.ABC):
 
         return S, J, H
 
-    def process_transformations(self, S: np.ndarray, J: np.ndarray, H: np.ndarray):
+    def _process_transformations(self, S: np.ndarray, J: np.ndarray, H: np.ndarray):
         # apply translation
         S += + self.shiftvector
 
@@ -132,7 +135,7 @@ class Surface(abc.ABC):
         raise NotImplementedError
 
     def eval(self, u: float, v: float) -> SJH:
-        return self.process_transformations(*self._definition(u, v))
+        return self._process_transformations(*self._definition(u, v))
 
     # todo, optimisation, calculer traj et speed en même temps
     # todo faire le calcul direct dans le sim principale
@@ -145,7 +148,7 @@ class Surface(abc.ABC):
         )
 
     # U, V must be 1d arrays
-    def buildsurface(self, U: np.ndarray, V: np.ndarray):
+    def build_surface(self, U: np.ndarray, V: np.ndarray):
         mesh = np.zeros((3, U.shape[0], V.shape[0]))
 
         for i, u in enumerate(U):
@@ -153,23 +156,6 @@ class Surface(abc.ABC):
                 mesh[:, i, j] = self.eval(u, v)[Si]
 
         return mesh
-
-    # retrocompatibility methods
-    @staticmethod
-    def SJH2e(S: np.ndarray, J: np.ndarray, H: np.ndarray):
-        e = np.zeros((21,))
-
-        e[:3] = S
-        e[3:9] = J.reshape(-1)
-        for X in xyz:
-            e[9 + 3 * X: 12 + 3 * X] = np.array([
-                H[X, 0, 0], H[X, 0, 1], H[X, 1, 1]
-            ])
-        return e
-
-    # retrocompatibility for diff
-    def eval_SJH2e(self, u: float, v: float) -> np.ndarray:
-        return Surface.SJH2e(*self.eval(u, v))
 
     # check integrity
     def check(self, nu: int = 20, nv: int = 20, tolerance=1e-7):
