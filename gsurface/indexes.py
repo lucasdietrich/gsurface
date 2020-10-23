@@ -15,7 +15,7 @@ Ji = 1
 Hi = 2
 
 # solutions return
-Tyi = slice(0, -1), slice(0, 3)  # trajectory : differents positions in time
+Tyi = slice(0, None), slice(0, 3)  # trajectory : differents positions in time
 Pi = slice(0, 3)  # position
 Vi = slice(3, 6)  # speed
 Fi = slice(6, 9)  # force

@@ -4,7 +4,7 @@ import numpy as np
 
 from ..indexes import *
 
-from typing import Iterable, List
+from typing import Iterable, List, Tuple, Union
 
 from dataclasses import dataclass
 
@@ -44,6 +44,9 @@ mayavi_plot_surface_styles = [
     ]
 ]
 
+ColorType = Tuple[float, float, float]
+
+
 @dataclass
 class SurfacePlot:
 
@@ -51,13 +54,15 @@ class SurfacePlot:
     smesh: np.ndarray = None
     showSurface: bool = True
 
-    style: int = 0
+    surfaceStyle: int = 0
 
     # trajectory plot
     trajectory: np.ndarray = None
+    trajectoryColor: ColorType = (1, 0, 0)
     showTrajectory: bool = True
 
     # solid for animation
+    solidColor: ColorType = (0, 0, 1)
     showSolid: bool = True
     animate: bool = True
 
@@ -78,7 +83,7 @@ def mayavi_plot_surfaces(surface_plots: List[SurfacePlot], animationDelay: int =
     mlab.clf()
 
     # list of animated points with trajectory
-    animated_points = []
+    animated_solids = []
 
     time_iterations = None
 
@@ -87,7 +92,7 @@ def mayavi_plot_surfaces(surface_plots: List[SurfacePlot], animationDelay: int =
         if splot.smesh is not None and splot.showSurface:
             # load style
             try:
-                style_set = mayavi_plot_surface_styles[splot.style]
+                style_set = mayavi_plot_surface_styles[splot.surfaceStyle]
             except IndexError:
                 raise Exception("plot_style undefined")
 
@@ -96,31 +101,33 @@ def mayavi_plot_surfaces(surface_plots: List[SurfacePlot], animationDelay: int =
                 mlab.mesh(*splot.smesh, **style)
 
         # add trajectory
-        if splot.trajectory is not None and splot.showTrajectory:
-            mlab.plot3d(splot.trajectory[:, 0], splot.trajectory[:, 1], splot.trajectory[:, 2], color=(1, 0, 0),
-                        tube_radius=0.01)
+        if splot.trajectory is not None:
+            # todo fix error when animation does not work when showTrajectory is False
+            if splot.showTrajectory:
+                mlab.plot3d(splot.trajectory[:, 0], splot.trajectory[:, 1], splot.trajectory[:, 2],
+                            color=splot.trajectoryColor, tube_radius=0.01)
 
             if splot.showSolid:
-                point = mlab.points3d(*splot.trajectory[0], color=(0, 0, 1), scale_factor=0.1)
+                solid = mlab.points3d(*splot.trajectory[0], color=splot.solidColor, scale_factor=0.1)
 
                 if splot.animate:
                     # get time iterations
                     time_iterations = splot.trajectory.shape[0]
 
                     # animate trajectory
-                    animated_points.append((point, splot.trajectory))
+                    animated_solids.append((solid, splot.trajectory))
 
     mlab.orientation_axes()
 
     # add animation
-    if animated_points:
+    if animated_solids:
         @mlab.animate(delay=animationDelay)
         def anim():
             while True:
                 for i in range(time_iterations):
-                    for point, traj in animated_points:
+                    for solid, traj in animated_solids:
                         x, y, z = traj[i]
-                        point.mlab_source.set(x=x, y=y, z=z)
+                        solid.mlab_source.set(x=x, y=y, z=z)
                     yield
 
         if show:
@@ -131,7 +138,7 @@ def mayavi_plot_surfaces(surface_plots: List[SurfacePlot], animationDelay: int =
 
 # retrocompatibility
 def mayavi_plot_surface(smesh: np.ndarray, trajectory: np.ndarray = None, surface_plot_style=0):
-    sp = SurfacePlot(smesh=smesh, trajectory=trajectory, style=surface_plot_style, animate=False)
+    sp = SurfacePlot(smesh=smesh, trajectory=trajectory, surfaceStyle=surface_plot_style, animate=False)
     return mayavi_plot_surfaces([sp])
 
 

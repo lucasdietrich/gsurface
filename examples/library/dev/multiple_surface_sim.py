@@ -17,60 +17,50 @@ from gsurface.forces.interaction import SpringInteraction, OneSideSpringInteract
 from gsurface.surface import Sphere, Tore, Plan
 
 # objects
-sphere = Sphere(1.0).translate(np.array([0.0, 0.0, 0.5]))
+sphere = Sphere(0.8).translate(np.array([0.0, 0.0, 0.0]))
 mesh_sphere = sphere.build_surface(*sphere.mesh(50, 50))
 
 tore = Tore(r=0.5, R=2.0).translate(np.array([0.0, 0.0, 0.0]))
 mesh_tore = tore.build_surface(*tore.mesh(50, 50))
 
-plan_shift = np.array([0.0, 0.0, -0.6])
-plan = Plan.from_xz_rotation(0.0).translate(plan_shift).setlims(v_ll=-3, v_ul=3, u_ll=-3, u_ul=3)
+plan_shift = np.array([0.0, 0.0, -1.0])
+plan = Plan.from_xz_rotation(np.pi/2*0.1).translate(plan_shift).setlims(v_ll=-3, v_ul=3, u_ll=-3, u_ul=3)
 mesh_plan = plan.build_surface(*plan.mesh(50, 50))
 
 gravity_vector = np.array([0.0, 0.0, -10.0])
 
-# setup simulation for tore
 tore_sim = SurfaceGuidedMassSystem(
     surface=tore,
-    s0=build_s0(v0=np.pi/2, du0=1.0),
-    m=1.0,
-    forces=[
-        # Gravity(1.0, np.array([0.0, 0.0, -9.0])),
-        # ViscousFriction(0.5)
-    ]
+    s0=build_s0(v0=np.pi/2, du0=3.0),
+    m=1.0
 )
 
-# setup simulation for sphere
 sphere_sim = SurfaceGuidedMassSystem(
     surface=sphere,
-    s0=build_s0(v0=np.pi/2),
+    s0=build_s0(v0=np.pi/2, dv0=2),
     m=1.0,
     forces=[
         Gravity(1.0, gravity_vector),
-        ViscousFriction(2.0)
+        ViscousFriction(1.0)
     ]
 )
 
 plan_sim = SurfaceGuidedMassSystem(
     surface=plan,
-    s0=build_s0(u0=2.0, v0=0.0),
-    m=0.5,
+    s0=build_s0(u0=4.0, v0=2),
+    m=1.0,
     forces=[
         # Gravity(1.0, gravity_vector),
-        # LengthedSpringForce(100.0, plan_shift, 0.7),
-        ViscousFriction(200.0),
+        # LengthedSpringForce(100.0, plan_shift, 2),
+        ViscousFriction(5),
     ]
 )
 
-print(tore_sim)
-print(sphere_sim)
-print(plan_sim)
+time = np.linspace(0.0, 10.0, 1000)
 
-time = np.linspace(0.0, 10.0, 2000)
-
-joint_sim = SurfaceGuidedInteractedMassSystems([tore_sim, sphere_sim, plan_sim], [
-    OneSideSpringInteraction([tore_sim, sphere_sim], 0.25),
-    OneSideSpringInteraction([tore_sim, plan_sim], 10),
+joint_sim = SurfaceGuidedInteractedMassSystems([sphere_sim, tore_sim, plan_sim], [
+    OneSideSpringInteraction([tore_sim, sphere_sim], 1),
+    OneSideSpringInteraction([tore_sim, plan_sim], 50)
 ])
 
 # concept
@@ -83,15 +73,25 @@ t2 = timelib.time()
 
 print(t2 - t1)
 
-tore_solutions, sphere_solutions, plan_solutions = joint_sim.solutions(data, time)
+sphere_solutions, tore_solutions, plan_solutions = joint_sim.solutions(data, time)
 
+debug = False
 
-# plot
-animation = mayavi_plot_surfaces([
-    SurfacePlot(mesh_sphere, trajectory=sphere_solutions[Tyi]),
-    SurfacePlot(mesh_tore, trajectory=tore_solutions[Tyi], showSurface=True),
-    SurfacePlot(mesh_plan, trajectory=plan_solutions[Tyi])
-])
+if not debug:
+    # plot
+    animation = mayavi_plot_surfaces([
+        SurfacePlot(mesh_sphere, trajectory=sphere_solutions[Tyi]),
+        SurfacePlot(mesh_tore, trajectory=tore_solutions[Tyi], showSurface=True, showTrajectory=True),
+        SurfacePlot(mesh_plan, trajectory=plan_solutions[Tyi])
+    ])
+    mlab.view(100, 72, 16, np.array([0.0,  0.0, 0.0]))
+else:
+    import matplotlib.pyplot as plt
+    from gsurface.plotter import matplotlib_plot_solutions
 
-mlab.view(100, 72, 16, np.array([0.0,  0.0, 0.0]))
+    matplotlib_plot_solutions(time, data[:, 4:8], tore_solutions)
 
+    plt.figure(1)
+    plt.plot(time, np.linalg.norm(sphere_solutions[Tyi] - tore_solutions[Tyi], axis=1))
+    plt.grid(True)
+    plt.show()
