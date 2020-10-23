@@ -1,8 +1,8 @@
-from gsurface.surface import Sphere, Tore
-from gsurface.model import SurfaceGuidedMassSystem, build_s0
-from gsurface.forces import Gravity, ViscousFriction
-
 import numpy as np
+
+from gsurface.forces import Gravity, ViscousFriction
+from gsurface.model import SurfaceGuidedMassSystem, build_s0
+from gsurface.surface import Sphere, Tore
 
 # setup simulation for tore
 tore = Tore(r=0.5, R=1.0).translate(np.array([3.0, 0.0, 0.0]))

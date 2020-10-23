@@ -4,6 +4,8 @@ import abc
 
 import numpy as np
 
+from gsurface.types import ModelEvalState
+
 from typing import Iterable, Callable, Union, List
 
 # force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), Hessian (3xH)) -> force(3)
@@ -14,6 +16,9 @@ ForceEvalType = Callable[
 
 
 class Force(abc.ABC):
+    def evalM(self, t: float, M: ModelEvalState):
+        return self.eval(M.w, M.dw, t, M.S, M.J)
+
     @abc.abstractmethod
     def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
         raise NotImplementedError()

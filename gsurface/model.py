@@ -7,6 +7,8 @@ from .forces import Force, Gravity, ForceSum
 from .indexes import *
 from .surface.surface import Surface
 
+from gsurface.types import ModelEvalState
+
 
 def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):
     return np.array([u0, du0, v0, dv0])
@@ -36,20 +38,47 @@ class SurfaceGuidedMassSystem(ODESystem):
                f"and forces : {self.forces}"
 
     def _derivs(self, s: np.ndarray, t: float) -> np.ndarray:
-        u, du, v, dv = s
+        """
+        Deriv function
 
-        w = np.array([u, v])
+        :param s:
+        :param t:
+        :return:
+        """
+        M = ModelEvalState()
 
-        dw = np.array([du, dv])
+        # vars
+        w = M.w = s[::2]
+        M.dw = s[1::2]
 
-        # eval
         # todo simplify/optimize eval
-        S, J, H = self.surface.eval(u, v)
+        M.S, M.J, M.H = self.surface.eval(*w)
 
         # feed all interacted forces
 
         # eval force:
-        F = self.forces.eval(w, dw, t, S, J)
+        F = self.forces.evalM(t, M)
+
+        # eval and return
+        return self.dsM(F, M)
+
+    def dsM(self, F: np.ndarray, M: ModelEvalState):
+        return self.ds(M.dw, F, M.J, M.H)
+
+    def ds(self, dw: np.ndarray, F: np.ndarray, J: np.ndarray, H: np.ndarray) -> np.ndarray:
+        """
+        Eval ds for position and speed (w, dw) from calculated forces (F) and surface (S, J, H)
+
+        :param w:
+        :param dw:
+        :param F:
+        :param S:
+        :param J:
+        :param H:
+        :return:
+        """
+        # vars
+        du, dv = dw
 
         # build intermediate symbols
         Duu, Dvv = np.sum(J**2, axis=0)
@@ -112,6 +141,9 @@ class SurfaceGuidedMassSystem(ODESystem):
             ])
 
         return physics
+
+    def export(self):
+        raise NotImplementedError
 
 
 class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):

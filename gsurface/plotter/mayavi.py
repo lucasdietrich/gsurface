@@ -4,7 +4,7 @@ import numpy as np
 
 from ..indexes import *
 
-from typing import Iterable
+from typing import Iterable, List
 
 from dataclasses import dataclass
 
@@ -37,46 +37,96 @@ mayavi_plot_surface_styles = [
             "color": (0, 0, 0),
             "representation": 'wireframe',
         }
+    ],
+    # style 2 : don't show
+    [
+
     ]
 ]
 
 @dataclass
 class SurfacePlot:
+
     # surface plot
-    smesh: np.ndarray
+    smesh: np.ndarray = None
+    showSurface: bool = True
+
     style: int = 0
 
     # trajectory plot
     trajectory: np.ndarray = None
-    animate: bool = False
+    showTrajectory: bool = True
 
-    # physic post computed solutions and chart display
+    # solid for animation
+    showSolid: bool = True
+    animate: bool = True
+
+    # todo physic post computed solutions and chart display
     physics: np.ndarray = None
     display_physics: bool = False
 
 
-# todo animate
-def mayavi_plot_surfaces(surface_plots: Iterable[SurfacePlot]):
+def mayavi_plot_surfaces(surface_plots: List[SurfacePlot], animationDelay: int = 10, show=True):
+    """
+    Plot a set of surfaces (surface with style, trajectory, animation)
+    :param animationDelay:
+    :param show:
+    :param surface_plots:
+    :return:
+    """
     mlab.figure(bgcolor=(1, 1, 1), fgcolor=(0, 0, 0), size=(800, 800))
     mlab.clf()
 
-    for splot in surface_plots:
-        # load style
-        try:
-            style_set = mayavi_plot_surface_styles[splot.style]
-        except IndexError:
-            raise Exception("plot_style undefined")
+    # list of animated points with trajectory
+    animated_points = []
 
-        # plot surface with styles
-        for style in style_set:
-            mlab.mesh(*splot.smesh, **style)
+    time_iterations = None
+
+    for splot in surface_plots:
+        # if surface is
+        if splot.smesh is not None and splot.showSurface:
+            # load style
+            try:
+                style_set = mayavi_plot_surface_styles[splot.style]
+            except IndexError:
+                raise Exception("plot_style undefined")
+
+            # plot surface with styles
+            for style in style_set:
+                mlab.mesh(*splot.smesh, **style)
 
         # add trajectory
-        if splot.trajectory is not None:
-            mlab.plot3d(splot.trajectory[:, 0], splot.trajectory[:, 1], splot.trajectory[:, 2], color=(1, 0, 0), tube_radius=0.01)
-            mlab.points3d(*splot.trajectory[0], color=(0, 0, 1), scale_factor=0.05)
+        if splot.trajectory is not None and splot.showTrajectory:
+            mlab.plot3d(splot.trajectory[:, 0], splot.trajectory[:, 1], splot.trajectory[:, 2], color=(1, 0, 0),
+                        tube_radius=0.01)
+
+            if splot.showSolid:
+                point = mlab.points3d(*splot.trajectory[0], color=(0, 0, 1), scale_factor=0.1)
+
+                if splot.animate:
+                    # get time iterations
+                    time_iterations = splot.trajectory.shape[0]
+
+                    # animate trajectory
+                    animated_points.append((point, splot.trajectory))
 
     mlab.orientation_axes()
+
+    # add animation
+    if animated_points:
+        @mlab.animate(delay=animationDelay)
+        def anim():
+            while True:
+                for i in range(time_iterations):
+                    for point, traj in animated_points:
+                        x, y, z = traj[i]
+                        point.mlab_source.set(x=x, y=y, z=z)
+                    yield
+
+        if show:
+            anim()
+    elif show:
+        mlab.show()
 
 
 # retrocompatibility

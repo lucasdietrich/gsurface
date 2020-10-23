@@ -1,2 +1,11 @@
 Enum in Python
     https://stackoverflow.com/questions/36932/how-can-i-represent-an-enum-in-python
+
+Plusieurs solides sur la même surface (& ressort) -> ne pas afficher toutes les surfaces (seulement 1)
+Detecter les superposition et ajouter une option de plot (Show = True/False)
+
+Ajouter l'option de rotation pour ne pas être géné par les points critiques
+
+Enresgitrer les simulations et résultats
+
+Faire des tests unitaires sur les modèles
