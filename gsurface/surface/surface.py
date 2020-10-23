@@ -32,8 +32,8 @@ class Surface(abc.ABC):
 
     # line 1 : u lims /  line 2 : v lims
     plimits = np.array([
-        [-1, 1],
-        [-1, 1]
+        [-1.0, 1.0],
+        [-1.0, 1.0]
     ])
 
     shiftvector = np.zeros((3,))

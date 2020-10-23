@@ -54,7 +54,7 @@ class SurfaceGuidedInteractedMassSystems(ODESystem):
             # todo simplify/optimize eval
             M.S, M.J, M.H = model.surface.eval(*M.w)
 
-        # resert iforces
+        # reset iforces
         for model in self.models:
             self.iforces[model] = np.zeros((3,))
 
