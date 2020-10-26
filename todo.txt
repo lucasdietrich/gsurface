@@ -24,3 +24,6 @@ Add surface : Dupin Cyclide : https://en.wikipedia.org/wiki/Dupin_cyclide
 
 Define u0, du0, v0 and dv0 from real speed Vx, Vy, Vz or V(dir u), V(dir v)
     V = J @ dw.T => dw = f?(V, J) <-- find this funtion "f"
+
+Surface Hyperboloid :
+    https://fr.wikipedia.org/wiki/Hyperbolo%C3%AFde
