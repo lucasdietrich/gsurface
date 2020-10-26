@@ -27,3 +27,7 @@ Define u0, du0, v0 and dv0 from real speed Vx, Vy, Vz or V(dir u), V(dir v)
 
 Surface Hyperboloid :
     https://fr.wikipedia.org/wiki/Hyperbolo%C3%AFde
+
+Ajouter d'autres surfaces quadratiques :
+    https://fr.wikipedia.org/wiki/Quadrique
+    https://en.wikipedia.org/wiki/Quadric   
