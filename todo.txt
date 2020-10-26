@@ -30,4 +30,6 @@ Surface Hyperboloid :
 
 Ajouter d'autres surfaces quadratiques :
     https://fr.wikipedia.org/wiki/Quadrique
-    https://en.wikipedia.org/wiki/Quadric   
+    https://en.wikipedia.org/wiki/Quadric
+
+To this with gravity 1/r^2 : https://mathcurve.com/surfaces/attraction/attraction.shtml

@@ -32,8 +32,12 @@ class Force(abc.ABC):
     def __add__(self, other: Union[Force, ForceSum, Iterable[Force]]) -> ForceSum:
         return ForceSum(other).append(self)
 
+    __repr_str__ = ""
+
     def __repr__(self):
-        return "{0}".format(self.__class__.__name__)
+        return (
+            "{0} : " + self.__repr_str__
+        ).format(self.__class__.__name__, **self.__dict__)
 
 
 # https://fr.wikipedia.org/wiki/Force_conservative

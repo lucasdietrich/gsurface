@@ -22,9 +22,7 @@ class SpringForce(ConservativeForce):
     def potential(self, t: float, S: np.ndarray) -> float:
         return 0.5*self.stiffness * np.linalg.norm(S - self.clip, 2)**2
 
-    def __repr__(self):
-        return super(SpringForce, self).__repr__() + \
-               " stiffness = {stiffness} N/m, clip = {clip}".format(**self.__dict__)
+    __repr_str__ = "stiffness = {stiffness:.2f} N/m, clip = {clip}"
 
 
 # F = -K (CS - l0) dir(CS_v)
@@ -51,5 +49,4 @@ class LengthedSpringForce(SpringForce):
     def potential(self, t: float, S: np.ndarray) -> float:
         return 0.5*self.stiffness*(np.linalg.norm(S - self.clip) - self.l0)**2
 
-    def __repr__(self):
-        return super(LengthedSpringForce, self).__repr__() + ", l0 = {l0} m".format(**self.__dict__)
+    __repr_str__ = SpringForce.__repr_str__ + ", l0 = {l0:.2f} m"
