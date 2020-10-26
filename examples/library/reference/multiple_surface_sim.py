@@ -1,19 +1,13 @@
-# two models of sphere of different size with one mass on each, force between this two masses
-
 import time as timelib
 
-import numpy as np
 from ode import solver
 
-from gsurface.forces import Gravity, ViscousFriction, LengthedSpringForce, AirFriction
-from gsurface.indexes import Tyi
-from gsurface.model import SurfaceGuidedMassSystem, build_s0
-from gsurface.plotter.mayavi import mlab, mayavi_plot_surfaces, SurfacePlot, mayavi_plot_surface
-
-from gsurface.imodel import SurfaceGuidedInteractedMassSystems
+from gsurface.forces import Gravity, ViscousFriction
+from gsurface.forces.interaction import OneSideSpringInteraction
 from gsurface.imodel import *
-from gsurface.forces.interaction import SpringInteraction, OneSideSpringInteraction
-
+from gsurface.indexes import Tyi
+from gsurface.model import build_s0
+from gsurface.plotter.mayavi import mlab, mayavi_plot_surfaces, SurfacePlot
 from gsurface.surface import Sphere, Tore, Plan
 
 # objects
@@ -24,7 +18,7 @@ tore = Tore(r=0.5, R=2.0).translate(np.array([0.0, 0.0, 0.0]))
 mesh_tore = tore.build_surface(*tore.mesh(50, 50))
 
 plan_shift = np.array([0.0, 0.0, -1.0])
-plan = Plan.from_xz_rotation(np.pi/2*0.1).translate(plan_shift).setlims(v_ll=-3, v_ul=3, u_ll=-3, u_ul=3)
+plan = Plan.from_xz_rotation(np.pi/2*0.1).translate(plan_shift).setlims(v_ll=-4, v_ul=4, u_ll=-4, u_ul=4)
 mesh_plan = plan.build_surface(*plan.mesh(50, 50))
 
 gravity_vector = np.array([0.0, 0.0, -10.0])

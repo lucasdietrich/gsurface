@@ -65,6 +65,8 @@ class Surface(abc.ABC):
 
         return self
 
+    # todo add rotation
+    #  numpy rotation matrices help : https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html
     def rotate(self, rotmat: np.ndarray) -> Surface:
         raise NotImplementedError
 
@@ -120,7 +122,7 @@ class Surface(abc.ABC):
 
         return S, J, H
 
-    def _process_transformations(self, S: np.ndarray, J: np.ndarray, H: np.ndarray):
+    def _process_transformations(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
         # apply translation
         S += + self.shiftvector
 
@@ -131,7 +133,7 @@ class Surface(abc.ABC):
 
     # return all Du Dv Duu Dvv Duv of x y z
     @abc.abstractmethod
-    def _definition(self, u: float, v: float) -> dict:
+    def _definition(self, u: float, v: float) -> SJH:
         raise NotImplementedError
 
     def eval(self, u: float, v: float) -> SJH:

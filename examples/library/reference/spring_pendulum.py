@@ -8,13 +8,13 @@ from gsurface.surface.plan import Plan
 
 # config
 
-x0, vx0 = 1.0, -3.0
+x0, vx0 = 0.0, 0.0
 
-y0, v0 = 0.0, 0.0
+y0, v0 = 1.0, -3.0
 
 # model
 
-plan = Plan.from_xz_rotation(angle=0.0).setlims(-1, 1, -3, 1).multlims(1)
+plan = Plan.from_xz_rotation(angle=0.0).setlims(-2, 2, -2, 2).multlims(1)
 
 m = 1.0
 
