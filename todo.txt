@@ -33,3 +33,5 @@ Ajouter d'autres surfaces quadratiques :
     https://en.wikipedia.org/wiki/Quadric
 
 To this with gravity 1/r^2 : https://mathcurve.com/surfaces/attraction/attraction.shtml
+
+Eval delay and nb of point in order to always have the speed of animation
