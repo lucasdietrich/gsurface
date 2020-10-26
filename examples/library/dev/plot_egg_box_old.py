@@ -7,7 +7,7 @@ from gsurface.plotter import mayavi_plot_surface
 
 import matplotlib.pyplot as plt
 
-surface = EggBox(1).multlims(20.0)
+surface = EggBox(1).multlims(2.0)
 
 ######################################
 # Simulation
@@ -23,7 +23,7 @@ g = np.array([
     -1.0
 ])
 
-sim = SurfaceGuidedFallMassSystem(surface, s0, g=g)
+sim = SurfaceGuidedMassSystem(surface, s0, 1.0, [Gravity(m=1.0, g=g)])
 
 time = np.linspace(0, 10, 20000)
 

@@ -63,4 +63,3 @@ mayavi_plot_surfaces([
         showTrajectory=True
     ) for i, solution in enumerate(solutions)
 ])
-

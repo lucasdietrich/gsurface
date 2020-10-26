@@ -144,10 +144,3 @@ class SurfaceGuidedMassSystem(ODESystem):
 
     def export(self):
         raise NotImplementedError
-
-
-class SurfaceGuidedFallMassSystem(SurfaceGuidedMassSystem):
-    def __init__(self, surface: Surface, s0: np.ndarray = None, m: float = 1.0, g: np.ndarray = None):
-        super(SurfaceGuidedFallMassSystem, self).__init__(
-            surface, s0, m, Gravity(m, g)
-        )
