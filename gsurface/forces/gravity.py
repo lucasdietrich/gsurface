@@ -19,7 +19,7 @@ class Gravity(ConservativeForce):
     def potential(self, t: float, S: np.ndarray) -> float:
         return -self.m*np.vdot(self.g, S)
 
-    __repr_str__ = "={g:.2f} m s^-2"
+    __repr_str__ = "g = {g} m s^-2"
 
 
 # short term gravity

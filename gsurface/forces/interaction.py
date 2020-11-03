@@ -17,8 +17,13 @@ class Interaction(abc.ABC):
         self.models = models
 
     @abc.abstractmethod
-    def eval(self, M1: ModelEvalState, M2: ModelEvalState) -> Tuple[np.ndarray, np.ndarray]:
+    def _force(self, M1: ModelEvalState, M2: ModelEvalState) -> np.ndarray:
         raise NotImplementedError
+
+    def eval(self, M1: ModelEvalState, M2: ModelEvalState) -> Tuple[np.ndarray, np.ndarray]:
+        F1 = self._force(M1, M2)
+
+        return F1, -F1
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
@@ -33,10 +38,32 @@ class SpringInteraction(Interaction):
     def _force(self, M1: ModelEvalState, M2: ModelEvalState) -> np.ndarray:
         return -self.stiffness * (M1.S - M2.S)
 
-    def eval(self, M1: ModelEvalState, M2: ModelEvalState) -> Tuple[np.ndarray, np.ndarray]:
-        F1 = self._force(M1, M2)
 
-        return F1, -F1
+class SpringDampingInteraction(Interaction):
+    def __init__(self, models: List[SurfaceGuidedMassSystem], stiffness: float = 1.0, mu: float = 1.0, l0: float = 1.0):
+        self.stiffness = stiffness
+        self.mu = mu
+        self.l0 = l0
+
+        super(SpringDampingInteraction, self).__init__(models)
+
+    def _force(self, M1: ModelEvalState, M2: ModelEvalState) -> np.ndarray:
+        DS = M1.S - M2.S
+        L = np.linalg.norm(DS)
+
+        if not L:
+            return np.zeros((3,))
+
+        direction = DS / L
+
+        V1 = M1.J @ M1.dw.T
+        V2 = M2.J @ M2.dw.T
+
+        V = V1 - V2
+
+        alpha = np.dot(V, direction)
+
+        return -self.stiffness * (L - self.l0) * direction - self.mu * alpha * np.linalg.norm(V) * direction
 
 
 # todo add reverse method
@@ -54,4 +81,6 @@ class OneSideSpringInteraction(SpringInteraction):
         super().__init__(models, stiffness)
 
     def eval(self, M1: ModelEvalState, M2: ModelEvalState) -> Tuple[np.ndarray, np.ndarray]:
-        return np.zeros((3,)), - self._force(M1, M2)
+        return np.zeros((3,)), - super(OneSideSpringInteraction, self).eval(M1, M2)[0]
+
+

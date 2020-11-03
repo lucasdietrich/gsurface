@@ -7,7 +7,7 @@ from ode.system import ODESystem
 
 from gsurface.types import ModelEvalState
 from gsurface.forces.interaction import Interaction
-from gsurface.model import SurfaceGuidedMassSystem
+from gsurface.model import SurfaceGuidedMassSystem, build_s0
 
 from collections import defaultdict
 
@@ -20,6 +20,7 @@ class SurfaceGuidedInteractedMassSystems(ODESystem):
             print("Warning : no interactions in this model")
             interactions = []
 
+        # todo change "model" key to "index" key
         self.models: ModelsEvalStates = OrderedDict({model: ModelEvalState() for model in models})
 
         self.iforces: Dict[SurfaceGuidedMassSystem, np.ndarray] = {model: np.zeros((3,)) for model in self.models}

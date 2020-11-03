@@ -68,7 +68,7 @@ class Plan(Surface):
 
         nx = np.array([1.0, 0.0, 0.0])
 
-        n = (rot @ nx.T).T
+        n = nx @ rot.T
 
         return Plan(*n, d=shift)
 

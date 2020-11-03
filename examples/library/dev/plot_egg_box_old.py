@@ -1,5 +1,6 @@
 from gsurface.model import *
 from gsurface.surface import EggBox
+from gsurface.forces import Gravity
 
 import numpy as np
 

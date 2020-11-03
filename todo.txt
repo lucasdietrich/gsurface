@@ -35,3 +35,11 @@ Ajouter d'autres surfaces quadratiques :
 To this with gravity 1/r^2 : https://mathcurve.com/surfaces/attraction/attraction.shtml
 
 Eval delay and nb of point in order to always have the speed of animation
+
+Add solid specifics caracteristics as em charge, mass, etc... usefull to evaluate force
+
+
+-----------------------
+https://www.youtube.com/watch?v=xzVk56EKBUI
+    Courbure de Gauss : https://fr.wikipedia.org/wiki/Courbure_de_Gauss
+    Courbure de Ricci : https://fr.wikipedia.org/wiki/Courbure_scalaire#:~:text=En%20g%C3%A9om%C3%A9trie%20riemannienne%2C%20la%20courbure,courbure%20d'une%20vari%C3%A9t%C3%A9%20riemannienne.

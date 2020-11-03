@@ -1,4 +1,4 @@
-from .surface import Surface
+from .surface import Surface, SJH
 
 from .tore import Tore
 from .plan import Plan

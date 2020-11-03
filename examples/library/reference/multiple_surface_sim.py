@@ -65,7 +65,7 @@ t1 = timelib.time()
 data = joint_sim.solve(time, solver=solver.rk4)
 t2 = timelib.time()
 
-print(t2 - t1)
+print("solve time :", t2 - t1, "s")
 
 sphere_solutions, tore_solutions, plan_solutions = joint_sim.solutions(data, time)
 
