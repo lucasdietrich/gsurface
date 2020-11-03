@@ -12,4 +12,4 @@ class ModelEvalState:
     J: np.ndarray = None
     H: np.ndarray = None
 
-    Fbias: np.ndarray = np.zeros((3,))
+    iF: np.ndarray = np.zeros((3,0))

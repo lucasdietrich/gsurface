@@ -1,7 +1,7 @@
 from gsurface.advanced.structure import SurfaceGuidedStructureSystem, TriangleStructure
 from gsurface.surface import Tore
 from gsurface.forces import Gravity, ViscousFriction
-from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, mlab
+from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, mlab, rgb
 
 from gsurface import Tyi
 
@@ -24,9 +24,9 @@ time = np.linspace(0, 10, 1000)
 
 states = model.solve(time)
 
-solutions = list(model.solutions(states, time))
+solutions = model.solutions(states, time)
 
 mayavi_plot_surfaces([
-    SurfacePlot(mesh, showSurface=(i == 0), trajectory=solutions[i][Tyi]) for i in range(model.degree)
+    SurfacePlot(mesh, showSurface=(i == 0), solidColor=(1, 0.8, 0), trajectoryColor=rgb[i], trajectory=solution[Tyi]) for i, solution in enumerate(solutions)
 ])
 mlab.view(45, 45, 10.0, np.zeros((3,)))
