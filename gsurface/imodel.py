@@ -1,24 +1,26 @@
 import typing
-from collections import defaultdict, OrderedDict
-from typing import Iterable, List, Dict, Tuple
+from collections import OrderedDict
+from typing import Iterable, List
 
 import numpy as np
 from ode.system import ODESystem
 
-from gsurface.types import ModelEvalState
 from gsurface.forces.interaction import Interaction
-from gsurface.model import SurfaceGuidedMassSystem, build_s0
+from gsurface.model import SurfaceGuidedMassSystem
+from gsurface.types import ModelEvalState
+
+from gsurface.misc.serializable_interface import SerializableInterface
 
 ModelsEvalStates = typing.OrderedDict[SurfaceGuidedMassSystem, ModelEvalState]
 
 
-class SurfaceGuidedInteractedMassSystems(ODESystem):
-    def __init__(self, models: List[SurfaceGuidedMassSystem], interactions: Iterable[Interaction] = None):
+class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
+    def __init__(self, models: List[SurfaceGuidedMassSystem], interactions: Iterable[Interaction] = None, **kargs):
         if interactions is None:
             print("Warning : no interactions in this model")
             interactions = []
 
-        # todo change "model" key to "index" key
+        # todo change "model" key to "index" key (convention and serialize feature needs)
         self.models: ModelsEvalStates = OrderedDict({model: ModelEvalState() for model in models})
 
         self.degree = len(models)

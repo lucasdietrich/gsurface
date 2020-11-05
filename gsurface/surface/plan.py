@@ -12,7 +12,7 @@ class Plan(Surface):
     __repr_str__ = " Norm a, b, c = {a:.2f}, {b:.2f}, {c:.2f}, d = {d:.2f}"
 
     # cartesian definition of plan
-    def __init__(self, a: float = 1.0, b: float = 0.0, c: float = 0.0, d: float = 0.0):
+    def __init__(self, a: float = 1.0, b: float = 0.0, c: float = 0.0, d: float = 0.0, **kargs):
         self.a = a
         self.b = b
         self.c = c
@@ -49,6 +49,8 @@ class Plan(Surface):
 
         self.J = np.array([self.Un.T, self.Vn.T]).T
         self.H = np.zeros((3, 2, 2))
+        
+        super(Plan, self).__init__()
 
     def evalS(self, u: float, v: float) -> np.ndarray:
         return self.D + u * self.Un + v * self.Vn

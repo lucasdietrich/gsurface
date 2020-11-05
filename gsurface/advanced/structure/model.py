@@ -1,7 +1,7 @@
 from gsurface.surface import Surface
 from gsurface.forces import SpringDampingInteraction, Force
-from gsurface.imodel import SurfaceGuidedInteractedMassSystems, SurfaceGuidedMassSystem, build_s0
-from gsurface.model import ForcesType
+from gsurface.imodel import SurfaceGuidedInteractedMassSystems, SurfaceGuidedMassSystem
+from gsurface.model import ForcesType, build_s0
 
 from .graph import StructureGraph
 
@@ -13,7 +13,7 @@ import numpy as np
 
 
 class SurfaceGuidedStructureSystem(SurfaceGuidedInteractedMassSystems):
-    def __init__(self, surface: Surface, structure: StructureGraph, structureForces: ForcesType = None):
+    def __init__(self, surface: Surface, structure: StructureGraph, structureForces: ForcesType = None, **kargs):
         """
 
         :param surface: Surface on which the structure evolve

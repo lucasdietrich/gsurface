@@ -8,6 +8,8 @@ from .forces import Force, ForceSum
 from .indexes import *
 from .surface.surface import Surface
 
+from gsurface.misc.serializable_interface import SerializableInterface
+
 
 def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):
     return np.array([u0, du0, v0, dv0])
@@ -16,12 +18,13 @@ def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.
 ForcesType = Union[Force, ForceSum, Iterable[Force]]
 
 
-class SurfaceGuidedMassSystem(ODESystem):
+class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
     def __init__(
             self, surface: Surface,
             s0: np.ndarray = None,
             m: float = 1.0,
-            forces: ForcesType = None
+            forces: ForcesType = None,
+            **kargs
     ):
         self.surface: Surface = surface
 

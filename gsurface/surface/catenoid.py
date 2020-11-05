@@ -2,14 +2,9 @@ from .surface import Surface, np, SJH
 
 
 class Catenoid(Surface):
-    plimits = np.array([
-        [-2.0, 2.0],  # u lims
-        [0, 2*np.pi]   # v lims
-    ])
-
     __repr_str__ = "(a={a:.2f})"
 
-    def __init__(self, a: float = 1.0):
+    def __init__(self, a: float = 1.0, **kargs):
         """
         Catenoid:
             https://mathcurve.com/surfaces/catenoid/catenoid.shtml
@@ -17,6 +12,13 @@ class Catenoid(Surface):
         :param a:
         """
         self.a = a
+        
+        super(Catenoid, self).__init__(
+            plimits=np.array([
+                [-2.0, 2.0],  # u lims
+                [0, 2*np.pi]   # v lims
+            ])
+        )
 
     def _definition(self, u: float, v: float) -> SJH:
 

@@ -5,7 +5,7 @@ from abc import ABC
 
 # https://en.wikipedia.org/wiki/Paraboloid
 class Paraboloid(Surface, ABC):
-    def __init__(self, a: float = 1.0, b: float = 1.0):
+    def __init__(self, a: float = 1.0, b: float = 1.0, **kargs):
         assert a and b
 
         self.a = a
@@ -13,6 +13,8 @@ class Paraboloid(Surface, ABC):
 
         self.inva2 = pow(a, -2)
         self.invb2 = pow(b, -2)
+
+        super(Paraboloid, self).__init__()
 
 
 class EllipticParaboloid(Paraboloid):

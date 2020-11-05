@@ -5,7 +5,7 @@ from typing import Tuple
 
 # long range gravity
 class Gravity(ConservativeForce):
-    def __init__(self, m: float = 1.0, g: np.ndarray = None):
+    def __init__(self, m: float = 1.0, g: np.ndarray = None, **kargs):
         self.m: float = m
 
         if g is None:
@@ -25,7 +25,7 @@ class Gravity(ConservativeForce):
 # short term gravity
 # G = by default 1.0
 class DistanceGravity(ConservativeForce):
-    def __init__(self, m: float = 1.0, M: float = 1.0, G: float = 1.0, clip: np.ndarray = None):
+    def __init__(self, m: float = 1.0, M: float = 1.0, G: float = 1.0, clip: np.ndarray = None, **kargs):
         self.m = m
         self.M = m
         self.G = G

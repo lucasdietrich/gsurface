@@ -6,15 +6,17 @@ import numpy as np
 class EggBox(Surface):
     __repr_str__ = "(R={R:.2f}, a={a:.2f}, a={b:.2f})"
 
-    plimits = np.array([
-        [-10.0, 10.0],
-        [-10.0, 10.0]
-    ])
-
-    def __init__(self, R: float = 1.0, a: float = 1.0, b: float = 1.0):
+    def __init__(self, R: float = 1.0, a: float = 1.0, b: float = 1.0, **kargs):
         self.R = R
         self.a = a
         self.b = b
+
+        super(EggBox, self).__init__(
+            plimits=np.array([
+                [-10.0, 10.0],
+                [-10.0, 10.0]
+            ])
+        )
 
     def _definition(self, u: float, v: float) -> SJH:
         R, a, b = self.R, self.a, self.b

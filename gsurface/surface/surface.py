@@ -7,6 +7,8 @@ import numpy as np
 
 from ..indexes import *
 
+from gsurface.misc.serializable_interface import SerializableInterface
+
 SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 
 # eval return 18 elements long
@@ -28,17 +30,29 @@ SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 # ∂_(u,v)^2 Z   ∂_v^2 Z
 
 
-class Surface(abc.ABC):
+class Surface(abc.ABC, SerializableInterface):
+    def __init__(self, plimits: np.ndarray = None, shiftvector: np.ndarray = None, rotmat: np.ndarray = None):
+        if plimits is None:
+            plimits = np.array([
+                [-1.0, 1.0],
+                [-1.0, 1.0]
+            ])
+        elif plimits.shape != (2, 2):
+            raise Exception("Parameters limits must be of size 2x2")
 
-    # line 1 : u lims /  line 2 : v lims
-    plimits = np.array([
-        [-1.0, 1.0],
-        [-1.0, 1.0]
-    ])
+        if shiftvector is None:
+            shiftvector = np.zeros((3,))
+        elif shiftvector.shape != (3,):
+            raise Exception("Shift vector must be of shape 3")
 
-    shiftvector = np.zeros((3,))
+        if rotmat is None:
+            rotmat = np.identity(3)
+        elif rotmat.shape != (3,3):
+            raise Exception("Rotational matrice must be of shape 3x3")
 
-    rotmat = np.identity(3)
+        self.plimits = plimits
+        self.shiftvector = shiftvector
+        self.rotmat = rotmat
 
     def multlims(self, k: float = 2.0) -> Surface:
         self.plimits *= k
@@ -196,3 +210,4 @@ class Surface(abc.ABC):
         return (
             "Surface:{0}" + self.__repr_str__
         ).format(self.__class__.__name__, **self.__dict__).ljust(self.__repr_ljust__)
+

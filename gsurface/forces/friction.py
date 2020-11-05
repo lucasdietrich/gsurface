@@ -3,7 +3,7 @@ import abc
 
 
 class ViscousFriction(Force):
-    def __init__(self, mu: float = 1.0):
+    def __init__(self, mu: float = 1.0, **kargs):
         self.mu = mu
 
     def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
@@ -18,7 +18,7 @@ class AirFriction(Force):
     # Cx : [1]
     # S : m^2
     # rho kg/m3
-    def __init__(self, Cx: float = 1.0, S: float = 0.0025, rho: float = 1.225):
+    def __init__(self, Cx: float = 1.0, S: float = 0.0025, rho: float = 1.225, **kargs):
         self.Cx = Cx
         self.S = S
         self.rho = rho

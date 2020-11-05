@@ -8,6 +8,8 @@ from gsurface.types import ModelEvalState
 
 from typing import Iterable, Callable, Union, List
 
+from gsurface.misc.serializable_interface import SerializableInterface
+
 # force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), Hessian (3xH)) -> force(3)
 ForceEvalType = Callable[
     [np.ndarray, np.ndarray, float, np.ndarray, np.ndarray],
@@ -15,7 +17,7 @@ ForceEvalType = Callable[
 ]
 
 
-class Force(abc.ABC):
+class Force(abc.ABC, SerializableInterface):
     def evalM(self, t: float, M: ModelEvalState):
         return self.eval(M.w, M.dw, t, M.S, M.J)
 
@@ -64,7 +66,7 @@ class NoForce(Force):
 
 
 class ForceSum(Force):
-    def __init__(self, forces: Union[Force, ForceSum, Iterable[Force]] = None):
+    def __init__(self, forces: Union[Force, ForceSum, Iterable[Force]] = None, **kargs):
         if forces is None:
             forces = []
 

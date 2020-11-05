@@ -6,13 +6,15 @@ import numpy as np
 class Sphere(Surface):
     __repr_str__ = "(R={R:.2f})"
 
-    plimits = np.array([
-        [0.0, 2*np.pi],   # u
-        [-np.pi, np.pi],  # v
-    ])
-
-    def __init__(self, R=1.0):
+    def __init__(self, R=1.0, **kargs):
         self.R = R
+
+        super(Sphere, self).__init__(
+            plimits=np.array([
+                [0.0, 2*np.pi],   # u
+                [-np.pi, np.pi],  # v
+            ])
+        )
 
     def _definition(self, u: float, v: float) -> SJH:
         sinv = np.sin(v)

@@ -6,14 +6,16 @@ import numpy as np
 class Tore(Surface):
     __repr_str__ = "(r={r:.2f}, R={R:.2f})"
 
-    plimits = np.array([
-            [0.0, 2*np.pi],
-            [-np.pi, np.pi]
-        ])
-
-    def __init__(self, r=0.5, R=1.0):
+    def __init__(self, r=0.5, R=1.0, **kargs):
         self.r = r
         self.R = R
+
+        super(Tore, self).__init__(
+            plimits=np.array([
+                [0.0, 2*np.pi],
+                [-np.pi, np.pi]
+            ])
+        )
 
     def _definition(self, u, v) -> SJH:
         sinv = np.sin(v)

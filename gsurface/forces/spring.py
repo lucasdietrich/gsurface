@@ -8,7 +8,7 @@ from .force import ConservativeForce, np
 # F = -k CS_v
 # F = -k (S - C)
 class SpringForce(ConservativeForce):
-    def __init__(self, stiffness: float = 1.0, clip: np.ndarray = None):
+    def __init__(self, stiffness: float = 1.0, clip: np.ndarray = None, **kargs):
         self.stiffness = stiffness
 
         if clip is None:
@@ -29,7 +29,7 @@ class SpringForce(ConservativeForce):
 # F = -K (CS - l0) (CS_v / CS)
 # F = -K (1 - l0/CS) CS_v
 class LengthedSpringForce(SpringForce):
-    def __init__(self, stiffness: float = 1.0, clip: np.ndarray = None, l0: float = 1.0):
+    def __init__(self, stiffness: float = 1.0, clip: np.ndarray = None, l0: float = 1.0, **kargs):
         if l0 == 0.0:
             print("Use of LengthedSpringForce for l0 = 0.0 is depreciated, use SpringForce instead")
 

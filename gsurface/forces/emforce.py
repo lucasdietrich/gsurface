@@ -7,7 +7,7 @@ import numpy as np
 
 # https://fr.wikipedia.org/wiki/%C3%89lectromagn%C3%A9tisme
 class StaticFieldElectroMagneticForce(ConservativeForce):
-    def __init__(self, q: float, E: np.ndarray, B: np.ndarray = None):
+    def __init__(self, q: float, E: np.ndarray, B: np.ndarray = None, **kargs):
         """
         Electromagnetic force in static E and B fields : F = q (E + V x B)
         :param q: charge (C)
