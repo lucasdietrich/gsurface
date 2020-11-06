@@ -88,6 +88,23 @@ class Surface(abc.ABC, SerializableInterface):
 
         return self
 
+    # set translate and rotation matrix from serialized data
+    # + plimits
+    @classmethod
+    def fromdict(cls, d: dict):
+        surface: Surface = super().fromdict(d)
+
+        if "shiftvector" in d:
+            surface.shiftvector = np.array(d["shiftvector"])
+
+        if "rotmat" in d:
+            surface.rotmat = np.array(d["rotmat"])
+
+        if "plimits" in d:
+            surface.plimits = np.array(d["plimits"])
+
+        return surface
+
     # x : xyz = 0
     # y : xyz = 1
     # z : xyz = 2

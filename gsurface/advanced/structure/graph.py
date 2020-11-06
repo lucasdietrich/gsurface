@@ -5,6 +5,8 @@ from typing import List, Tuple, Dict
 
 from gsurface.solid import SolidParameters
 
+from gsurface.misc.serializable_interface import SerializableInterface
+
 # graphes
 #  https://fr.wikipedia.org/wiki/Th%C3%A9orie_des_graphes
 #  https://fr.wikipedia.org/wiki/Lexique_de_la_th%C3%A9orie_des_graphes
@@ -22,7 +24,8 @@ VertexType = Tuple[int, int]
 GraphVerticesType = Dict[VertexType, InteractionParameters]
 
 
-class StructureGraph:
+# warning all subclasses need to modified SerializableInterface method if other parameters are nessesary to describe the model
+class StructureGraph(SerializableInterface):
     def __init__(self, nodes: GraphNodesType = None, interactions: GraphVerticesType = None):
         if nodes is None:
             nodes = list()
@@ -109,3 +112,21 @@ class StructureGraph:
         for i in range(N):
             for j in range(i + 1, N):
                 yield i, j
+
+    # manage dict[Tuple, Class] to list[(Tuple, Class)]
+    def todict(self):
+        d = super().todict()
+        d["interactions"] = list(self.interactions.items())
+
+        return d
+
+    # manage list[(Tuple, Class)] to dict[Tuple, Class]
+    @classmethod
+    def fromdict(cls, d: dict):
+        # rebuild from StructureGraph and not subclasses
+        return StructureGraph(
+            nodes=d["nodes"],
+            interactions=d["interactions"]
+        )
+
+

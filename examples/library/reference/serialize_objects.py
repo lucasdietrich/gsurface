@@ -4,15 +4,13 @@ import numpy as np
 
 import json
 
-
-
 from gsurface.misc.json import GSurfaceEncoder, GSurfaceDecoder
 
 from gsurface.surface import Plan, Tore, Sphere, Catenoid
 from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, DistanceGravity
 from gsurface import SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems
 
-from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem
+from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem, StructureGraph, SolidParameters, InteractionParameters
 
 filename = "_tmp/serialized_plan.txt"
 
@@ -30,16 +28,22 @@ forces = [
 ]
 
 model1 = SurfaceGuidedMassSystem(
-    surface=plan,
+    surface=sphere,
     forces=forces
 )
 
-structure = TriangleStructure()
+structure = StructureGraph([
+    SolidParameters(),
+    SolidParameters()
+],
+interactions={
+    (0, 1): InteractionParameters()
+})
 model2 = SurfaceGuidedStructureSystem(
     sphere, structure, forces
 )
 
-save = model1,
+save = structure, forces, model1, SolidParameters()
 
 # print(surfaces)
 
@@ -49,4 +53,4 @@ with open(filename, "w+") as fp:
 with open(filename, "r+") as fp:
     obj = json.load(fp, cls=GSurfaceDecoder)
 
-print(obj)
+# print(obj)

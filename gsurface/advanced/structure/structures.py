@@ -15,7 +15,11 @@ import numpy as np
 # S0, S1
 # S2
 class TriangleStructure(StructureGraph):
-    def __init__(self, totalMass: float = 1.0, stiffness: float = 1000.0, mu: float = 10.0, l0: float = 1.0):
+    def __init__(self, totalMass: float = 1.0, stiffness: float = 1000.0, mu: float = 10.0, l0: float = 1.0, **kargs):
+        self.totalMass = totalMass
+        self.stiffness = stiffness
+        self.mu = mu
+        self.l0 = l0
         super(TriangleStructure, self).__init__(
             nodes=[SolidParameters(totalMass/3) for _ in range(3)],
             interactions={
@@ -36,7 +40,11 @@ class TriangleStructure(StructureGraph):
 # W0, W1
 # W2, W3
 class CarStructure(StructureGraph):
-    def __init__(self, totalMass: float = 1.0, ratio: float = 2, stiffness: float = 1000.0, mu: float = 10.0, l0: float = 1.0):
+    def __init__(self, totalMass: float = 1.0, ratio: float = 2, stiffness: float = 1000.0, mu: float = 10.0, l0: float = 1.0, **kargs):
+        self.totalMass = totalMass
+        self.stiffness = stiffness
+        self.mu = mu
+        self.l0 = l0
 
         # car dimensions
         self.ratio = ratio
