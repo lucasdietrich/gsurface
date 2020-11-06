@@ -8,7 +8,7 @@ from .forces import Force, ForceSum
 from .indexes import *
 from .surface.surface import Surface
 
-from gsurface.misc.serializable_interface import SerializableInterface
+from gsurface.serialize.interface import SerializableInterface
 
 
 def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):

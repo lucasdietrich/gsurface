@@ -17,9 +17,9 @@ class StaticFieldElectroMagneticForce(ConservativeForce):
         if B is None:
             B = np.zeros((3,))
 
-        self.q = q
-        self.B = B
-        self.E = E
+        self.q = float(q)
+        self.B = np.array(B)
+        self.E = np.array(E)
 
     def potential(self, t: float, S: np.ndarray) -> float:
         return - self.q * np.vdot(self.E, S)

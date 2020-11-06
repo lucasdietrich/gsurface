@@ -7,7 +7,7 @@ import numpy as np
 
 from ..indexes import *
 
-from gsurface.misc.serializable_interface import SerializableInterface
+from gsurface.serialize.interface import SerializableInterface
 
 SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 

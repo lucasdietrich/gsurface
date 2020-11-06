@@ -9,7 +9,7 @@ from gsurface.forces.interaction import Interaction
 from gsurface.model import SurfaceGuidedMassSystem
 from gsurface.types import ModelEvalState
 
-from gsurface.misc.serializable_interface import SerializableInterface
+from gsurface.serialize.interface import SerializableInterface
 
 ModelsEvalStates = typing.OrderedDict[SurfaceGuidedMassSystem, ModelEvalState]
 

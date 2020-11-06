@@ -4,13 +4,15 @@ import numpy as np
 
 import json
 
-from gsurface.misc.json import GSurfaceEncoder, GSurfaceDecoder
+from gsurface.serialize.json import GSurfaceEncoder, GSurfaceDecoder
 
 from gsurface.surface import Plan, Tore, Sphere, Catenoid
 from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, DistanceGravity
 from gsurface import SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems
 
 from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem, StructureGraph, SolidParameters, InteractionParameters
+
+from gsurface.serialize import save, load, saveB64, loadB64
 
 filename = "_tmp/serialized_plan.txt"
 
@@ -32,25 +34,21 @@ model1 = SurfaceGuidedMassSystem(
     forces=forces
 )
 
-structure = StructureGraph([
-    SolidParameters(),
-    SolidParameters()
-],
-interactions={
-    (0, 1): InteractionParameters()
-})
+structure = TriangleStructure(23.0, 1.0, 23.0, 4.3)
+structure[0, 2].mu = 2.0
+structure[0, 1].mu = 3.0
+structure[1, 2].mu = 4.0
 model2 = SurfaceGuidedStructureSystem(
     sphere, structure, forces
 )
 
-save = structure, forces, model1, SolidParameters()
+objects = [(structure, forces, model1, SolidParameters()) for i in range(100)]
 
 # print(surfaces)
+save(filename, objects)
+saveB64(filename + "b64", objects)
 
-with open(filename, "w+") as fp:
-    json.dump(save, fp, cls=GSurfaceEncoder, indent=2)
+obj = load(filename)
+obj = loadB64(filename + "b64")
 
-with open(filename, "r+") as fp:
-    obj = json.load(fp, cls=GSurfaceDecoder)
-
-# print(obj)
+print(structure.__dict__)

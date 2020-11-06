@@ -1,5 +1,5 @@
-import abc
 
+# todo find why abstract class does not work ?
 class SerializableInterface:
     """
     The class implementation of this interface need to respect following rules:
@@ -25,4 +25,3 @@ class SerializableInterface:
         :return: rebuilt object
         """
         return cls(**d)
-

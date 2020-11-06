@@ -8,7 +8,7 @@ from gsurface.types import ModelEvalState
 
 from typing import Iterable, Callable, Union, List
 
-from gsurface.misc.serializable_interface import SerializableInterface
+from gsurface.serialize.interface import SerializableInterface
 
 # force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), Hessian (3xH)) -> force(3)
 ForceEvalType = Callable[

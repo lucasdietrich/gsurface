@@ -8,6 +8,8 @@ from typing import Iterable, List, Tuple, Union
 
 from dataclasses import dataclass
 
+from gsurface.serialize.interface import SerializableInterface
+
 # try color : (0.1, 0.1, 0.6)
 # colormap=cool / warm / binary / gray
 
@@ -48,7 +50,7 @@ ColorType = Tuple[float, float, float]
 
 
 @dataclass
-class SurfacePlot:
+class SurfacePlot(SerializableInterface):
 
     # surface plot
     smesh: np.ndarray = None

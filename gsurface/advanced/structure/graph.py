@@ -5,7 +5,7 @@ from typing import List, Tuple, Dict
 
 from gsurface.solid import SolidParameters
 
-from gsurface.misc.serializable_interface import SerializableInterface
+from gsurface.serialize.interface import SerializableInterface
 
 # graphes
 #  https://fr.wikipedia.org/wiki/Th%C3%A9orie_des_graphes
@@ -13,7 +13,7 @@ from gsurface.misc.serializable_interface import SerializableInterface
 
 
 @dataclass
-class InteractionParameters:
+class InteractionParameters(SerializableInterface):
     stiffness: float = 1000.0
     mu: float = 10.0
     l0: float = 1.0
@@ -115,7 +115,7 @@ class StructureGraph(SerializableInterface):
 
     # manage dict[Tuple, Class] to list[(Tuple, Class)]
     def todict(self):
-        d = super().todict()
+        d = super().todict().copy()  # copy dict to avoid __dict__ modification
         d["interactions"] = list(self.interactions.items())
 
         return d
@@ -126,7 +126,7 @@ class StructureGraph(SerializableInterface):
         # rebuild from StructureGraph and not subclasses
         return StructureGraph(
             nodes=d["nodes"],
-            interactions=d["interactions"]
+            interactions={
+                (na, nb): v for (na, nb), v in d["interactions"]
+            }
         )
-
-
