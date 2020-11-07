@@ -54,3 +54,10 @@ Vérifier les egualité entre deux modèles/structures/forces/surfaces
     # treat numpy all(a == b) case
 
     # maybe add this method to SerializableInterface
+
+Add S0 (x0, y0, z0), V0 (dx0, dy0, dz0) to Solid Class
+
+graph show nodes and vertices as png
+
+Serialze interface method that save only some parameters to avoid the use of **kargs in __init__ method
+ from list of str parameters

@@ -4,10 +4,10 @@ import abc
 from typing import Tuple
 
 import numpy as np
-
-from ..indexes import *
+from scipy.integrate import dblquad
 
 from gsurface.serialize.interface import SerializableInterface
+from ..indexes import *
 
 SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 
@@ -220,6 +220,42 @@ class Surface(abc.ABC, SerializableInterface):
 
         return np.max(elist) <= tolerance
 
+    def _dS(self, u: float, v: float) -> float:
+        """
+        Infinitesimal surface on position (u, v)
+
+        :param u:
+        :param v:
+        :return: dS = sqrt(|fu|²|fv|² - |fu . fv|²)
+        """
+        S, J, H = self.eval(u, v)
+
+        fu, fv = J.T
+
+        E = np.linalg.norm(fu)**2
+        F = np.linalg.norm(fv)**2
+        G = np.dot(fu, fv)**2
+
+        return np.sqrt(E*F - G**2)
+
+    def area(self, epsabs=1.49e-8, epsrel=1.49e-8) -> float:
+        """
+        Calculate area of the surface for u, v in U, V = plimits
+        :param epsabs: @see scipy.integrate.dblquad
+        :param epsrel: @see scipy.integrate.dblquad
+        :return:
+        """
+        return dblquad(
+            self._dS,
+            a=self.plimits[0,0],
+            b=self.plimits[0,1],
+            gfun=lambda u: self.plimits[1, 0],
+            hfun=lambda u: self.plimits[1, 1],
+            epsabs=epsabs,
+            epsrel=epsrel
+        )[0]
+
+
     __repr_str__ = ""
     __repr_ljust__ = 30
 
@@ -227,4 +263,3 @@ class Surface(abc.ABC, SerializableInterface):
         return (
             "Surface:{0}" + self.__repr_str__
         ).format(self.__class__.__name__, **self.__dict__).ljust(self.__repr_ljust__)
-

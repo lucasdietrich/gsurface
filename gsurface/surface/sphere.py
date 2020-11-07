@@ -1,6 +1,6 @@
-from .surface import Surface, SJH
-
 import numpy as np
+
+from .surface import Surface, SJH
 
 
 class Sphere(Surface):
@@ -12,7 +12,7 @@ class Sphere(Surface):
         super(Sphere, self).__init__(
             plimits=np.array([
                 [0.0, 2*np.pi],   # u
-                [-np.pi, np.pi],  # v
+                [0.0, np.pi],  # v
             ])
         )
 

@@ -2,17 +2,11 @@
 
 import numpy as np
 
-import json
-
-from gsurface.serialize.json import GSurfaceEncoder, GSurfaceDecoder
-
-from gsurface.surface import Plan, Tore, Sphere, Catenoid
+from gsurface import SurfaceGuidedMassSystem
+from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem, SolidParameters
 from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, DistanceGravity
-from gsurface import SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems
-
-from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem, StructureGraph, SolidParameters, InteractionParameters
-
 from gsurface.serialize import save, load, saveB64, loadB64
+from gsurface.surface import Plan, Tore, Sphere, Catenoid
 
 filename = "_tmp/serialized_plan.txt"
 
@@ -49,6 +43,6 @@ save(filename, objects)
 saveB64(filename + "b64", objects)
 
 obj = load(filename)
-obj = loadB64(filename + "b64")
+obj2 = loadB64(filename + "b64")
 
 print(structure.__dict__)
