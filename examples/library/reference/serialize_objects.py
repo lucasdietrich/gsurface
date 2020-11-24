@@ -11,6 +11,8 @@ from gsurface.surface import Plan, Tore, Sphere, Catenoid
 filename = "_tmp/serialized_plan.txt"
 
 plan = Plan(1, 2, 3, 1)
+plan.translate(np.array([1.0, 2.0, 0.0]))
+
 sphere = Sphere().multlims(2).translate(np.array([1.0, 2.0, 0.0]))
 tore = Tore()
 cat = Catenoid()
@@ -36,7 +38,7 @@ model2 = SurfaceGuidedStructureSystem(
     sphere, structure, forces
 )
 
-objects = [(structure, forces, model1, SolidParameters()) for i in range(100)]
+objects = [(plan, structure, forces, model1, SolidParameters()) for i in range(100)]
 
 # print(surfaces)
 save(filename, objects)
@@ -44,5 +46,3 @@ saveB64(filename + "b64", objects)
 
 obj = load(filename)
 obj2 = loadB64(filename + "b64")
-
-print(structure.__dict__)

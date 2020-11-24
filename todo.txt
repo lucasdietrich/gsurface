@@ -61,3 +61,6 @@ graph show nodes and vertices as png
 
 Serialze interface method that save only some parameters to avoid the use of **kargs in __init__ method
  from list of str parameters
+
+Change transformation management:
+- add transformation strategy where

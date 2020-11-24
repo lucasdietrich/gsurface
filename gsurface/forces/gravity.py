@@ -1,6 +1,6 @@
-from .force import ConservativeForce, np
-
 from typing import Tuple
+
+from .force import ConservativeForce, np
 
 
 # long range gravity
@@ -11,7 +11,7 @@ class Gravity(ConservativeForce):
         if g is None:
             g = np.array([0.0, 0.0, -9.81])
 
-        self.g: np.ndarray = g
+        self.g: np.ndarray = np.array(g)
 
     def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
         return self.m*self.g
@@ -34,8 +34,8 @@ class DistanceGravity(ConservativeForce):
 
         if clip is None:
             self.clip = np.zeros((3,))
-        else:
-            self.clip = clip
+
+        self.clip = np.array(clip)
 
     def radius(self, S: np.ndarray) -> Tuple[np.ndarray, float]:
         r = S - self.clip

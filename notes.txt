@@ -24,3 +24,6 @@ Class method wrapper :
 
 Plot Graphs:
     https://www.python-course.eu/networkx.php
+
+mlab:
+    https://scipy-lectures.org/packages/3d_plotting/index.html

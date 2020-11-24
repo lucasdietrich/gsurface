@@ -1,14 +1,11 @@
-from mayavi import mlab
+from dataclasses import dataclass
+from typing import List, Tuple
 
 import numpy as np
-
-from ..indexes import *
-
-from typing import Iterable, List, Tuple, Union
-
-from dataclasses import dataclass
+from mayavi import mlab
 
 from gsurface.serialize.interface import SerializableInterface
+from ..indexes import *
 
 # try color : (0.1, 0.1, 0.6)
 # colormap=cool / warm / binary / gray
@@ -67,6 +64,7 @@ class SurfacePlot(SerializableInterface):
     solidColor: ColorType = (0, 0, 1)
     showSolid: bool = True
     animate: bool = True
+    timeFactor: int = 1
 
     # todo physic post computed solutions and chart display
     physics: np.ndarray = None
@@ -126,7 +124,7 @@ def mayavi_plot_surfaces(surface_plots: List[SurfacePlot], animationDelay: int =
         @mlab.animate(delay=animationDelay)
         def anim():
             while True:
-                for i in range(time_iterations):
+                for i in range(0, time_iterations, int(splot.timeFactor)):
                     for solid, traj in animated_solids:
                         x, y, z = traj[i]
                         solid.mlab_source.set(x=x, y=y, z=z)

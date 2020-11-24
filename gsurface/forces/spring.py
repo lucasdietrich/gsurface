@@ -14,7 +14,7 @@ class SpringForce(ConservativeForce):
         if clip is None:
             clip = np.array([0.0, 0.0, 0.0])
 
-        self.clip = clip
+        self.clip = np.array(clip)
 
     def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
         return -self.stiffness*(S - self.clip)

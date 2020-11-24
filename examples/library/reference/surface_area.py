@@ -16,10 +16,8 @@ a = time()
 area = cyl.area()
 b = time()
 
-print(b - a)
-
-print(cyl, cyl.area(), "theorical surface = 2*pi")
-print(half_sph, half_sph.area(), "theorical surface = 4*pi/2 = 2*pi")
+print(cyl, cyl.area(), f"theorical surface = 2*pi {b - a:.3f}ms")
+print(half_sph, half_sph.area(), "theorical surface = 4*pi/2 = 2*pi (half sphere)")
 
 mayavi_plot_surfaces([
     SurfacePlot(cyl_surf),

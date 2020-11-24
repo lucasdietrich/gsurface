@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 import abc
-from typing import Tuple
 
 import numpy as np
 from scipy.integrate import dblquad
 
 from gsurface.serialize.interface import SerializableInterface
+from .transformations import GetTransformationStrategy
+from .transformations import TransformationStrategy
 from ..indexes import *
+from ..types import SJH
 
-SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 
 # eval return 18 elements long
 # 18 elements list
@@ -30,6 +31,9 @@ SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 # ∂_(u,v)^2 Z   ∂_v^2 Z
 
 
+# todo update strategy when modifying shitvector or rotmat attributes directly
+
+
 class Surface(abc.ABC, SerializableInterface):
     def __init__(self, plimits: np.ndarray = None, shiftvector: np.ndarray = None, rotmat: np.ndarray = None):
         if plimits is None:
@@ -42,17 +46,22 @@ class Surface(abc.ABC, SerializableInterface):
 
         if shiftvector is None:
             shiftvector = np.zeros((3,))
+
+        # choose strategy
         elif shiftvector.shape != (3,):
             raise Exception("Shift vector must be of shape 3")
 
         if rotmat is None:
             rotmat = np.identity(3)
-        elif rotmat.shape != (3,3):
+
+            # choosy strategy
+        elif rotmat.shape != (3, 3):
             raise Exception("Rotational matrice must be of shape 3x3")
 
-        self.plimits = plimits
-        self.shiftvector = shiftvector
-        self.rotmat = rotmat
+        self.plimits = np.array(plimits)
+
+        # choose strategy
+        self.transformation: TransformationStrategy = GetTransformationStrategy(shiftvector, rotmat)
 
     def multlims(self, k: float = 2.0) -> Surface:
         self.plimits *= k
@@ -74,17 +83,17 @@ class Surface(abc.ABC, SerializableInterface):
 
         return self
 
+    # shiftvector setter
     def translate(self, shiftvector: np.ndarray) -> Surface:
-        self.shiftvector: np.ndarray = shiftvector
+        self.transformation = GetTransformationStrategy(shiftvector, self.transformation.M)
 
         return self
 
     # todo add rotation
     #  numpy rotation matrices help : https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html
+    # rotmat setter
     def rotate(self, rotmat: np.ndarray) -> Surface:
-        raise NotImplementedError
-
-        self.rotmat: np.ndarray = rotmat
+        self.transformation = GetTransformationStrategy(self.transformation.D, rotmat)
 
         return self
 
@@ -94,27 +103,10 @@ class Surface(abc.ABC, SerializableInterface):
     def fromdict(cls, d: dict):
         surface: Surface = super().fromdict(d)
 
-        if "shiftvector" in d:
-            surface.shiftvector = np.array(d["shiftvector"])
-
-        if "rotmat" in d:
-            surface.rotmat = np.array(d["rotmat"])
-
         if "plimits" in d:
             surface.plimits = np.array(d["plimits"])
 
         return surface
-
-    # x : xyz = 0
-    # y : xyz = 1
-    # z : xyz = 2
-    @staticmethod
-    def _hessian(e: np.ndarray, X=0):
-        shift = X * 3
-        return np.array([
-            [e[duuxi + shift], e[duvxi + shift]],
-            [e[duvxi + shift], e[dvvxi + shift]]
-        ])
 
     @staticmethod
     def buildMetric(
@@ -153,14 +145,11 @@ class Surface(abc.ABC, SerializableInterface):
 
         return S, J, H
 
+    # add strategy for shift/rot
+
+    # newS = D + M*S
     def _process_transformations(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
-        # apply translation
-        S += + self.shiftvector
-
-        # apply rotation
-        # todo notimplemented
-
-        return S, J, H
+        return self.transformation.apply(S, J, H)
 
     # return all Du Dv Duu Dvv Duv of x y z
     @abc.abstractmethod
@@ -222,7 +211,7 @@ class Surface(abc.ABC, SerializableInterface):
 
     def _dS(self, u: float, v: float) -> float:
         """
-        Infinitesimal surface on position (u, v)
+        Infinitesimal area function on position (u, v)
 
         :param u:
         :param v:
@@ -255,11 +244,10 @@ class Surface(abc.ABC, SerializableInterface):
             epsrel=epsrel
         )[0]
 
-
     __repr_str__ = ""
     __repr_ljust__ = 30
 
     def __repr__(self):
         return (
-            "Surface:{0}" + self.__repr_str__
+            "Surface:{0}" + self.__repr_str__ + " {_strategy}"
         ).format(self.__class__.__name__, **self.__dict__).ljust(self.__repr_ljust__)

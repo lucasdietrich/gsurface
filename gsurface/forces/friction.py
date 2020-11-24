@@ -1,5 +1,6 @@
-from .force import Force, np
 import abc
+
+from .force import Force, np
 
 
 class ViscousFriction(Force):
@@ -55,7 +56,7 @@ class ConstantDirectedViscousFriction(DirectedViscousFriction):
         if direction is None:
             direction = np.array([1.0, 0.0, 0.0])
 
-        self.direction_vector = direction
+        self.direction_vector = np.array(direction)
         
         super().__init__(mu)
 
@@ -70,7 +71,7 @@ class CenterDirectedViscousFriction(DirectedViscousFriction):
         if clip is None:
             clip = np.zeros((3,))
 
-        self.clip = clip
+        self.clip = np.array(clip)
 
         super().__init__(mu)
 
