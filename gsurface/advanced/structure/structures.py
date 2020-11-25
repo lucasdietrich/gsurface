@@ -1,6 +1,6 @@
-from .graph import StructureGraph, SolidParameters, InteractionParameters
-
 import numpy as np
+
+from .graph import StructureGraph, Solid, InteractionParameters
 
 
 # Triangle structure as
@@ -21,7 +21,7 @@ class TriangleStructure(StructureGraph):
         self.mu = mu
         self.l0 = l0
         super(TriangleStructure, self).__init__(
-            nodes=[SolidParameters(totalMass/3) for _ in range(3)],
+            nodes=[Solid(totalMass / 3) for _ in range(3)],
             interactions={
                 vertex: InteractionParameters(stiffness, mu, l0) for vertex in StructureGraph.genAllVertices(3)
             }
@@ -53,7 +53,7 @@ class CarStructure(StructureGraph):
         self.diagonal = l0 * np.sqrt(1 + ratio**2)
 
         super(CarStructure, self).__init__(
-            nodes=[SolidParameters(totalMass / 4) for _ in range(4)],
+            nodes=[Solid(totalMass / 4) for _ in range(4)],
             interactions={
                 vertex: InteractionParameters(stiffness, mu, l0) for vertex in StructureGraph.genAllVertices(4)
             }

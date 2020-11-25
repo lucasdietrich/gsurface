@@ -3,7 +3,7 @@
 import numpy as np
 
 from gsurface import SurfaceGuidedMassSystem
-from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem, SolidParameters
+from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem, Solid
 from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, DistanceGravity
 from gsurface.serialize import save, load, saveB64, loadB64
 from gsurface.surface import Plan, Tore, Sphere, Catenoid
@@ -38,10 +38,11 @@ model2 = SurfaceGuidedStructureSystem(
     sphere, structure, forces
 )
 
-objects = [(plan, structure, forces, model1, SolidParameters()) for i in range(100)]
+objects = [(plan, structure, forces, model1, Solid()) for i in range(100)]
+objects = sphere
 
 # print(surfaces)
-save(filename, objects)
+save(filename, objects, 4)
 saveB64(filename + "b64", objects)
 
 obj = load(filename)

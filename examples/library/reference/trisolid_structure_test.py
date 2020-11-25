@@ -1,11 +1,10 @@
-from gsurface.advanced.structure import SurfaceGuidedStructureSystem, TriangleStructure
-from gsurface.surface import Plan
-from gsurface.forces import Gravity, ViscousFriction
-from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, mlab
+import numpy as np
 
 from gsurface import Tyi
-
-import numpy as np
+from gsurface.advanced.structure import SurfaceGuidedStructureSystem, TriangleStructure
+from gsurface.forces import ViscousFriction
+from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, mlab
+from gsurface.surface import Plan
 
 surface = Plan(0.0, 0.0, 1.0)
 mesh = surface.build_surface(*surface.mesh(50, 50))

@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Dict
 
-from gsurface.solid import SolidParameters
-
 from gsurface.serialize.interface import SerializableInterface
+from gsurface.solid import Solid
+
 
 # graphes
 #  https://fr.wikipedia.org/wiki/Th%C3%A9orie_des_graphes
@@ -19,7 +19,7 @@ class InteractionParameters(SerializableInterface):
     l0: float = 1.0
 
 
-GraphNodesType = List[SolidParameters]
+GraphNodesType = List[Solid]
 VertexType = Tuple[int, int]
 GraphVerticesType = Dict[VertexType, InteractionParameters]
 

@@ -3,12 +3,12 @@ from typing import Union, Iterable
 import numpy as np
 from ode.system import ODESystem
 
+from gsurface.serialize.interface import SerializableInterface
 from gsurface.types import ModelEvalState
 from .forces import Force, ForceSum
 from .indexes import *
+from .solid import SOLID, toSolid
 from .surface.surface import Surface
-
-from gsurface.serialize.interface import SerializableInterface
 
 
 def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.0):
@@ -22,7 +22,7 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
     def __init__(
             self, surface: Surface,
             s0: np.ndarray = None,
-            m: float = 1.0,
+            solid: SOLID = 1.0,
             forces: ForcesType = None,
             **kargs
     ):
@@ -33,12 +33,12 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
         if s0 is None:
             s0 = build_s0()
 
-        self.m = m
+        self.solid = toSolid(solid)
 
         super(SurfaceGuidedMassSystem, self).__init__(s0)
 
     def __repr__(self):
-        return f"{self.__class__.__name__} for solid of mass={self.m}kg on surface {self.surface} " \
+        return f"{self.__class__.__name__} for solid {self.solid} on surface {self.surface} " \
                f"with s0 = {self.s0}\n" \
                f"and forces : {self.forces}"
 
@@ -92,7 +92,7 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
 
         wHw = dw.T @ H @ dw
 
-        G = wHw - F / self.m
+        G = wHw - F / self.solid.mass
 
         Ru, Rv = np.dot(G, J)
 
@@ -128,7 +128,7 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
             V = J @ dw.T
             normV = np.linalg.norm(V, 2)
 
-            Ek = 0.5 * self.m * normV**2
+            Ek = 0.5 * self.solid.mass * normV**2
             Ep = np.sum(force.potential(t, S) for force in self.forces.get_conservative_forces())
             Em = Ek + Ep
 

@@ -64,3 +64,5 @@ Serialze interface method that save only some parameters to avoid the use of **k
 
 Change transformation management:
 - add transformation strategy where
+
+complete serialization with Interacted models and structures

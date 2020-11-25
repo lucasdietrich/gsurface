@@ -1,15 +1,10 @@
-from gsurface.surface import Surface
-from gsurface.forces import SpringDampingInteraction, Force
-from gsurface.imodel import SurfaceGuidedInteractedMassSystems, SurfaceGuidedMassSystem
-from gsurface.model import ForcesType, build_s0
-
-from .graph import StructureGraph
-
 import random as rd
 
-from typing import Tuple, Iterable
-
-import numpy as np
+from gsurface.forces import SpringDampingInteraction
+from gsurface.imodel import SurfaceGuidedInteractedMassSystems, SurfaceGuidedMassSystem
+from gsurface.model import ForcesType, build_s0
+from gsurface.surface import Surface
+from .graph import StructureGraph
 
 
 class SurfaceGuidedStructureSystem(SurfaceGuidedInteractedMassSystems):
@@ -30,7 +25,7 @@ class SurfaceGuidedStructureSystem(SurfaceGuidedInteractedMassSystems):
             SurfaceGuidedMassSystem(
                 surface=surface,
                 s0=build_s0(rd.random() - 0.5, 0.0, rd.random() - 0.5, 0.0),
-                m=solid.mass,
+                solid=solid,
                 forces=structureForces
             ) for solid in structure.nodes
         ]

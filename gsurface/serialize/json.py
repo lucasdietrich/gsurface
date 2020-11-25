@@ -28,6 +28,7 @@ class GSurfaceEncoder(JSONEncoder):
 
         return super().default(obj)
 
+
 class GSurfaceDecoder(JSONDecoder):
 
     # https://regex101.com/r/vKJNLZ/1
@@ -52,6 +53,7 @@ class GSurfaceDecoder(JSONDecoder):
 
                 # rebuild class from dict
                 del obj[clsidentifier]
+
                 return cls.fromdict(obj)
 
         return obj

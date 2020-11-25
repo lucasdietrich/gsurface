@@ -1,8 +1,8 @@
-from gsurface.advanced.structure.graph import StructureGraph, InteractionParameters, SolidParameters
+from gsurface.advanced.structure.graph import StructureGraph, InteractionParameters, Solid
 from gsurface.advanced.structure.structures import CarStructure, TriangleStructure
 
 graph = StructureGraph()
-graph.nodes.extend([SolidParameters() for i in range(4)])  # masses
+graph.nodes.extend([Solid() for i in range(4)])  # masses
 graph.interactions.update({
     (0, 1): InteractionParameters(),
     (2, 3): InteractionParameters(),

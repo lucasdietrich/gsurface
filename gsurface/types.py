@@ -5,6 +5,7 @@ import numpy as np
 
 SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 
+
 # classe d'état calculée pour un modèle de surface
 @dataclass
 class ModelEvalState:

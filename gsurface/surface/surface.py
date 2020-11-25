@@ -103,6 +103,10 @@ class Surface(abc.ABC, SerializableInterface):
     def fromdict(cls, d: dict):
         surface: Surface = super().fromdict(d)
 
+        ## todo apply transformation
+
+        surface.transformation = d["transformation"]
+
         if "plimits" in d:
             surface.plimits = np.array(d["plimits"])
 
@@ -249,5 +253,5 @@ class Surface(abc.ABC, SerializableInterface):
 
     def __repr__(self):
         return (
-            "Surface:{0}" + self.__repr_str__ + " {_strategy}"
+            "Surface:{0}" + self.__repr_str__ + " {transformation}"
         ).format(self.__class__.__name__, **self.__dict__).ljust(self.__repr_ljust__)
