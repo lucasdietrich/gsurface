@@ -2,8 +2,8 @@
 
 import numpy as np
 
-from gsurface import SurfaceGuidedMassSystem
-from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem, Solid
+from gsurface import SurfaceGuidedMassSystem, build_s0
+from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem
 from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, DistanceGravity
 from gsurface.serialize import save, load, saveB64, loadB64
 from gsurface.surface import Plan, Tore, Sphere, Catenoid
@@ -13,7 +13,7 @@ filename = "_tmp/serialized_plan.txt"
 plan = Plan(1, 2, 3, 1)
 plan.translate(np.array([1.0, 2.0, 0.0]))
 
-sphere = Sphere().multlims(2).translate(np.array([1.0, 2.0, 0.0]))
+sphere = Sphere(0.5).multlims(0.5).translate(np.array([1.0, 2.0, 0.0]))
 tore = Tore()
 cat = Catenoid()
 
@@ -27,7 +27,9 @@ forces = [
 
 model1 = SurfaceGuidedMassSystem(
     surface=sphere,
-    forces=forces
+    forces=forces,
+    solid=23.0,
+    s0=build_s0(1.0, 2.0, 3.0, 4.0)
 )
 
 structure = TriangleStructure(23.0, 1.0, 23.0, 4.3)
@@ -38,8 +40,7 @@ model2 = SurfaceGuidedStructureSystem(
     sphere, structure, forces
 )
 
-objects = [(plan, structure, forces, model1, Solid()) for i in range(100)]
-objects = sphere
+objects = model1
 
 # print(surfaces)
 save(filename, objects, 4)

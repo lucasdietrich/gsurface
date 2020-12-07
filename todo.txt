@@ -66,3 +66,6 @@ Change transformation management:
 - add transformation strategy where
 
 complete serialization with Interacted models and structures
+
+setup equal between objects
+- Forces, Surfaces, ...

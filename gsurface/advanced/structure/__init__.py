@@ -1,2 +1,2 @@
-from .structures import TriangleStructure, CarStructure
+from .structures import TriangleStructure, CarStructure, SnakeStructure, BowStructure
 

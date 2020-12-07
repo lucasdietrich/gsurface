@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Tuple, Dict
 
@@ -34,7 +35,7 @@ class StructureGraph(SerializableInterface):
             interactions = dict()
 
         self.nodes: GraphNodesType = nodes
-        self.interactions: GraphVerticesType = interactions
+        self.interactions: GraphVerticesType = defaultdict(InteractionParameters, interactions)
 
     def __repr__(self):
         return f"{self.__class__.__name__} : Nodes [{self.N}] vertices [{self.D}] connex [{self.isConnex()}] " \

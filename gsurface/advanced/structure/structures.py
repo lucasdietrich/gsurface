@@ -62,3 +62,37 @@ class CarStructure(StructureGraph):
         # fix lengthes
         self.interactions[(0, 2)].l0 = self.interactions[(1, 3)].l0 = self.length
         self.interactions[(0, 3)].l0 = self.interactions[(1, 2)].l0 = self.diagonal
+
+
+class SnakeStructure(StructureGraph):
+    def __init__(self, n: int = 4, totalMass: float = 1.0, stiffness: float = 1000.0, mu: float = 10.0, length: float = 1.0, **kargs):
+        self.totalMass = totalMass
+        self.stiffness = stiffness
+        self.mu = mu
+        self.n = int(n)
+        self.length = length
+        l0 = length / (self.n - 1)
+
+        super(SnakeStructure, self).__init__(
+            nodes=[Solid(totalMass / n) for _ in range(n)],
+            interactions={
+                (j, j + 1): InteractionParameters(stiffness, mu, l0) for j in range(n - 1)
+            }
+        )
+
+
+
+class BowStructure(SnakeStructure):
+    """
+    Snake structure but first and last nodes are connected
+    """
+    def __init__(self, n: int = 4, totalMass: float = 1.0, stiffness: float = 1000.0, mu: float = 10.0, length: float = 1.0, **kargs):
+        super(BowStructure, self).__init__(
+            n=n,
+            totalMass=totalMass,
+            stiffness=stiffness,
+            mu=mu,
+            length=length
+        )
+
+        self.interactions[(0, n - 1)].l0 = length

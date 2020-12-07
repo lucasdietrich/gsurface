@@ -27,3 +27,6 @@ Plot Graphs:
 
 mlab:
     https://scipy-lectures.org/packages/3d_plotting/index.html
+
+change Force model in order to get Solid parameters
+-   for gravity / em forces and others ...
