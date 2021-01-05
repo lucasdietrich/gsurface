@@ -30,3 +30,6 @@ mlab:
 
 change Force model in order to get Solid parameters
 -   for gravity / em forces and others ...
+
+Mayavi examples:
+    https://docs.enthought.com/mayavi/mayavi/auto/examples.html
