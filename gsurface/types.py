@@ -3,6 +3,7 @@ from typing import Tuple
 
 import numpy as np
 
+# S : Surface, J : Jacobian, H : [H_x, H_y, H_z] Hessians of S_x, S_y, S_z
 SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
 
 
@@ -15,4 +16,4 @@ class ModelEvalState:
     J: np.ndarray = None
     H: np.ndarray = None
 
-    iF: np.ndarray = np.zeros((3,0))
+    iF: np.ndarray = np.zeros((3, 0))
