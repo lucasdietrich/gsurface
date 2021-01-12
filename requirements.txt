@@ -72,7 +72,7 @@ tornado==6.1
 traitlets==5.0.5
 traits==6.1.1
 traitsui==7.1.1
-vtk @ file:///C:/Users/ldade/Documents/ProjetsRecherche/03a%20-%20MECANIQUE/ChuteGuid%C3%A9e/2020%20-%20Chute%20guid%C3%A9e%20surface/tmp/vtk-9.0.1-cp38-cp38-win_amd64.whl
+vtk==9.0.1
 wcwidth==0.2.5
 webencodings==0.5.1
 widgetsnbextension==3.5.1
