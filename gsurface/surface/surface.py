@@ -149,19 +149,14 @@ class Surface(abc.ABC, SerializableInterface):
 
         return S, J, H
 
-    # add strategy for shift/rot
-
-    # newS = D + M*S
-    def _process_transformations(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
-        return self.transformation.apply(S, J, H)
-
     # return all Du Dv Duu Dvv Duv of x y z
     @abc.abstractmethod
     def _definition(self, u: float, v: float) -> SJH:
         raise NotImplementedError
 
+    # newS = D + M*S
     def eval(self, u: float, v: float) -> SJH:
-        return self._process_transformations(*self._definition(u, v))
+        return self.transformation.apply(*self._definition(u, v))
 
     # todo, optimisation, calculer traj et speed en même temps
     # todo faire le calcul direct dans le sim principale

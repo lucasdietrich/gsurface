@@ -5,12 +5,10 @@ import numpy as np
 from ..serialize.interface import SerializableInterface
 from ..types import SJH
 
+EYE = np.eye(3)
+
 
 class TransformationStrategy(abc.ABC, SerializableInterface):
-    def __init__(self, D: np.ndarray, M: np.ndarray):
-        self.D = D
-        self.M = M
-
     @abc.abstractmethod
     def apply(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
         raise NotImplementedError
@@ -28,23 +26,33 @@ class NoTransformationStrategy(TransformationStrategy):
 
 
 class ShiftTransformationStrategy(TransformationStrategy):
+    def __init__(self, D: np.ndarray):
+        self.D = D
+
     def apply(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
         return self.D + S, J, H
 
 
 class RotTransformationStrategy(TransformationStrategy):
+    def __init__(self, M: np.ndarray):
+        self.M = M
+
     def apply(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
         S = np.dot(self.M, S)
         J = np.dot(self.M, J)
 
-        for i in range(2):
-            for j in range(2):
-                H[:,i,j] = np.dot(self.M, H[:,i,j])
+        for i, j in [(0, 0), (0, 1), (1, 1)]:
+            H[:, i, j] = np.dot(self.M, H[:, i, j])
+        H[:, 1, 0] = H[:, 0, 1]
 
         return S, J, H
 
 
 class RotShiftTransformationStrategy(ShiftTransformationStrategy, RotTransformationStrategy):
+    def __init__(self, D: np.ndarray, M: np.ndarray):
+        ShiftTransformationStrategy.__init__(self, D)
+        RotTransformationStrategy.__init__(self, M)
+
     def apply(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
         return ShiftTransformationStrategy.apply(
             self,
@@ -53,24 +61,22 @@ class RotShiftTransformationStrategy(ShiftTransformationStrategy, RotTransformat
 
 
 def GetTransformationStrategy(D: np.ndarray = None, M: np.ndarray = None) -> TransformationStrategy:
-    eye = np.eye(3)
-
     if D is None:
         D = np.zeros((3,))
 
     if M is None:
-        M = eye
+        M = np.copy(EYE)
 
     shift = np.any(D)
-    rot = np.any(eye - M)
+    rot = np.any(EYE - M)
 
     if shift:
         if rot:
             return RotShiftTransformationStrategy(D, M)
         else:
-            return ShiftTransformationStrategy(D, M)
+            return ShiftTransformationStrategy(D)
     else:
         if rot:
-            return RotTransformationStrategy(D, M)
+            return RotTransformationStrategy(M)
         else:
-            return NoTransformationStrategy(D, M)
+            return NoTransformationStrategy()
