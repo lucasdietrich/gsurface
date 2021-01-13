@@ -6,7 +6,7 @@ import numpy as np
 from scipy.integrate import dblquad
 
 from gsurface.serialize.interface import SerializableInterface
-from .transformations import GetTransformationStrategy
+from .transformations import UpdateTransformationStrategy, GetTransformationStrategy
 from .transformations import TransformationStrategy
 from ..indexes import *
 from ..types import SJH
@@ -85,7 +85,7 @@ class Surface(abc.ABC, SerializableInterface):
 
     # shiftvector setter
     def translate(self, shiftvector: np.ndarray) -> Surface:
-        self.transformation = GetTransformationStrategy(shiftvector, self.transformation.M)
+        self.transformation = UpdateTransformationStrategy(self.transformation, shiftvector, None)
 
         return self
 
@@ -93,7 +93,7 @@ class Surface(abc.ABC, SerializableInterface):
     #  numpy rotation matrices help : https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html
     # rotmat setter
     def rotate(self, rotmat: np.ndarray) -> Surface:
-        self.transformation = GetTransformationStrategy(self.transformation.D, rotmat)
+        self.transformation = UpdateTransformationStrategy(self.transformation, None, rotmat)
 
         return self
 

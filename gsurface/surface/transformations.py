@@ -60,6 +60,25 @@ class RotShiftTransformationStrategy(ShiftTransformationStrategy, RotTransformat
         )
 
 
+def UpdateTransformationStrategy(prev: TransformationStrategy, D: np.ndarray = None, M: np.ndarray = None) -> TransformationStrategy:
+    defaultD, defaultM = None, None
+
+    if isinstance(prev, RotTransformationStrategy):
+        defaultM = prev.M
+    elif isinstance(prev, ShiftTransformationStrategy):
+        defaultD = prev.D
+    elif isinstance(prev, RotShiftTransformationStrategy):
+        defaultM, defaultD = prev.M, prev.D
+
+    if D is None:
+        D = defaultD
+
+    if M is None:
+        M = defaultM
+
+    return GetTransformationStrategy(D, M)
+
+
 def GetTransformationStrategy(D: np.ndarray = None, M: np.ndarray = None) -> TransformationStrategy:
     if D is None:
         D = np.zeros((3,))
