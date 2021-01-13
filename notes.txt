@@ -36,3 +36,6 @@ Mayavi examples:
 
 Creating package :
     https://packaging.python.org/tutorials/packaging-projects/
+
+Added GPLv3 license to the project :
+    https://choosealicense.com/licenses/gpl-3.0/
