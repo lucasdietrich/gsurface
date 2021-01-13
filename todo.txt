@@ -71,3 +71,6 @@ setup equal between objects
 - Forces, Surfaces, ...
 
 Calculate distance betweens two points on surface
+
+Think about an energy solver :
+    d Ec = d Ep = dt * P = dt V . F = - dl grad F
