@@ -28,3 +28,14 @@ class StaticFieldElectroMagneticForce(ConservativeForce):
         V = J @ dw.T
 
         return self.q * (self.E + np.vdot(V, self.B))
+
+
+class MagnetForce(ConservativeForce):
+    def __init__(self):
+        raise NotImplementedError()
+
+    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+        raise NotImplementedError()
+
+    def potential(self, t: float, S: np.ndarray) -> float:
+        raise NotImplementedError()

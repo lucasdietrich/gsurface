@@ -24,7 +24,7 @@ class Gravity(ConservativeForce):
 
 # short term gravity
 # G = by default 1.0
-class DistanceGravity(ConservativeForce):
+class NewtonGravity(ConservativeForce):
     def __init__(self, m: float = 1.0, M: float = 1.0, G: float = 1.0, clip: np.ndarray = None, **kargs):
         self.m = m
         self.M = m

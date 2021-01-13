@@ -1,4 +1,4 @@
-from gsurface import Plan, DistanceGravity, SurfaceGuidedMassSystem, Tyi, build_s0, ViscousFriction
+from gsurface import Plan, NewtonGravity, SurfaceGuidedMassSystem, Tyi, build_s0, ViscousFriction
 from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, matplotlib_plot_solutions
 
 import numpy as np
@@ -13,7 +13,7 @@ model = SurfaceGuidedMassSystem(
     s0=build_s0(u0=1.0, dv0=0.5, du0=1.0),
     m=1.0,
     forces=[
-        DistanceGravity(m=1.0, M=100.0, G=1.0, clip=np.zeros((3,))),
+        NewtonGravity(m=1.0, M=100.0, G=1.0, clip=np.zeros((3,))),
         # DistanceGravity(m=1.0, M=100.0, G=1.0, clip=np.array([1.0, 0.0, 0.0])),  # 2 mass objects
         # ViscousFriction(0.1)  # friction
     ]

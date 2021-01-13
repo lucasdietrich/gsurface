@@ -33,3 +33,6 @@ change Force model in order to get Solid parameters
 
 Mayavi examples:
     https://docs.enthought.com/mayavi/mayavi/auto/examples.html
+
+Creating package :
+    https://packaging.python.org/tutorials/packaging-projects/

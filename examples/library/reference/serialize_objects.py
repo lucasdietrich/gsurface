@@ -4,7 +4,7 @@ import numpy as np
 
 from gsurface import SurfaceGuidedMassSystem, build_s0
 from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem
-from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, DistanceGravity
+from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, NewtonGravity
 from gsurface.serialize import save, load, saveB64, loadB64
 from gsurface.surface import Plan, Tore, Sphere, Catenoid
 
@@ -22,7 +22,7 @@ forces = [
     SpringForce(),
     ViscousFriction(),
     Gravity(),
-    Gravity() + DistanceGravity()
+    Gravity() + NewtonGravity()
 ]
 
 model1 = SurfaceGuidedMassSystem(

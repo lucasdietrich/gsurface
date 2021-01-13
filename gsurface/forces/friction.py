@@ -2,6 +2,8 @@ import abc
 
 from .force import Force, np
 
+from gsurface import utils
+
 
 class ViscousFriction(Force):
     def __init__(self, mu: float = 1.0, **kargs):
@@ -80,3 +82,14 @@ class CenterDirectedViscousFriction(DirectedViscousFriction):
         return delta / np.linalg.norm(delta)
 
     __repr_str__ = DirectedViscousFriction.__repr_str__ + ", clip = {clip}"
+
+
+class SolidForce(Force):
+    def __init__(self, intensity: np.ndarray):
+        self.intensity = np.array(intensity)
+
+    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+        # eval speed
+        V = J @ dw.T
+
+        return self.intensity * utils.direction(V)
