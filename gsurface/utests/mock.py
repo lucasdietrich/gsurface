@@ -21,9 +21,9 @@ def nprand(shape: Union[int, Iterable[int]], lower: float = -1.0, upper: float =
     array = np.zeros(shape)
 
     for index, val in np.ndenumerate(array):
-        array[index] = amplitude * random.random() + lower
+        array[index] = random.random()
 
-    return array
+    return amplitude*array + lower
 
 
 class Mock:
