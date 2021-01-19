@@ -26,6 +26,16 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
             forces: ForcesType = None,
             **kargs
     ):
+        """
+        Create a model of a single mass bound to a surface, with initial position s0 and subjected to forces.
+
+        Args:
+            surface: Surface
+            s0: initial state [u0, du0, v0, dv0]
+            solid: Solid mass
+            forces: Resulting force
+            **kargs:
+        """
         self.surface: Surface = surface
 
         self.forces: ForceSum = ForceSum(forces)
@@ -68,19 +78,29 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
         return self.dsM(F, M)
 
     def dsM(self, F: np.ndarray, M: ModelEvalState):
+        """
+        @see ds
+
+        Args:
+            F: resulting force
+            M: ModelEvalState (w, dw, S, J, H)
+
+        Returns: resulting elementary system variation
+
+        """
         return self.ds(M.dw, F, M.J, M.H)
 
     def ds(self, dw: np.ndarray, F: np.ndarray, J: np.ndarray, H: np.ndarray) -> np.ndarray:
         """
-        Eval ds for position and speed (w, dw) from calculated forces (F) and surface (S, J, H)
+        Evaluate resulating elementary system variation for the elementary variation of parameters dw on the surface
 
-        :param w:
-        :param dw:
-        :param F:
-        :param S:
-        :param J:
-        :param H:
-        :return:
+        Args:
+            dw: elementary variation of parameters
+            F: resulting force
+            J: surface jacobian
+            H: surface hessians
+
+        Returns: resulting elementary system variation
         """
         # vars
         du, dv = dw
@@ -112,6 +132,17 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
         return ds
 
     def solutions(self, states: np.ndarray, time: np.ndarray):
+        """
+        Evaluate main physical quantities from model solution
+            Surface position, Speed, Resulting force, Speed norm, Force norm, Kinetic energy, Potential energy,
+            System mecanical energy
+
+        Args:
+            states: @return from solve method
+            time: time mesh
+
+        Returns:
+        """
         assert states.shape[0] == time.shape[0]
 
         physics = np.zeros((states.shape[0], 14))
