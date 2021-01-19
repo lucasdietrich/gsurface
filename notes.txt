@@ -50,3 +50,6 @@ Unit Tests:
 
 Testing numpy arrays:
     https://stackoverflow.com/questions/3302949/best-way-to-assert-for-numpy-array-equality?answertab=votes
+
+Use ndenumerate for enumerating numpy array
+    https://numpy.org/doc/stable/reference/generated/numpy.ndenumerate.html
