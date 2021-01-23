@@ -74,3 +74,54 @@ Calculate distance betweens two points on surface
 
 Think about an energy solver :
     d Ec = d Ep = dt * P = dt V . F = - dl grad F
+
+------ NOTE OF JAN 21 -----
+
+Add Rotation Spring Sensor in a Structure model
+Add geodesic findings for any surface.
+Add position to parameters function in order to find surface parameters that actually represent the point in the 3D surface.
+change Surface validation with unit test library
+Create a jupyter in order to explain how to create new models over this library with specificities
+Create following class:
+InteractionfromForce(force: Force):
+		self.force = Force
+
+		def _force(M1, M2):
+			return self.force.eval(M1 - M2)
+Define M1 - M2 method that calculate (S1 - S2, V1 - V2, t, …)
+
+Simplify Force parameters, among w, dw, t, S, J, H, some parameters are never used (or in very special cases). We either decide to be exhaustive and keep all or we assume we need to define only physics forces and we remove w, dw and H, and we substitude J by V = dw @ V. In this case we will only have, t, S, V which is normally enough to describe any force.
+argument : u, dw depends of the surface and are object specfic parameters while t is a global parameter and S and V are solid parameters.
+We should not need u and dw
+We need to remove None default parameters for S and V because, theses parameters exists
+necessarily even if they are not used by the forces functions
+
+In ModelEvalState	we need to determine which parameters are optional and which don’t
+
+Enhance or delete ModelsEvalStates in imodel.py (this model gather too different object types, time, surface specific objects J, H, solid specific S, J)
+maybe create tSV or TSV type for this
+
+Maybe create type for every vector as :
+
+SPEED = np.ndarray
+JACOBIAN = np.ndarray
+HESSIAN = np.ndarray
+POSITION = np.ndarray
+
+# S : Surface, J : Jacobian, H : [H_x, H_y, H_z] Hessians of S_x, S_y, S_z
+SJH = Tuple[POSITION, JACOBIAN, HESSIAN]
+
+TSV = Tuple[float, POSITION, SPEED]
+
+Add J, H to solutions calculation
+
+Constuire une wrapper qui modifie le comportement d’une interaction en annulant un des coté de la force, ceci simule une interaction uni-directionnelle.
+impossible en physique
+peut être utile pour simuler des entrainement, des lois de commandes sur des modèles simplifiés.
+
+-----
+
+Autre: projet :
+créer un modèle temporelle du pendule inversé et créer un modèle de simulation permettant de modifier l’input de la force en temps réel.
+Pemettre d’y connecter d’autres types d’objects et de lois de commands
+

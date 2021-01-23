@@ -16,7 +16,7 @@ class SpringForce(ConservativeForce):
 
         self.clip = np.array(clip)
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
         return -self.stiffness*(S - self.clip)
 
     def potential(self, t: float, S: np.ndarray) -> float:
@@ -37,7 +37,7 @@ class LengthedSpringForce(SpringForce):
 
         super(LengthedSpringForce, self).__init__(stiffness, clip)
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         CS_vec = S - self.clip
         CS = np.linalg.norm(CS_vec)
 

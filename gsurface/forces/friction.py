@@ -1,16 +1,15 @@
 import abc
 
-from .force import Force, np
-
 from gsurface import utils
+from .force import Force, np
 
 
 class ViscousFriction(Force):
     def __init__(self, mu: float = 1.0, **kargs):
         self.mu = mu
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
-        return -self.mu * J @ dw.T
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
+        return -self.mu * V
 
     __repr_str__ = "mu = {mu:.2f} N.s/m"
 
@@ -26,9 +25,7 @@ class AirFriction(Force):
         self.S = S
         self.rho = rho
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
-        v = J @ dw.T
-
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         return - 0.5 * self.Cx * self.S * self.rho * v * np.linalg.norm(v, 2)
 
     __repr_str__ = "Cx = {Cx:.2f}, S = {S:.2f} m^2, rho = {rho:.2f} kg m^-3"
@@ -39,12 +36,9 @@ class DirectedViscousFriction(ViscousFriction, abc.ABC):
     def direction(self, t: float, S: np.ndarray) -> np.ndarray:
         raise NotImplemented
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         # eval direction
         direction = self.direction(t, S)
-
-        # eval 3D speed
-        V = J @ dw.T
 
         # eval coeff
         alpha = np.dot(V, direction)
@@ -88,8 +82,5 @@ class SolidForce(Force):
     def __init__(self, intensity: np.ndarray):
         self.intensity = np.array(intensity)
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
-        # eval speed
-        V = J @ dw.T
-
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         return self.intensity * utils.direction(V)

@@ -7,9 +7,8 @@ from ode.system import ODESystem
 
 from gsurface.forces.interaction import Interaction
 from gsurface.model import SurfaceGuidedMassSystem
-from gsurface.types import ModelEvalState
-
 from gsurface.serialize.interface import SerializableInterface
+from gsurface.types import ModelEvalState
 
 ModelsEvalStates = typing.OrderedDict[SurfaceGuidedMassSystem, ModelEvalState]
 
@@ -51,6 +50,8 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
             # todo simplify/optimize eval
             M.S, M.J, M.H = model.surface.eval(*M.w)
 
+            M.V = M.J @ M.dw.T
+
             M.iF = np.zeros((3,))
 
         # eval interacted forces
@@ -65,7 +66,7 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
         # eval forces and build ds
         for j, (model, M) in enumerate(self.models.items()):
             # eval force:
-            F = model.forces.eval(M.w, M.dw, t, M.S, M.J)
+            F = model.forces.eval(t, M.S, M.V)
 
             # eval ds
             ds[4*j:4*j + 4] = model.ds(M.dw, F + M.iF, M.J, M.H)

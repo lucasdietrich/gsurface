@@ -4,7 +4,6 @@ import numpy as np
 from ode.system import ODESystem
 
 from gsurface.serialize.interface import SerializableInterface
-from gsurface.types import ModelEvalState
 from .forces import Force, ForceSum
 from .indexes import *
 from .solid import SOLID, toSolid
@@ -60,35 +59,23 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
         :param t:
         :return:
         """
-        M = ModelEvalState()
-
         # vars
-        w = M.w = s[::2]
-        M.dw = s[1::2]
+        w = s[::2]
+        dw = s[1::2]
 
         # todo simplify/optimize eval
-        M.S, M.J, M.H = self.surface.eval(*w)
+        S, J, H = self.surface.eval(*w)
+
+        V = J @ dw.T
 
         # feed all interacted forces
 
         # eval force:
-        F = self.forces.evalM(t, M)
+        F = self.forces.eval(t, S, V)
 
         # eval and return
-        return self.dsM(F, M)
+        return self.ds(dw, F, J, H)
 
-    def dsM(self, F: np.ndarray, M: ModelEvalState):
-        """
-        @see ds
-
-        Args:
-            F: resulting force
-            M: ModelEvalState (w, dw, S, J, H)
-
-        Returns: resulting elementary system variation
-
-        """
-        return self.ds(M.dw, F, M.J, M.H)
 
     def ds(self, dw: np.ndarray, F: np.ndarray, J: np.ndarray, H: np.ndarray) -> np.ndarray:
         """
@@ -154,9 +141,10 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
 
             S, J, H = self.surface.eval(*w)
 
-            F = self.forces.eval(w, dw, t, S, J)
-
             V = J @ dw.T
+
+            F = self.forces.eval(t, S, V)
+
             normV = np.linalg.norm(V, 2)
 
             Ek = 0.5 * self.solid.mass * normV**2

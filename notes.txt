@@ -6,7 +6,7 @@ Detecter les superposition et ajouter une option de plot (Show = True/False)
 
 Ajouter l'option de rotation (pour ne pas être géné par les points critiques)
 
-Enresgitrer les simulations et résultats
+Enregistrer les simulations et résultats
 
 Faire des tests unitaires sur les modèles
 

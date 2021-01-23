@@ -1,13 +1,10 @@
+import abc
+from typing import List, Tuple
+
 import numpy as np
 
-from .force import Force
 from ..model import SurfaceGuidedMassSystem
-
 from ..types import ModelEvalState
-
-from typing import List, Iterable, Tuple
-
-import abc
 
 
 class Interaction(abc.ABC):
@@ -56,10 +53,7 @@ class SpringDampingInteraction(Interaction):
 
         direction = DS / L
 
-        V1 = M1.J @ M1.dw.T
-        V2 = M2.J @ M2.dw.T
-
-        V = V1 - V2
+        V = M1.V - M2.V
 
         alpha = np.dot(V, direction)
 

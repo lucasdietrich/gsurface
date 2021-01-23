@@ -13,6 +13,7 @@ class ModelEvalState:
     w: np.ndarray = None
     dw: np.ndarray = None
     S: np.ndarray = None
+    V: np.ndarray = None
     J: np.ndarray = None
     H: np.ndarray = None
 

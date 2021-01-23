@@ -13,7 +13,7 @@ class Gravity(ConservativeForce):
 
         self.g: np.ndarray = np.array(g)
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         return self.m*self.g
 
     def potential(self, t: float, S: np.ndarray) -> float:
@@ -43,7 +43,7 @@ class NewtonGravity(ConservativeForce):
 
         return r, rn
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         r, rn = self.radius(S)
 
         return - self.product * r / rn**3

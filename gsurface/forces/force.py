@@ -10,21 +10,21 @@ from gsurface.types import ModelEvalState
 
 # force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), Hessian (3xH)) -> force(3)
 ForceEvalType = Callable[
-    [np.ndarray, np.ndarray, float, np.ndarray, np.ndarray],
+    [float, np.ndarray, np.ndarray],
     np.ndarray
 ]
 
 
 class Force(abc.ABC, SerializableInterface):
     def evalM(self, t: float, M: ModelEvalState):
-        return self.eval(M.w, M.dw, t, M.S, M.J)
+        return self.eval(t, M.S, M.V)
 
     @abc.abstractmethod
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         raise NotImplementedError()
 
-    def __call__(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None):
-        return self.eval(w, dw, t, S, J)
+    def __call__(self, t: float, S: np.ndarray = None, V: np.ndarray = None):
+        return self.eval(t, S, V)
 
     def __radd__(self, other: Union[ForceSum, Iterable[Force]]) -> ForceSum:
         return self + other
@@ -51,15 +51,15 @@ class ForceFunction(Force):
     def __init__(self, function: ForceEvalType):
         self.function = function
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
-        return self.function(w, dw, t, S, J)
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
+        return self.function(t, S, V)
 
 
 class NoForce(Force):
     def __init__(self):
         self.force = np.zeros((3, ))
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         return self.force
 
 
@@ -87,9 +87,9 @@ class ForceSum(Force):
             raise AttributeError("other must be of type Union[Force, ForceSum, Iterable[Force]]")
         return self
 
-    def eval(self, w: np.ndarray, dw: np.ndarray, t: float, S: np.ndarray = None, J: np.ndarray = None) -> np.ndarray:
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         return np.sum(
-            force(w, dw, t, S, J) for force in self.forces
+            force(t, S, V) for force in self.forces
         )
 
     def get_conservative_forces(self) -> Iterable[ConservativeForce]:
