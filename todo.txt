@@ -79,8 +79,10 @@ Think about an energy solver :
 
 Add Rotation Spring Sensor in a Structure model
 Add geodesic findings for any surface.
-Add position to parameters function in order to find surface parameters that actually represent the point in the 3D surface.
-change Surface validation with unit test library
+Add position to parameters function in order to find surface parameters that actually represent the point in the 3D surface. ??
+In mayavi plot springs forces, other clip forces
+change Surface validation with unit test library : https://docs.python.org/fr/3.8/library/unittest.html
+
 Create a jupyter in order to explain how to create new models over this library with specificities
 Create following class:
 InteractionfromForce(force: Force):
@@ -118,6 +120,7 @@ Add J, H to solutions calculation
 Constuire une wrapper qui modifie le comportement d’une interaction en annulant un des coté de la force, ceci simule une interaction uni-directionnelle.
 impossible en physique
 peut être utile pour simuler des entrainement, des lois de commandes sur des modèles simplifiés.
+
 
 -----
 

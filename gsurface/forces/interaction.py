@@ -76,5 +76,3 @@ class OneSideSpringInteraction(SpringInteraction):
 
     def eval(self, M1: ModelEvalState, M2: ModelEvalState) -> Tuple[np.ndarray, np.ndarray]:
         return np.zeros((3,)), - super(OneSideSpringInteraction, self).eval(M1, M2)[0]
-
-

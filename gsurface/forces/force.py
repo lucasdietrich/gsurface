@@ -6,12 +6,12 @@ from typing import Iterable, Callable, Union, List
 import numpy as np
 
 from gsurface.serialize.interface import SerializableInterface
-from gsurface.types import ModelEvalState
+from gsurface.types import ModelEvalState, POSITION, HESSIAN, TIME, FORCE
 
 # force eval function type : ForceEvalType(position(3), speed(3), time(1), surface diff(3), Hessian (3xH)) -> force(3)
 ForceEvalType = Callable[
-    [float, np.ndarray, np.ndarray],
-    np.ndarray
+    [TIME, POSITION, HESSIAN],
+    FORCE
 ]
 
 

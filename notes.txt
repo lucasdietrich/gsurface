@@ -44,9 +44,10 @@ Unit Tests:
     Tutorial
         https://realpython.com/python-testing/
     unittest
-        https://docs.python.org/fr/3.7/library/unittest.html
+        https://docs.python.org/fr/3.8/library/unittest.html
     unittest.mock
         https://docs.python.org/3/library/unittest.mock.html
+
 
 Testing numpy arrays:
     https://stackoverflow.com/questions/3302949/best-way-to-assert-for-numpy-array-equality?answertab=votes

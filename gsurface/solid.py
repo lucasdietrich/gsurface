@@ -17,6 +17,7 @@ class Solid(SerializableInterface):
 
 SOLID = Union[float, Solid]
 
+
 def toSolid(any: SOLID) -> Solid:
     if isinstance(any, Solid):
         return any

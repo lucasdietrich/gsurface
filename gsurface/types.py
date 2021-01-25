@@ -3,8 +3,15 @@ from typing import Tuple
 
 import numpy as np
 
+TIME = float
+POSITION = np.ndarray
+HESSIAN = np.ndarray
+JACOBIAN = np.ndarray
+SPEED = np.ndarray
+FORCE = np.ndarray
+
 # S : Surface, J : Jacobian, H : [H_x, H_y, H_z] Hessians of S_x, S_y, S_z
-SJH = Tuple[np.ndarray, np.ndarray, np.ndarray]
+SJH = Tuple[POSITION, JACOBIAN, HESSIAN]
 
 
 # classe d'état calculée pour un modèle de surface
