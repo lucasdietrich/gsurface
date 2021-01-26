@@ -1,5 +1,6 @@
 from typing import Tuple
 
+from gsurface.utils import distance
 from .force import ConservativeForce, np
 
 
@@ -38,10 +39,7 @@ class NewtonGravity(ConservativeForce):
         self.clip = np.array(clip)
 
     def radius(self, S: np.ndarray) -> Tuple[np.ndarray, float]:
-        r = S - self.clip
-        rn = np.linalg.norm(r)
-
-        return r, rn
+        return distance(S, self.clip)
 
     def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         r, rn = self.radius(S)
