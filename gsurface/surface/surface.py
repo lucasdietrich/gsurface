@@ -6,8 +6,8 @@ import numpy as np
 from scipy.integrate import dblquad
 
 from gsurface.serialize.interface import SerializableInterface
-from .transformations import UpdateTransformationStrategy, GetTransformationStrategy
 from .transformations import TransformationStrategy
+from .transformations import UpdateTransformationStrategy, GetTransformationStrategy
 from ..indexes import *
 from ..types import SJH
 
@@ -220,7 +220,8 @@ class Surface(abc.ABC, SerializableInterface):
 
         fu, fv = J.T
 
-        E = np.linalg.norm(fu)**2
+        # see https://stackoverflow.com/questions/35213592/numpy-calculate-square-of-norm-2-of-vector
+        E = np.linalg.norm(fu)**2  # equivalent to np.dot(fu, fu)
         F = np.linalg.norm(fv)**2
         G = np.dot(fu, fv)**2
 

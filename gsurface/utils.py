@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import numpy as np
 
 
@@ -32,3 +34,24 @@ def speed(J: np.ndarray, dw: np.ndarray) -> np.ndarray:
 
     """
     return J @ dw.T
+
+
+def distance(dest: np.ndarray, source: np.ndarray = None) -> Tuple[np.ndarray, float]:
+    """
+    Return vectorial distance from O to Q and its length
+
+    distance(dist, source) is equivalent to distance(dist - source)
+
+    Args:
+        dest: destination
+        source: source
+
+    Returns: vectorial distance, scalar distance
+    """
+    if source is None:
+        source = np.zeros((3,))
+
+    v = dest - source
+    vnorm = np.linalg.norm(v)
+
+    return v, vnorm

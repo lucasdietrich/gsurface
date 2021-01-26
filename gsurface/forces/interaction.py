@@ -3,6 +3,7 @@ from typing import List, Tuple
 
 import numpy as np
 
+from gsurface import utils
 from ..model import SurfaceGuidedMassSystem
 from ..types import ModelEvalState
 
@@ -45,8 +46,7 @@ class SpringDampingInteraction(Interaction):
         super(SpringDampingInteraction, self).__init__(models)
 
     def _force(self, M1: ModelEvalState, M2: ModelEvalState) -> np.ndarray:
-        DS = M1.S - M2.S
-        L = np.linalg.norm(DS)
+        DS, L = utils.distance(M1.S, M2.S)
 
         if not L:
             return np.zeros((3,))
@@ -55,9 +55,11 @@ class SpringDampingInteraction(Interaction):
 
         V = M1.V - M2.V
 
+        V, Vnorm = utils.distance(M1.V, M2.V)
+
         alpha = np.dot(V, direction)
 
-        return -self.stiffness * (L - self.l0) * direction - self.mu * alpha * np.linalg.norm(V) * direction
+        return -self.stiffness * (L - self.l0) * direction - self.mu * alpha * Vnorm * direction
 
 
 # todo add reverse method

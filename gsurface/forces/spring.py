@@ -1,3 +1,4 @@
+from gsurface import utils
 from .force import ConservativeForce, np
 
 
@@ -9,7 +10,8 @@ from .force import ConservativeForce, np
 # F = -k (S - C)
 class SpringForce(ConservativeForce):
     def __init__(self, stiffness: float = 1.0, clip: np.ndarray = None, **kargs):
-        self.stiffness = stiffness
+        self.stiffness = float(stiffness)
+
 
         if clip is None:
             clip = np.array([0.0, 0.0, 0.0])
@@ -20,7 +22,7 @@ class SpringForce(ConservativeForce):
         return -self.stiffness*(S - self.clip)
 
     def potential(self, t: float, S: np.ndarray) -> float:
-        return 0.5*self.stiffness * np.linalg.norm(S - self.clip, 2)**2
+        return 0.5*self.stiffness * np.linalg.norm(S - self.clip)**2
 
     __repr_str__ = "stiffness = {stiffness:.2f} N/m, clip = {clip}"
 
@@ -38,8 +40,7 @@ class LengthedSpringForce(SpringForce):
         super(LengthedSpringForce, self).__init__(stiffness, clip)
 
     def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
-        CS_vec = S - self.clip
-        CS = np.linalg.norm(CS_vec)
+        CS_vec, CS = utils.distance(S, self.clip)
 
         if CS == 0:
             return np.zeros((3,))

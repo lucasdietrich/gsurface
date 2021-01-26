@@ -21,12 +21,12 @@ class AirFriction(Force):
     # S : m^2
     # rho kg/m3
     def __init__(self, Cx: float = 1.0, S: float = 0.0025, rho: float = 1.225, **kargs):
-        self.Cx = Cx
-        self.S = S
-        self.rho = rho
+        self.Cx = float(Cx)
+        self.S = float(S)
+        self.rho = float(rho)
 
     def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
-        return - 0.5 * self.Cx * self.S * self.rho * v * np.linalg.norm(v, 2)
+        return - 0.5 * self.Cx * self.S * self.rho * V * np.linalg.norm(V, 2)
 
     __repr_str__ = "Cx = {Cx:.2f}, S = {S:.2f} m^2, rho = {rho:.2f} kg m^-3"
 
@@ -72,8 +72,8 @@ class CenterDirectedViscousFriction(DirectedViscousFriction):
         super().__init__(mu)
 
     def direction(self, t: float, S: np.ndarray) -> np.ndarray:
-        delta = S - self.clip
-        return delta / np.linalg.norm(delta)
+        delta, dist = utils.distance(S - self.clip)
+        return delta / dist
 
     __repr_str__ = DirectedViscousFriction.__repr_str__ + ", clip = {clip}"
 
