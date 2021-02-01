@@ -76,7 +76,6 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
         # eval and return
         return self.ds(dw, F, J, H)
 
-
     def ds(self, dw: np.ndarray, F: np.ndarray, J: np.ndarray, H: np.ndarray) -> np.ndarray:
         """
         Evaluate resulating elementary system variation for the elementary variation of parameters dw on the surface

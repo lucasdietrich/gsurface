@@ -54,4 +54,3 @@ class Sphere(Surface):
             dvvy=-y,
             dvvz=-z,
         )
-

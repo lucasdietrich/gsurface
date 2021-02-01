@@ -8,11 +8,11 @@ from .json import GSurfaceEncoder, GSurfaceDecoder
 Type = Union[List, Dict, Tuple, SerializableInterface]
 
 
-def dumps(o: Type, indent=None, **kargs):
+def dumps(o: Type, indent=None, **kargs) -> str:
     return json.dumps(o, cls=GSurfaceEncoder, indent=indent, **kargs)
 
 
-def loads(serialized: str, **kargs):
+def loads(serialized: str, **kargs) -> Type:
     return json.loads(serialized, cls=GSurfaceDecoder, **kargs)
 
 

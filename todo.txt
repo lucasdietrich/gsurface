@@ -121,16 +121,15 @@ Constuire une wrapper qui modifie le comportement d’une interaction en annulan
 impossible en physique
 peut être utile pour simuler des entrainement, des lois de commandes sur des modèles simplifiés.
 
-
------
-
 Autre: projet :
 créer un modèle temporelle du pendule inversé et créer un modèle de simulation permettant de modifier l’input de la force en temps réel.
 Pemettre d’y connecter d’autres types d’objects et de lois de commands
-
------
 
 create decorator/wrapper that :
 - make interaction force one-sided
 - set a specific component of a force to 0
 - do other stuff ...
+
+numerical surface -> todo
+
+create conservative force validator in order to check that F = - grad V (V potential and F force)

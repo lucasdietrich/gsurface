@@ -1,13 +1,14 @@
 from typing import Tuple
 
+from gsurface.solid import SOLID, toSolid
 from gsurface.utils import distance
 from .force import ConservativeForce, np
 
 
 # long range gravity
 class Gravity(ConservativeForce):
-    def __init__(self, m: float = 1.0, g: np.ndarray = None, **kargs):
-        self.m: float = m
+    def __init__(self, m: SOLID = 1.0, g: np.ndarray = None, **kargs):
+        self.m: float = toSolid(m).mass
 
         if g is None:
             g = np.array([0.0, 0.0, -9.81])
