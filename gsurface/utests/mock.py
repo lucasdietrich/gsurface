@@ -52,5 +52,9 @@ class Mock:
         return Mock.float()
 
     @staticmethod
+    def V() -> np.ndarray:
+        return nprand((3,))
+
+    @staticmethod
     def float() -> float:
         return random.random()

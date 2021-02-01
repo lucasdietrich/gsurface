@@ -1,11 +1,12 @@
 # https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable
 
 import numpy as np
+from scipy.spatial.transform import Rotation
 
 from gsurface import SurfaceGuidedMassSystem, build_s0
 from gsurface.advanced.structure import TriangleStructure, SurfaceGuidedStructureSystem
 from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, ViscousFriction, Gravity, NewtonGravity
-from gsurface.serialize import save, load, saveB64, loadB64
+from gsurface.serialize import save, load
 from gsurface.surface import Plan, Tore, Sphere, Catenoid
 
 filename = "_tmp/serialized_plan.txt"
@@ -13,7 +14,7 @@ filename = "_tmp/serialized_plan.txt"
 plan = Plan(1, 2, 3, 1)
 plan.translate(np.array([1.0, 2.0, 0.0]))
 
-sphere = Sphere(0.5).multlims(0.5).translate(np.array([1.0, 2.0, 0.0]))
+sphere = Sphere(0.5).multlims(0.5).translate(np.array([1.0, 2.0, 0.0])).rotate(Rotation.from_rotvec([0.0, 1.0, 2.0]).as_matrix())
 tore = Tore()
 cat = Catenoid()
 
@@ -44,7 +45,11 @@ objects = model1
 
 # print(surfaces)
 save(filename, objects, 4)
-saveB64(filename + "b64", objects)
+# saveB64(filename + "b64", objects)
 
 obj = load(filename)
-obj2 = loadB64(filename + "b64")
+# obj2 = loadB64(filename + "b64")
+
+save(filename + ".2.txt", obj, 4)
+
+# compare files

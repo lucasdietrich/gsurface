@@ -15,7 +15,7 @@ class TestSpringForce(unittest.TestCase):
             SpringForce(
                 stiffness=stiffness,
                 clip=clip
-            ).eval(Mock.w(), Mock.dw(), Mock.t(), -clip, Mock.J()),
+            ).eval(Mock.t(), -clip, Mock.V()),
             2*stiffness*np.ones((3,))
         )
 

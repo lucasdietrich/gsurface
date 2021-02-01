@@ -8,6 +8,14 @@ from .json import GSurfaceEncoder, GSurfaceDecoder
 Type = Union[List, Dict, Tuple, SerializableInterface]
 
 
+def dumps(o: Type, indent=None, **kargs):
+    return json.dumps(o, cls=GSurfaceEncoder, indent=indent, **kargs)
+
+
+def loads(serialized: str, **kargs):
+    return json.loads(serialized, cls=GSurfaceDecoder, **kargs)
+
+
 def save(filename: str, o: Type, indent=None, **kargs):
     with open(filename, "w") as fp:
         json.dump(o, fp, cls=GSurfaceEncoder, indent=indent, **kargs)

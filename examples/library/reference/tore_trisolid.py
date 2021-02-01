@@ -16,8 +16,9 @@ model = SurfaceGuidedStructureSystem(surface, structure, [
     ViscousFriction(1.0)
 ])
 
-model.s0[1] = 5.0
-model.s0[3] = 25.0
+model.s0 = np.array([ 4.73114640e-01,  5.00000000e+00,  2.81624913e-02,  2.50000000e+01,
+       -1.60399682e-02,  0.00000000e+00, -2.36683950e-01,  0.00000000e+00,
+       -1.20742294e-01,  0.00000000e+00,  3.40214807e-01,  0.00000000e+00])
 
 time = np.linspace(0, 10, 1000)
 
