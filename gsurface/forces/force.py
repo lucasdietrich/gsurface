@@ -36,7 +36,7 @@ class Force(abc.ABC, SerializableInterface):
 
     def __repr__(self):
         return (
-            "{0} : " + self.__repr_str__
+                "{0} : " + self.__repr_str__
         ).format(self.__class__.__name__, **self.__dict__)
 
 
@@ -57,7 +57,7 @@ class ForceFunction(Force):
 
 class NoForce(Force):
     def __init__(self):
-        self.force = np.zeros((3, ))
+        self.force = np.zeros((3,))
 
     def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         return self.force
@@ -76,15 +76,16 @@ class ForceSum(Force):
             self.forces.append(NoForce())
 
     def append(self, other: Union[Force, ForceSum, Iterable[Force]]) -> ForceSum:
-        if isinstance(other, Iterable):
-            for force in other:
-                self.forces.append(force)
-        elif isinstance(other, ForceSum):
-            self.append(other.forces)
+        if isinstance(other, ForceSum):  # test ForceSum before Force because ForceSum inherit Force class
+            self.append(other.forces)  # process ForceSum forces as iterable
         elif isinstance(other, Force):
-            self.forces.append(other)
+            self.forces.append(other)  # add force to list
+        elif isinstance(other, Iterable):  # add force with append method in the cas a force is a ForceSum
+            for force in other:
+                self.append(force)
         else:
             raise AttributeError("other must be of type Union[Force, ForceSum, Iterable[Force]]")
+
         return self
 
     def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
