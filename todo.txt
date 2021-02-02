@@ -133,3 +133,14 @@ create decorator/wrapper that :
 numerical surface -> todo
 
 create conservative force validator in order to check that F = - grad V (V potential and F force)
+
+test serialization by comparing solutions of the model with the solutions after solving the deserialized same model
+
+create a format to store smart Format:
+```
+Model: Surface a=2 b=3
+    Init State
+        0.0 2.0 1.0 0.0
+    Forces
+        SpringForce stiffness=23
+```
