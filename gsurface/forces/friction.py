@@ -48,11 +48,11 @@ class DirectedViscousFriction(ViscousFriction, abc.ABC):
 
 
 class ConstantDirectedViscousFriction(DirectedViscousFriction):
-    def __init__(self, mu: float = 1.0, direction: np.ndarray = None):
-        if direction is None:
-            direction = np.array([1.0, 0.0, 0.0])
+    def __init__(self, mu: float = 1.0, direction_vector: np.ndarray = None):
+        if direction_vector is None:
+            direction_vector = np.array([1.0, 0.0, 0.0])
 
-        self.direction_vector = np.array(direction)
+        self.direction_vector = np.array(direction_vector)
         
         super().__init__(mu)
 

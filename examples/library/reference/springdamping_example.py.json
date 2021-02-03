@@ -102,48 +102,45 @@
             "_gsurface_cls": "gsurface.surface.transformations.NoTransformationStrategy"
         }
     },
-    "forces": {
-        "_gsurface_cls": "gsurface.forces.force.ForceSum",
-        "forces": [
-            {
-                "_gsurface_cls": "gsurface.forces.friction.ConstantDirectedViscousFriction",
-                "direction_vector": [
-                    1.0,
-                    0.0,
-                    0.0
-                ],
-                "mu": 1.0
-            },
-            {
-                "_gsurface_cls": "gsurface.forces.friction.CenterDirectedViscousFriction",
-                "clip": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "mu": 1.0
-            },
-            {
-                "_gsurface_cls": "gsurface.forces.friction.CenterDirectedViscousFriction",
-                "clip": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "mu": 1.0
-            },
-            {
-                "_gsurface_cls": "gsurface.forces.spring.LengthedSpringForce",
-                "l0": 1.0,
-                "stiffness": 100.0,
-                "clip": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            }
-        ]
-    },
+    "forces": [
+        {
+            "_gsurface_cls": "gsurface.forces.friction.ConstantDirectedViscousFriction",
+            "direction_vector": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "mu": 1.0
+        },
+        {
+            "_gsurface_cls": "gsurface.forces.friction.CenterDirectedViscousFriction",
+            "clip": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "mu": 1.0
+        },
+        {
+            "_gsurface_cls": "gsurface.forces.friction.CenterDirectedViscousFriction",
+            "clip": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "mu": 1.0
+        },
+        {
+            "_gsurface_cls": "gsurface.forces.spring.LengthedSpringForce",
+            "l0": 1.0,
+            "stiffness": 100.0,
+            "clip": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    ],
     "solid": {
         "_gsurface_cls": "gsurface.solid.Solid",
         "mass": 1.0,

@@ -117,7 +117,10 @@ class StructureGraph(SerializableInterface):
     # manage dict[Tuple, Class] to list[(Tuple, Class)]
     def todict(self):
         d = super().todict().copy()  # copy dict to avoid __dict__ modification
-        d["interactions"] = list(self.interactions.items())
+
+        d.update({
+            "interactions": list(self.interactions.items())
+        })
 
         return d
 

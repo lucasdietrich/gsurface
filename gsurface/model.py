@@ -3,7 +3,7 @@ from typing import Union, Iterable
 import numpy as np
 from ode.system import ODESystem
 
-from gsurface.serialize.interface import SerializableInterface
+from gsurface.serialize import SerializableInterface
 from .forces import Force, ForceSum
 from .indexes import *
 from .solid import SOLID, toSolid
@@ -164,3 +164,12 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
             ])
 
         return physics
+
+    def todict(self) -> dict:
+        d = super(SurfaceGuidedMassSystem, self).todict().copy()
+
+        d.update({
+            "forces": self.forces.forces
+        })
+
+        return d

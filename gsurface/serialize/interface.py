@@ -1,3 +1,4 @@
+from __future__ import annotations
 
 # todo find why abstract class does not work ?
 class SerializableInterface:
@@ -9,7 +10,7 @@ class SerializableInterface:
         * if needed parameter for the class isn't required by the __init__ method, the class must implement the
             fromdict method in order to treat this case
     """
-    def todict(self):
+    def todict(self) -> dict:
         """
         Return all data that must be serialized for a specific object
         :return: dict
@@ -17,7 +18,7 @@ class SerializableInterface:
         return self.__dict__
 
     @classmethod
-    def fromdict(cls, d: dict):
+    def fromdict(cls, d: dict) -> SerializableInterface:
         """
         Create an object of current class from the data given in the dict d
 
