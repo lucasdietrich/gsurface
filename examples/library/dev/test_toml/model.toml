@@ -1,0 +1,10 @@
+[model]
+name= "Hello"
+s0= [1, 2, 0, 1]
+
+[model.forces]
+    [model.forces.Gravity]
+    mass=24.3
+    gravity=[0.0, 0.0, -2.7]
+    [model.forces.ViscousFriction]
+    mu = 1.2

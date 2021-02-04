@@ -54,3 +54,10 @@ Testing numpy arrays:
 
 Use ndenumerate for enumerating numpy array
     https://numpy.org/doc/stable/reference/generated/numpy.ndenumerate.html
+
+Distribute with [PyPi](https://pypi.org/)
+    - https://packaging.python.org/tutorials/packaging-projects/
+    - https://pypi.org/classifiers/
+
+Configuring setup.cfg :
+    https://setuptools.readthedocs.io/en/latest/userguide/declarative_config.html

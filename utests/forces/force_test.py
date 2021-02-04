@@ -4,7 +4,7 @@ import numpy as np
 import numpy.testing
 
 from gsurface.forces.spring import SpringForce
-from gsurface.utests.mock import Mock
+from utests import Mock
 
 
 class TestSpringForce(unittest.TestCase):

@@ -144,3 +144,19 @@ Model: Surface a=2 b=3
     Forces
         SpringForce stiffness=23
 ```
+
+
+Investigate on this error :
+
+**DeprecationWarning: Calling np.sum(generator) is deprecated, and in the future will give a different result. Use np.sum(np.fromiter(generator)) or the python sum builtin instead.**
+
+```python
+    def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
+        return np.sum(
+            force(t, S, V) for force in self.forces
+        )
+```
+
+Surface generators
+
+Try TOML serialization with toml package and TomlEncoder & TomlDecoder
