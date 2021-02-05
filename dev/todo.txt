@@ -157,6 +157,10 @@ Investigate on this error :
         )
 ```
 
-Surface generators
+Surface generators (translation, revolution)
+
++ brachitochrone, other special surfaces
 
 Try TOML serialization with toml package and TomlEncoder & TomlDecoder
+
+Add __repr__() to InterfaceSurfaceModel... (+structure)

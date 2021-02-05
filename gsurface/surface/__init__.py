@@ -1,3 +1,4 @@
+from .surface import Surface
 from .catenoid import Catenoid
 from .conicalcorner import ConicalCorner
 from .cylinder import Cylinder

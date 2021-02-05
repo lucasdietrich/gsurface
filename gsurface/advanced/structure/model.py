@@ -4,6 +4,7 @@ from gsurface.forces import SpringDampingInteraction
 from gsurface.imodel import SurfaceGuidedInteractedMassSystems, SurfaceGuidedMassSystem
 from gsurface.model import ForcesType, build_s0
 from gsurface.surface import Surface
+
 from .graph import StructureGraph
 
 

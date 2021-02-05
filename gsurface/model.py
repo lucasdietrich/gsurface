@@ -1,7 +1,7 @@
 from typing import Union, Iterable
 
 import numpy as np
-from ode.system import ODESystem
+from gsurface.advanced.ode.system import ODESystem
 
 from gsurface.serialize import SerializableInterface
 from .forces import Force, ForceSum

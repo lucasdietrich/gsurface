@@ -3,8 +3,8 @@ from collections import OrderedDict
 from typing import Iterable, List
 
 import numpy as np
-from ode.system import ODESystem
 
+from gsurface.advanced.ode.system import ODESystem
 from gsurface.forces.interaction import Interaction
 from gsurface.model import SurfaceGuidedMassSystem
 from gsurface.serialize.interface import SerializableInterface

@@ -9,3 +9,7 @@ Examples can be found in the `examples` directory.
 
 Repository :
 * https://github.com/Adecy/gsurface
+
+Documentation :
+
+* https://github.com/Adecy/gsurface/doc

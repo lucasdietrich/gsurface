@@ -64,3 +64,6 @@ Configuring setup.cfg :
     https://packaging.python.org/guides/distributing-packages-using-setuptools/
         https://github.com/pypa/sampleproject
     MANIFEST.IN : https://packaging.python.org/guides/using-manifest-in/
+
+    Notes about the *.egg-info directory
+        https://stackoverflow.com/questions/3779915/why-does-python-setup-py-sdist-create-unwanted-project-egg-info-in-project-r
