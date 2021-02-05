@@ -61,3 +61,6 @@ Distribute with [PyPi](https://pypi.org/)
 
 Configuring setup.cfg :
     https://setuptools.readthedocs.io/en/latest/userguide/declarative_config.html
+    https://packaging.python.org/guides/distributing-packages-using-setuptools/
+        https://github.com/pypa/sampleproject
+    MANIFEST.IN : https://packaging.python.org/guides/using-manifest-in/
