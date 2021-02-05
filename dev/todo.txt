@@ -164,3 +164,9 @@ Surface generators (translation, revolution)
 Try TOML serialization with toml package and TomlEncoder & TomlDecoder
 
 Add __repr__() to InterfaceSurfaceModel... (+structure)
+
+Make "Interaction" class independent from "Model", il will not be necessary to feed the models to define interactions.
+- enchance the imodel in consequence
+- this enhancement will simplify (or make possible) serialization or imodels.
+
+Next step is to implement serialization for imodels.
