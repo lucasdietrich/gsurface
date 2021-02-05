@@ -1,6 +1,6 @@
-from ..indexes import *
+from gsurface.indexes import *
 
-from .surface import Surface
+from gsurface.surface.surface import Surface
 
 import numpy as np
 

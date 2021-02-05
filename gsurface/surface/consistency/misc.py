@@ -1,4 +1,4 @@
-from . import __surfaces__
+from gsurface.surface import __surfaces__
 
 
 def check_library_surfaces(nu: int = 20, nv: int = 20, tolerance: float = 1e-7):

@@ -1,4 +1,4 @@
-from .surface import Surface, SJH
+from gsurface.surface.surface import Surface, SJH
 
 # Design Pattern : Class Factory
 # curve generator

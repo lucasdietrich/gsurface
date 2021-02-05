@@ -180,7 +180,7 @@ class Surface(abc.ABC, SerializableInterface):
 
     # check integrity
     def check(self, nu: int = 20, nv: int = 20, tolerance=1e-7):
-        from . import diff
+        from .consistency import diff
 
         emat = diff.get_diff_surface_errors(self, *self.mesh(nu, nv))
 
@@ -188,7 +188,7 @@ class Surface(abc.ABC, SerializableInterface):
 
     # check integrity
     def check_verbose(self, nu: int = 20, nv: int = 20, tolerance=1e-7):
-        from . import diff
+        from .consistency import diff
 
         emat = diff.get_diff_surface_errors(self, *self.mesh(nu, nv))
 
