@@ -10,6 +10,7 @@ from .interface import SerializableInterface
 # json encoder/decoder
 #  https://gist.github.com/simonw/7000493
 
+
 clsidentifier = "_gsurface_cls"
 
 
@@ -22,8 +23,9 @@ class GSurfaceEncoder(JSONEncoder):
         # todo check if using a regex based function is better to identify gsurfaces objects
         elif isinstance(obj, SerializableInterface):
             return {
-                clsidentifier: f"{obj.__class__.__module__}.{obj.__class__.__name__}",
-                **obj.todict()
+                "type": clsidentifier,
+                "model": f"{obj.__class__.__module__}.{obj.__class__.__name__}",
+                "parameters": obj.todict()
             }
 
         return super().default(obj)
@@ -38,10 +40,9 @@ class GSurfaceDecoder(JSONDecoder):
         super().__init__(object_hook=self.object_hook, *args, **kargs)
 
     def object_hook(self, obj):
-        # if gsurface identifier exists, it may be a gsurface class or dataclass
-        if clsidentifier in obj:
+        if "type" in obj and obj["type"] == clsidentifier:
             # retrieve the class module + name
-            cls_name = obj[clsidentifier]
+            cls_name = obj["model"]
 
             # check if module is in gsurface
             result = self.modcls_re.match(cls_name)
@@ -51,9 +52,6 @@ class GSurfaceDecoder(JSONDecoder):
                 # dynamic import of class
                 cls: SerializableInterface = getattr(importlib.import_module(module), name)
 
-                # rebuild class from dict
-                del obj[clsidentifier]
-
-                return cls.fromdict(obj)
+                return cls.fromdict(obj["parameters"])
 
         return obj

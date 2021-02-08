@@ -1,155 +1,178 @@
 {
-    "_gsurface_cls": "gsurface.model.SurfaceGuidedMassSystem",
-    "surface": {
-        "_gsurface_cls": "gsurface.surface.plan.Plan",
-        "a": 0.0,
-        "b": 0.0,
-        "c": 1.0,
-        "d": 0.0,
-        "n": [
-            0.0,
-            0.0,
-            1.0
-        ],
-        "norm": 1.0,
-        "nT": [
-            0.0,
-            1.0,
-            -0.0
-        ],
-        "U": [
-            0.0,
-            1.0,
-            -0.0
-        ],
-        "Un": [
-            0.0,
-            1.0,
-            -0.0
-        ],
-        "V": [
-            -1.0,
-            0.0,
-            0.0
-        ],
-        "Vn": [
-            -1.0,
-            0.0,
-            0.0
-        ],
-        "D": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "J": [
-            [
-                0.0,
-                -1.0
-            ],
-            [
-                1.0,
-                0.0
-            ],
-            [
-                -0.0,
-                0.0
-            ]
-        ],
-        "H": [
-            [
-                [
+    "type": "_gsurface_cls",
+    "model": "gsurface.model.SurfaceGuidedMassSystem",
+    "parameters": {
+        "surface": {
+            "type": "_gsurface_cls",
+            "model": "gsurface.surface.plan.Plan",
+            "parameters": {
+                "a": 0.0,
+                "b": 0.0,
+                "c": 1.0,
+                "d": 0.0,
+                "n": [
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "norm": 1.0,
+                "nT": [
+                    0.0,
+                    1.0,
+                    -0.0
+                ],
+                "U": [
+                    0.0,
+                    1.0,
+                    -0.0
+                ],
+                "Un": [
+                    0.0,
+                    1.0,
+                    -0.0
+                ],
+                "V": [
+                    -1.0,
                     0.0,
                     0.0
                 ],
-                [
-                    0.0,
-                    0.0
-                ]
-            ],
-            [
-                [
+                "Vn": [
+                    -1.0,
                     0.0,
                     0.0
                 ],
-                [
+                "D": [
                     0.0,
-                    0.0
-                ]
-            ],
-            [
-                [
                     0.0,
                     0.0
                 ],
-                [
-                    0.0,
-                    0.0
-                ]
-            ]
+                "J": [
+                    [
+                        0.0,
+                        -1.0
+                    ],
+                    [
+                        1.0,
+                        0.0
+                    ],
+                    [
+                        -0.0,
+                        0.0
+                    ]
+                ],
+                "H": [
+                    [
+                        [
+                            0.0,
+                            0.0
+                        ],
+                        [
+                            0.0,
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            0.0,
+                            0.0
+                        ],
+                        [
+                            0.0,
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            0.0,
+                            0.0
+                        ],
+                        [
+                            0.0,
+                            0.0
+                        ]
+                    ]
+                ],
+                "plimits": [
+                    [
+                        -1.0,
+                        1.0
+                    ],
+                    [
+                        -1.0,
+                        1.0
+                    ]
+                ],
+                "transformation": {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.surface.transformations.NoTransformationStrategy",
+                    "parameters": {}
+                }
+            }
+        },
+        "forces": [
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.forces.friction.ConstantDirectedViscousFriction",
+                "parameters": {
+                    "direction_vector": [
+                        1.0,
+                        0.0,
+                        0.0
+                    ],
+                    "mu": 1.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.forces.friction.CenterDirectedViscousFriction",
+                "parameters": {
+                    "clip": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "mu": 1.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.forces.friction.CenterDirectedViscousFriction",
+                "parameters": {
+                    "clip": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "mu": 1.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.forces.spring.LengthedSpringForce",
+                "parameters": {
+                    "l0": 1.0,
+                    "stiffness": 100.0,
+                    "clip": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            }
         ],
-        "plimits": [
-            [
-                -1.0,
-                1.0
-            ],
-            [
-                -1.0,
-                1.0
-            ]
-        ],
-        "transformation": {
-            "_gsurface_cls": "gsurface.surface.transformations.NoTransformationStrategy"
-        }
-    },
-    "forces": [
-        {
-            "_gsurface_cls": "gsurface.forces.friction.ConstantDirectedViscousFriction",
-            "direction_vector": [
-                1.0,
-                0.0,
-                0.0
-            ],
-            "mu": 1.0
+        "solid": {
+            "type": "_gsurface_cls",
+            "model": "gsurface.solid.Solid",
+            "parameters": {
+                "mass": 1.0,
+                "charge": 0.0
+            }
         },
-        {
-            "_gsurface_cls": "gsurface.forces.friction.CenterDirectedViscousFriction",
-            "clip": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "mu": 1.0
-        },
-        {
-            "_gsurface_cls": "gsurface.forces.friction.CenterDirectedViscousFriction",
-            "clip": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "mu": 1.0
-        },
-        {
-            "_gsurface_cls": "gsurface.forces.spring.LengthedSpringForce",
-            "l0": 1.0,
-            "stiffness": 100.0,
-            "clip": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        }
-    ],
-    "solid": {
-        "_gsurface_cls": "gsurface.solid.Solid",
-        "mass": 1.0,
-        "charge": 0.0
-    },
-    "s0": [
-        0.5,
-        0.0,
-        0.0,
-        5.0
-    ]
+        "s0": [
+            0.5,
+            0.0,
+            0.0,
+            5.0
+        ]
+    }
 }
