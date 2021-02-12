@@ -17,7 +17,7 @@ def loads(serialized: str, **kargs) -> Type:
 
 
 def save(filename: str, o: Type, indent=None, **kargs):
-    with open(filename, "w") as fp:
+    with open(filename, "w+") as fp:
         json.dump(o, fp, cls=GSurfaceEncoder, indent=indent, **kargs)
 
 

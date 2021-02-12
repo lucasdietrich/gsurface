@@ -3,6 +3,7 @@ import numpy as np
 from gsurface import Plan, SurfaceGuidedMassSystem, build_s0
 from gsurface.forces import CenterDirectedViscousFriction, ConstantDirectedViscousFriction
 from gsurface.forces import SpringDampingForce
+from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, Tyi
 
 # simulate a 2D spring damping system, we notice that the radial speed tends to 0 where rotational speed still constant
 
@@ -26,14 +27,9 @@ data = model.solve(time)
 
 solutions = model.solutions(data, time)
 
-if False:
-    matplotlib_plot_solutions(time, data, solutions)
-    mayavi_plot_surfaces([
-        SurfacePlot(surface, trajectory=solutions[Tyi])
-    ])
+mayavi_plot_surfaces([
+    SurfacePlot(surface, trajectory=solutions[Tyi])
+])
 
-if True:
-    from gsurface.serialize import save, load
-    filename = __file__ + ".json"
-    save(filename, model, 4)
-    m = load(filename)
+from gsurface.serialize import save_attached
+model_parsed = save_attached(model, __file__)

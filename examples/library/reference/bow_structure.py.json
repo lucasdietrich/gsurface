@@ -1,0 +1,306 @@
+{
+    "gsurface.advanced.structure.model.SurfaceGuidedStructureSystem": {
+        "models": [
+            {
+                "gsurface.model.SurfaceGuidedMassSystem": {
+                    "surface": {
+                        "gsurface.surface.tore.Tore": {
+                            "r": 0.5,
+                            "R": 1.0,
+                            "plimits": [
+                                [
+                                    0.0,
+                                    6.283185307179586
+                                ],
+                                [
+                                    -3.141592653589793,
+                                    3.141592653589793
+                                ]
+                            ],
+                            "transformation": {
+                                "gsurface.surface.transformations.NoTransformationStrategy": {}
+                            }
+                        }
+                    },
+                    "forces": [
+                        {
+                            "gsurface.forces.friction.ViscousFriction": {
+                                "mu": 0.01
+                            }
+                        }
+                    ],
+                    "solid": {
+                        "gsurface.solid.Solid": {
+                            "mass": 0.2,
+                            "charge": 0.0
+                        }
+                    },
+                    "s0": [
+                        0.26701708045294414,
+                        -0.4831741371850258,
+                        -0.14372985863067966,
+                        -0.8320968391846952
+                    ]
+                }
+            },
+            {
+                "gsurface.model.SurfaceGuidedMassSystem": {
+                    "surface": {
+                        "gsurface.surface.tore.Tore": {
+                            "r": 0.5,
+                            "R": 1.0,
+                            "plimits": [
+                                [
+                                    0.0,
+                                    6.283185307179586
+                                ],
+                                [
+                                    -3.141592653589793,
+                                    3.141592653589793
+                                ]
+                            ],
+                            "transformation": {
+                                "gsurface.surface.transformations.NoTransformationStrategy": {}
+                            }
+                        }
+                    },
+                    "forces": [
+                        {
+                            "gsurface.forces.friction.ViscousFriction": {
+                                "mu": 0.01
+                            }
+                        }
+                    ],
+                    "solid": {
+                        "gsurface.solid.Solid": {
+                            "mass": 0.2,
+                            "charge": 0.0
+                        }
+                    },
+                    "s0": [
+                        -0.34956560303180173,
+                        -0.2608265521845421,
+                        -0.9436523934743422,
+                        0.6000255377718888
+                    ]
+                }
+            },
+            {
+                "gsurface.model.SurfaceGuidedMassSystem": {
+                    "surface": {
+                        "gsurface.surface.tore.Tore": {
+                            "r": 0.5,
+                            "R": 1.0,
+                            "plimits": [
+                                [
+                                    0.0,
+                                    6.283185307179586
+                                ],
+                                [
+                                    -3.141592653589793,
+                                    3.141592653589793
+                                ]
+                            ],
+                            "transformation": {
+                                "gsurface.surface.transformations.NoTransformationStrategy": {}
+                            }
+                        }
+                    },
+                    "forces": [
+                        {
+                            "gsurface.forces.friction.ViscousFriction": {
+                                "mu": 0.01
+                            }
+                        }
+                    ],
+                    "solid": {
+                        "gsurface.solid.Solid": {
+                            "mass": 0.2,
+                            "charge": 0.0
+                        }
+                    },
+                    "s0": [
+                        -0.516233251867678,
+                        0.8778628723902524,
+                        0.8913859070743517,
+                        0.7780233496947584
+                    ]
+                }
+            },
+            {
+                "gsurface.model.SurfaceGuidedMassSystem": {
+                    "surface": {
+                        "gsurface.surface.tore.Tore": {
+                            "r": 0.5,
+                            "R": 1.0,
+                            "plimits": [
+                                [
+                                    0.0,
+                                    6.283185307179586
+                                ],
+                                [
+                                    -3.141592653589793,
+                                    3.141592653589793
+                                ]
+                            ],
+                            "transformation": {
+                                "gsurface.surface.transformations.NoTransformationStrategy": {}
+                            }
+                        }
+                    },
+                    "forces": [
+                        {
+                            "gsurface.forces.friction.ViscousFriction": {
+                                "mu": 0.01
+                            }
+                        }
+                    ],
+                    "solid": {
+                        "gsurface.solid.Solid": {
+                            "mass": 0.2,
+                            "charge": 0.0
+                        }
+                    },
+                    "s0": [
+                        -0.07564653148778389,
+                        -0.8549536491727372,
+                        0.35304982405792384,
+                        -0.5247021935198739
+                    ]
+                }
+            },
+            {
+                "gsurface.model.SurfaceGuidedMassSystem": {
+                    "surface": {
+                        "gsurface.surface.tore.Tore": {
+                            "r": 0.5,
+                            "R": 1.0,
+                            "plimits": [
+                                [
+                                    0.0,
+                                    6.283185307179586
+                                ],
+                                [
+                                    -3.141592653589793,
+                                    3.141592653589793
+                                ]
+                            ],
+                            "transformation": {
+                                "gsurface.surface.transformations.NoTransformationStrategy": {}
+                            }
+                        }
+                    },
+                    "forces": [
+                        {
+                            "gsurface.forces.friction.ViscousFriction": {
+                                "mu": 0.01
+                            }
+                        }
+                    ],
+                    "solid": {
+                        "gsurface.solid.Solid": {
+                            "mass": 0.2,
+                            "charge": 0.0
+                        }
+                    },
+                    "s0": [
+                        0.010725360693984332,
+                        0.20121244773060099,
+                        0.21512303144256162,
+                        0.16472358263472597
+                    ]
+                }
+            }
+        ],
+        "degree": 5,
+        "interactions": [
+            [
+                [
+                    0,
+                    1
+                ],
+                {
+                    "gsurface.forces.interaction.SpringDampingInteraction": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 0.25
+                    }
+                }
+            ],
+            [
+                [
+                    1,
+                    2
+                ],
+                {
+                    "gsurface.forces.interaction.SpringDampingInteraction": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 0.25
+                    }
+                }
+            ],
+            [
+                [
+                    2,
+                    3
+                ],
+                {
+                    "gsurface.forces.interaction.SpringDampingInteraction": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 0.25
+                    }
+                }
+            ],
+            [
+                [
+                    3,
+                    4
+                ],
+                {
+                    "gsurface.forces.interaction.SpringDampingInteraction": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 0.25
+                    }
+                }
+            ],
+            [
+                [
+                    0,
+                    4
+                ],
+                {
+                    "gsurface.forces.interaction.SpringDampingInteraction": {
+                        "stiffness": 100.0,
+                        "mu": 10.0,
+                        "l0": 1.0
+                    }
+                }
+            ]
+        ],
+        "s0": [
+            0.26701708045294414,
+            1.0,
+            -0.14372985863067966,
+            -0.8320968391846952,
+            -0.34956560303180173,
+            1.0,
+            -0.9436523934743422,
+            0.6000255377718888,
+            -0.516233251867678,
+            1.0,
+            0.8913859070743517,
+            0.7780233496947584,
+            -0.07564653148778389,
+            1.0,
+            0.35304982405792384,
+            -0.5247021935198739,
+            0.010725360693984332,
+            1.0,
+            0.21512303144256162,
+            0.16472358263472597
+        ]
+    }
+}

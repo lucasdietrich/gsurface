@@ -4,3 +4,4 @@ res
 build
 gsurface.egg-info
 .ipynb_checkpoints
+*.pyc

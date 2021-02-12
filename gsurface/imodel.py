@@ -1,6 +1,6 @@
 import typing
 from collections import OrderedDict
-from typing import Iterable, List
+from typing import Iterable, List, Dict, Tuple, Union
 
 import numpy as np
 
@@ -10,30 +10,36 @@ from gsurface.model import SurfaceGuidedMassSystem
 from gsurface.serialize.interface import SerializableInterface
 from gsurface.types import ModelEvalState
 
-ModelsEvalStates = typing.OrderedDict[SurfaceGuidedMassSystem, ModelEvalState]
+InteractionMesh = Dict[Tuple[int, int], Interaction]
+
+# for the moment we allow only one interaction between nodes and direction is determinant
 
 
 class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
-    def __init__(self, models: List[SurfaceGuidedMassSystem], interactions: Iterable[Interaction] = None, **kargs):
+    def __init__(self, models: Iterable[SurfaceGuidedMassSystem], interactions: InteractionMesh = None, **kargs):
         if interactions is None:
             print("Warning : no interactions in this model")
-            interactions = []
+            interactions = {}
 
         # todo change "model" key to "index" key (convention and serialize feature needs)
-        self.models: ModelsEvalStates = OrderedDict({model: ModelEvalState() for model in models})
 
-        self.degree = len(models)
+        self.models = list(models)
+        self.degree = len(self.models)
+
+        # for each interaction check if all models are well defined
+        for (ni, nj), interaction in interactions.items():
+            if not (0 <= ni < self.degree) or not (0 <= nj < self.degree):
+                raise Exception(f"Interaction {interaction} associate object(s) that doesn't (/don't) exist : {ni} > {nj}")
+            elif ni == nj:
+                raise Exception(f"Interaction associating 2 times the same model is not permitted : {interaction} : {ni} > {ni}")
+
+        self.interactions: InteractionMesh = interactions
+
+        # build tmp ModelEvalState
+        self._models_states: List[ModelEvalState] = [ModelEvalState() for model in self.models]
 
         # build s0
         s0 = np.concatenate([model.s0 for model in self.models])
-
-        # for each interaction check if all models are well defined
-        self.interactions: List[Interaction] = []
-        for interaction in interactions:
-            for model in interaction.models:
-                if model not in self.models:
-                    raise Exception("A model defined in an interaction is not defined in the list of simulation models")
-            self.interactions.append(interaction)
 
         super(SurfaceGuidedInteractedMassSystems, self).__init__(s0)
 
@@ -41,7 +47,7 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
         ds = np.zeros_like(s)
 
         # eval model surface metric
-        for j, (model, M) in enumerate(self.models.items()):
+        for j, (model, M) in enumerate(zip(self.models, self._models_states)):
             ms = s[4*j:4*j + 4]
 
             M.w = ms[::2]
@@ -55,16 +61,16 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
             M.iF = np.zeros((3,))
 
         # eval interacted forces
-        for interaction in self.interactions:
-            m1, m2 = interaction.models
-            M1, M2 = self.models[m1], self.models[m2]
+        for (ni, nj), interaction in self.interactions.items():
+            M1, M2 = self._models_states[ni], self._models_states[nj]
+
             F1, F2 = interaction.eval(M1, M2)
 
             M1.iF += F1
             M2.iF += F2
 
         # eval forces and build ds
-        for j, (model, M) in enumerate(self.models.items()):
+        for j, (model, M) in enumerate(zip(self.models, self._models_states)):
             # eval force:
             F = model.forces.eval(t, M.S, M.V)
 
@@ -78,3 +84,26 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
             state = states[:, 4*j:4*j + 4]
 
             yield model.solutions(state, time)
+
+    # manage dict[Tuple, Class] to list[(Tuple, Class)]
+    def todict(self) -> dict:
+        d = super(SurfaceGuidedInteractedMassSystems, self).todict().copy()
+
+        del d["_models_states"]
+
+        d.update(({
+            "interactions": list(self.interactions.items())
+        }))
+
+        return d
+
+    # manage list[(Tuple, Class)] to dict[Tuple, Class]
+    @classmethod
+    def fromdict(cls, d: dict):
+        # rebuild from StructureGraph and not subclasses
+        return SurfaceGuidedInteractedMassSystems(
+            models=d["models"],
+            interactions={
+                (na, nb): interaction for (na, nb), interaction in d["interactions"]
+            }
+        )

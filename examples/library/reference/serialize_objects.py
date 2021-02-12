@@ -37,9 +37,7 @@ structure = TriangleStructure(23.0, 1.0, 23.0, 4.3)
 structure[0, 2].mu = 2.0
 structure[0, 1].mu = 3.0
 structure[1, 2].mu = 4.0
-model2 = SurfaceGuidedStructureSystem(
-    sphere, structure, forces
-)
+model2 = SurfaceGuidedStructureSystem(sphere, structure, structureForces=forces)
 
 objects = model1
 

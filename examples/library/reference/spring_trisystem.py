@@ -12,28 +12,25 @@ SYSTEMS = 8
 stiffness = 10
 
 tore = Tore(0.5, 1.0)
-surface = tore.build_surface(*tore.mesh(50, 50))
+tore_mesh = tore.build_surface(*tore.mesh(50, 50))
 
-# build models
-models = [SurfaceGuidedMassSystem(
-    surface=tore,
-    s0=build_s0(0, 2*j, 0.0, 1+j),
-    m=1.0,
-    forces=[
-        ViscousFriction(0.2),
-        Gravity(1.0, np.array([0.0, 0.0, -1.0]))
-    ]
-) for j in range(SYSTEMS)]
-
-# build interactions
-interactions = [
-    SpringInteraction([
-        models[i],
-        models[i + 1]
-    ], 10) for i in range(SYSTEMS - 1)
-]
-
-joint_sim = SurfaceGuidedInteractedMassSystems(models, interactions)
+# build model
+joint_sim = SurfaceGuidedInteractedMassSystems(
+    [
+        SurfaceGuidedMassSystem(
+            surface=tore,
+            s0=build_s0(0, 2*j, 0.0, 1+j),
+            m=1.0,
+            forces=[
+                ViscousFriction(0.2),
+                Gravity(1.0, np.array([0.0, 0.0, -1.0]))
+            ]
+        ) for j in range(SYSTEMS)
+    ],
+    {
+        (i, i + 1): SpringInteraction(1.0) for i in range(SYSTEMS - 1)
+    }
+)
 
 time = np.linspace(0, 25, 2000)
 
@@ -56,7 +53,7 @@ NCOLORS = len(colors)
 
 mayavi_plot_surfaces([
     SurfacePlot(
-        surface,  # surface
+        tore_mesh,  # surface
         i == 0,
         trajectory=solution[Tyi],
         trajectoryColor=colors[i % NCOLORS],

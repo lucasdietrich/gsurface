@@ -7,13 +7,11 @@ from gsurface import utils
 from ..model import SurfaceGuidedMassSystem
 from ..types import ModelEvalState
 
+from gsurface.serialize import SerializableInterface
 
-class Interaction(abc.ABC):
-    def __init__(self, models: List[SurfaceGuidedMassSystem]):
-        assert len(models) == 2  # an interaction is between 2 systems
 
-        self.models = models
-
+# an interaction is between 2 models
+class Interaction(abc.ABC, SerializableInterface):
     @abc.abstractmethod
     def _force(self, M1: ModelEvalState, M2: ModelEvalState) -> np.ndarray:
         raise NotImplementedError
@@ -26,24 +24,19 @@ class Interaction(abc.ABC):
     def __repr__(self):
         return f"{self.__class__.__name__}"
 
-
 class SpringInteraction(Interaction):
-    def __init__(self, models: List[SurfaceGuidedMassSystem], stiffness: float = 1.0):
+    def __init__(self, stiffness: float = 1.0, **kargs):
         self.stiffness = stiffness
-
-        super(SpringInteraction, self).__init__(models)
 
     def _force(self, M1: ModelEvalState, M2: ModelEvalState) -> np.ndarray:
         return -self.stiffness * (M1.S - M2.S)
 
 
 class SpringDampingInteraction(Interaction):
-    def __init__(self, models: List[SurfaceGuidedMassSystem], stiffness: float = 1.0, mu: float = 1.0, l0: float = 1.0):
+    def __init__(self, stiffness: float = 1.0, mu: float = 1.0, l0: float = 1.0, **kargs):
         self.stiffness = stiffness
         self.mu = mu
         self.l0 = l0
-
-        super(SpringDampingInteraction, self).__init__(models)
 
     def _force(self, M1: ModelEvalState, M2: ModelEvalState) -> np.ndarray:
         DS, L = utils.distance(M1.S, M2.S)
@@ -67,14 +60,14 @@ class SpringDampingInteraction(Interaction):
 # todo create general class that work on all other interacted methods
 
 class OneSideSpringInteraction(SpringInteraction):
-    def __init__(self, models: List[SurfaceGuidedMassSystem], stiffness: float = 1.0):
+    def __init__(self, stiffness: float = 1.0, **kargs):
         """
         First model change second model behaviour but its own behaviour isn't altered
 
         :param models:
         :param stiffness:
         """
-        super().__init__(models, stiffness)
+        super().__init__(stiffness)
 
     def eval(self, M1: ModelEvalState, M2: ModelEvalState) -> Tuple[np.ndarray, np.ndarray]:
         return np.zeros((3,)), - super(OneSideSpringInteraction, self).eval(M1, M2)[0]

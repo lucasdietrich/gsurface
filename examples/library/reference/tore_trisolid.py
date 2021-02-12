@@ -15,7 +15,7 @@ structure = TriangleStructure(totalMass=4.0, stiffness=1000.0, mu=10.0, l0=0.5)
 
 structure[(0, 1)].l0 = 0.35
 
-model = SurfaceGuidedStructureSystem(surface, structure, [
+model = SurfaceGuidedStructureSystem(surface, structure, structureForces=[
     Gravity(1.0, np.array([0.0, 0.0, -9.81])),
     ViscousFriction(1.0)
 ])

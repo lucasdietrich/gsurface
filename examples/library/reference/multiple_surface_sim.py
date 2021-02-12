@@ -1,7 +1,5 @@
 import time as timelib
 
-from ode import solver
-
 from gsurface.forces import Gravity, ViscousFriction
 from gsurface.forces.interaction import OneSideSpringInteraction
 from gsurface.imodel import *
@@ -52,17 +50,17 @@ plan_sim = SurfaceGuidedMassSystem(
 
 time = np.linspace(0.0, 10.0, 1000)
 
-joint_sim = SurfaceGuidedInteractedMassSystems([sphere_sim, tore_sim, plan_sim], [
-    OneSideSpringInteraction([tore_sim, sphere_sim], 1),
-    OneSideSpringInteraction([tore_sim, plan_sim], 50)
-])
+joint_sim = SurfaceGuidedInteractedMassSystems([sphere_sim, tore_sim, plan_sim], {
+    (1, 0): OneSideSpringInteraction(1.0),
+    (1, 2): OneSideSpringInteraction(50.0)
+})
 
 # concept
 # joint_sim.save("joint_sim_1.im")
 
 # perf measurement
 t1 = timelib.time()
-data = joint_sim.solve(time, solver=solver.rk4)
+data = joint_sim.solve(time)
 t2 = timelib.time()
 
 print("solve time :", t2 - t1, "s")

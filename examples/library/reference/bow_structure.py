@@ -7,6 +7,10 @@ from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot
 from gsurface.plotter.colors import rgb
 from gsurface.surface import Tore
 
+from gsurface.serialize import save_attached
+
+from gsurface.tools import nprand
+
 SIZE = 5
 
 surface = Tore(0.5, 1.0)
@@ -16,7 +20,7 @@ snake = BowStructure(SIZE, 1.0, stiffness=1000.0, mu=10.0, l0=1.0)
 
 snake.interactions[(0, SIZE - 1)].stiffness = 100.0
 
-sim = SurfaceGuidedStructureSystem(surface, snake, structureForces=[
+sim = SurfaceGuidedStructureSystem(surface, snake, s0=nprand(4*SIZE), structureForces=[
     ViscousFriction(0.01)
 ])
 
@@ -28,12 +32,14 @@ data = sim.solve(time)
 
 solutions = sim.solutions(data, time)
 
+model_parsed = save_attached(sim, __file__)
+
 mayavi_plot_surfaces([
-    SurfacePlot(
-        smesh=mesh,
-        showSurface= i == 0,
-        trajectory=solution[Tyi],
-        trajectoryColor=rgb[i % len(rgb)],
-        showTrajectory=True
-    ) for i, solution in enumerate(solutions)
-])
+        SurfacePlot(
+            smesh=mesh,
+            showSurface= i == 0,
+            trajectory=solution[Tyi],
+            trajectoryColor=rgb[i % len(rgb)],
+            showTrajectory=True
+        ) for i, solution in enumerate(solutions)
+    ])
