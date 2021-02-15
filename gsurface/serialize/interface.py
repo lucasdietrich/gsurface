@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 # todo find why abstract class does not work ?
 class SerializableInterface:
     """
