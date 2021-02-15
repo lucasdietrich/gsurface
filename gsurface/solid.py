@@ -12,7 +12,7 @@ class Solid(SerializableInterface):
     # other caractéristics
 
     def __repr__(self):
-        return f"{self.mass:f} kg" + (f", {self.charge:f} C" if self.charge else "")
+        return f"{self.mass:.2f} kg" + (f", {self.charge:.3f} C" if self.charge else "")
 
 
 SOLID = Union[float, Solid]

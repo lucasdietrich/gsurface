@@ -173,4 +173,6 @@ Next step is to implement serialization for imodels.
 
 add multiple precision serializing methods :
     - complete and partial (partial could be save also in another format)
-    
+
+
+make a way to find u, v from S (calculation or numerical resolution)

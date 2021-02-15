@@ -62,6 +62,12 @@ class NoForce(Force):
     def eval(self, t: float, S: np.ndarray = None, V: np.ndarray = None) -> np.ndarray:
         return self.force
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}"
+
+    def todict(self) -> dict:
+        return {}
+
 
 class ForceSum(Force):
     def __init__(self, forces: Union[Force, ForceSum, Iterable[Force]] = None, **kargs):

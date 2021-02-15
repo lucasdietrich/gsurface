@@ -14,7 +14,7 @@ from gsurface.solid import Solid
 
 
 @dataclass
-class InteractionParameters(SerializableInterface):
+class InteractionEdge(SerializableInterface):
     stiffness: float = 1000.0
     mu: float = 10.0
     l0: float = 1.0
@@ -22,20 +22,24 @@ class InteractionParameters(SerializableInterface):
 
 GraphNodesType = List[Solid]
 VertexType = Tuple[int, int]
-GraphVerticesType = Dict[VertexType, InteractionParameters]
+GraphVerticesType = Dict[VertexType, InteractionEdge]
 
 
-# warning all subclasses need to modified SerializableInterface method if other parameters are nessesary to describe the model
+# warning all subclasses need to modified SerializableInterface method if other parameters are necessary to describe the model
 class StructureGraph(SerializableInterface):
-    def __init__(self, nodes: GraphNodesType = None, interactions: GraphVerticesType = None):
-        if nodes is None:
-            nodes = list()
+    def __init__(self, nodes: GraphNodesType, interactions: GraphVerticesType = None):
+        """
+        Describe a structure of mass points by the interactions between the nodes
 
+        Args:
+            nodes:
+            interactions:
+        """
         if interactions is None:
             interactions = dict()
 
         self.nodes: GraphNodesType = nodes
-        self.interactions: GraphVerticesType = defaultdict(InteractionParameters, interactions)
+        self.interactions: GraphVerticesType = defaultdict(InteractionEdge, interactions)
 
     def __repr__(self):
         return f"{self.__class__.__name__} : Nodes [{self.N}] vertices [{self.D}] connex [{self.isConnex()}] " \

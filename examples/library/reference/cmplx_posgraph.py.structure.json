@@ -1,0 +1,418 @@
+{
+    "type": "_gsurface_cls",
+    "model": "gsurface.advanced.structure.posgraph.ExplStructureGraph",
+    "parameters": {
+        "nodes": [
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.solid.Solid",
+                "parameters": {
+                    "mass": 1.0,
+                    "charge": 0.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.solid.Solid",
+                "parameters": {
+                    "mass": 1.0,
+                    "charge": 0.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.solid.Solid",
+                "parameters": {
+                    "mass": 1.0,
+                    "charge": 0.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.solid.Solid",
+                "parameters": {
+                    "mass": 1.0,
+                    "charge": 0.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.solid.Solid",
+                "parameters": {
+                    "mass": 1.0,
+                    "charge": 0.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.solid.Solid",
+                "parameters": {
+                    "mass": 1.0,
+                    "charge": 0.0
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.solid.Solid",
+                "parameters": {
+                    "mass": 1.0,
+                    "charge": 0.0
+                }
+            }
+        ],
+        "interactions": [
+            [
+                [
+                    0,
+                    1
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 1.7320508075688772
+                    }
+                }
+            ],
+            [
+                [
+                    0,
+                    2
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 2.8284271247461903
+                    }
+                }
+            ],
+            [
+                [
+                    0,
+                    3
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 3.1622776601683795
+                    }
+                }
+            ],
+            [
+                [
+                    0,
+                    4
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 4.123105625617661
+                    }
+                }
+            ],
+            [
+                [
+                    0,
+                    5
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 5.477225575051661
+                    }
+                }
+            ],
+            [
+                [
+                    0,
+                    6
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 6.0
+                    }
+                }
+            ],
+            [
+                [
+                    1,
+                    2
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 1.7320508075688772
+                    }
+                }
+            ],
+            [
+                [
+                    1,
+                    3
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 2.23606797749979
+                    }
+                }
+            ],
+            [
+                [
+                    1,
+                    4
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 3.1622776601683795
+                    }
+                }
+            ],
+            [
+                [
+                    1,
+                    5
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 4.123105625617661
+                    }
+                }
+            ],
+            [
+                [
+                    1,
+                    6
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 5.196152422706632
+                    }
+                }
+            ],
+            [
+                [
+                    2,
+                    3
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 2.449489742783178
+                    }
+                }
+            ],
+            [
+                [
+                    2,
+                    4
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 2.23606797749979
+                    }
+                }
+            ],
+            [
+                [
+                    2,
+                    5
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 3.1622776601683795
+                    }
+                }
+            ],
+            [
+                [
+                    2,
+                    6
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 4.47213595499958
+                    }
+                }
+            ],
+            [
+                [
+                    3,
+                    4
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 1.7320508075688772
+                    }
+                }
+            ],
+            [
+                [
+                    3,
+                    5
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 2.8284271247461903
+                    }
+                }
+            ],
+            [
+                [
+                    3,
+                    6
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 3.1622776601683795
+                    }
+                }
+            ],
+            [
+                [
+                    4,
+                    5
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 1.7320508075688772
+                    }
+                }
+            ],
+            [
+                [
+                    4,
+                    6
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 2.23606797749979
+                    }
+                }
+            ],
+            [
+                [
+                    5,
+                    6
+                ],
+                {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.advanced.structure.graph.InteractionEdge",
+                    "parameters": {
+                        "stiffness": 1000.0,
+                        "mu": 10.0,
+                        "l0": 2.449489742783178
+                    }
+                }
+            ]
+        ],
+        "positions": [
+            [
+                0,
+                0,
+                0
+            ],
+            [
+                1,
+                1,
+                1
+            ],
+            [
+                2,
+                0,
+                2
+            ],
+            [
+                3,
+                1,
+                0
+            ],
+            [
+                4,
+                0,
+                1
+            ],
+            [
+                5,
+                1,
+                2
+            ],
+            [
+                6,
+                0,
+                0
+            ]
+        ]
+    }
+}

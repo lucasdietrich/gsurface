@@ -85,6 +85,11 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
 
             yield model.solutions(state, time)
 
+    def __repr__(self):
+        return f"{self.__class__.__name__} with {self.degree} models :\n" + "\n".join([
+            str(model) for model in self.models
+        ])
+
     # manage dict[Tuple, Class] to list[(Tuple, Class)]
     def todict(self) -> dict:
         d = super(SurfaceGuidedInteractedMassSystems, self).todict().copy()
