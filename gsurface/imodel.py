@@ -1,5 +1,5 @@
-import typing
-from collections import OrderedDict
+from __future__ import annotations
+
 from typing import Iterable, List, Dict, Tuple, Union
 
 import numpy as np
@@ -86,7 +86,7 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
             yield model.solutions(state, time)
 
     def __repr__(self):
-        return f"{self.__class__.__name__} with {self.degree} models :\n" + "\n".join([
+        return f"{self.__class__.__name__} with {self.degree} models :\n\t" + "\n\t".join([
             str(model) for model in self.models
         ])
 
@@ -112,3 +112,28 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
                 (na, nb): interaction for (na, nb), interaction in d["interactions"]
             }
         )
+
+    # operators
+    def __radd__(self, other: Union[SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems]) -> SurfaceGuidedInteractedMassSystems:
+        if isinstance(other, SurfaceGuidedMassSystem):
+            print("WARNING : The order of the models added is not respected")
+        return self + other
+
+    def __add__(self, other: Union[SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems]) -> SurfaceGuidedInteractedMassSystems:
+        if isinstance(other, SurfaceGuidedInteractedMassSystems):
+            interactions = self.interactions.copy()
+            shift = self.degree
+            interactions.update({
+                (ni + shift, nj + shift): interaction for (ni, nj), interaction in other.interactions.items()
+            })
+            return SurfaceGuidedInteractedMassSystems(
+                models=self.models + other.models,
+                interactions=interactions,
+            )
+        elif isinstance(other, SurfaceGuidedMassSystem):
+            return SurfaceGuidedInteractedMassSystems(
+                models=self.models + [other],
+                interactions=self.interactions
+            )
+        else:
+            raise Exception("Can only add SurfaceGuidedMassSystem and SurfaceGuidedInteractedMassSystems models")

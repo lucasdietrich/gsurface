@@ -1,0 +1,70 @@
+{
+    "type": "_gsurface_cls",
+    "model": "gsurface.model.SurfaceGuidedMassSystem",
+    "parameters": {
+        "surface": {
+            "type": "_gsurface_cls",
+            "model": "gsurface.surface.tore.Tore",
+            "parameters": {
+                "r": 0.5,
+                "R": 1.0,
+                "plimits": [
+                    [
+                        0.0,
+                        6.283185307179586
+                    ],
+                    [
+                        -3.141592653589793,
+                        3.141592653589793
+                    ]
+                ],
+                "transformation": {
+                    "type": "_gsurface_cls",
+                    "model": "gsurface.surface.transformations.ShiftTransformationStrategy",
+                    "parameters": {
+                        "D": [
+                            3.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        "forces": [
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.forces.gravity.Gravity",
+                "parameters": {
+                    "m": 1.0,
+                    "g": [
+                        0.0,
+                        0.0,
+                        -9.0
+                    ]
+                }
+            },
+            {
+                "type": "_gsurface_cls",
+                "model": "gsurface.forces.friction.ViscousFriction",
+                "parameters": {
+                    "mu": 0.5
+                }
+            }
+        ],
+        "solid": {
+            "type": "_gsurface_cls",
+            "model": "gsurface.solid.Solid",
+            "parameters": {
+                "mass": 1.0,
+                "charge": 0.0
+            }
+        },
+        "s0": [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+        ]
+    }
+}
