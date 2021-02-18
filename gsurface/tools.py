@@ -1,6 +1,8 @@
-import numpy as np
-from typing import Union, Iterable
 import random
+from typing import Union, Iterable
+
+import numpy as np
+
 
 def nprand(shape: Union[int, Iterable[int]], lower: float = -1.0, upper: float = 1.0) -> np.ndarray:
     """

@@ -179,3 +179,5 @@ make a way to find u, v from S (calculation or numerical resolution)
 
 Python Package Configuration :
     - https://softwareengineering.stackexchange.com/questions/262831/how-to-handle-configuration-of-python-modules-especially-when-used-standalone-a
+
+copy classes
