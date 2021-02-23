@@ -104,5 +104,8 @@ class ForceSum(Force):
             if isinstance(force, ConservativeForce):
                 yield force
 
+    def __len__(self):
+        return len(self.forces)
+
     def __repr__(self):
         return super(ForceSum, self).__repr__() + self.forces.__repr__()

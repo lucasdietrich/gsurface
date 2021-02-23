@@ -1,9 +1,8 @@
-from typing import Union, Iterable
+from typing import Union, Iterable, Tuple
 
 import numpy as np
-from gsurface.advanced.ode.system import ODESystem
 
-from gsurface.serialize import SerializableInterface
+from gsurface.base_model import SurfaceGuidedBaseSystem
 from .forces import Force, ForceSum
 from .indexes import *
 from .solid import SOLID, toSolid
@@ -17,7 +16,7 @@ def build_s0(u0: float = 0.0, du0: float = 0.0, v0: float = 0.0, dv0: float = 0.
 ForcesType = Union[Force, ForceSum, Iterable[Force]]
 
 
-class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
+class SurfaceGuidedMassSystem(SurfaceGuidedBaseSystem):
     def __init__(
             self, surface: Surface,
             s0: np.ndarray = None,
@@ -173,3 +172,6 @@ class SurfaceGuidedMassSystem(ODESystem, SerializableInterface):
         })
 
         return d
+
+    def dimension(self) -> Tuple[int, int, int]:
+        return 1, len(self.forces), 0

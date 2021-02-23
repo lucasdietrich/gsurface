@@ -4,10 +4,9 @@ from typing import Iterable, List, Dict, Tuple, Union
 
 import numpy as np
 
-from gsurface.advanced.ode.system import ODESystem
+from gsurface.base_model import SurfaceGuidedBaseSystem
 from gsurface.forces.interaction import Interaction
 from gsurface.model import SurfaceGuidedMassSystem
-from gsurface.serialize.interface import SerializableInterface
 from gsurface.types import ModelEvalState
 
 InteractionMesh = Dict[Tuple[int, int], Interaction]
@@ -15,7 +14,7 @@ InteractionMesh = Dict[Tuple[int, int], Interaction]
 # for the moment we allow only one interaction between nodes and direction is determinant
 
 
-class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
+class SurfaceGuidedInteractedMassSystems(SurfaceGuidedBaseSystem):
     def __init__(self, models: Iterable[SurfaceGuidedMassSystem], interactions: InteractionMesh = None, **kargs):
         if interactions is None:
             print("Warning : no interactions in this model")
@@ -137,3 +136,6 @@ class SurfaceGuidedInteractedMassSystems(ODESystem, SerializableInterface):
             )
         else:
             raise Exception("Can only add SurfaceGuidedMassSystem and SurfaceGuidedInteractedMassSystems models")
+
+    def dimension(self) -> Tuple[int, int, int]:
+        return len(self.models), sum(len(model.forces) for model in self.models), len(self.interactions)

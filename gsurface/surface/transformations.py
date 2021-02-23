@@ -9,6 +9,9 @@ EYE = np.eye(3)
 
 
 class TransformationStrategy(abc.ABC, SerializableInterface):
+    TRANSLATION = 0
+    ROTATION = 0
+
     @abc.abstractmethod
     def apply(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
         raise NotImplementedError
@@ -18,6 +21,9 @@ class TransformationStrategy(abc.ABC, SerializableInterface):
 
 
 class NoTransformationStrategy(TransformationStrategy):
+    TRANSLATION = 0
+    ROTATION = 0
+
     def apply(self, S: np.ndarray, J: np.ndarray, H: np.ndarray) -> SJH:
         return S, J, H
 
@@ -26,6 +32,9 @@ class NoTransformationStrategy(TransformationStrategy):
 
 
 class ShiftTransformationStrategy(TransformationStrategy):
+    TRANSLATION = 1
+    ROTATION = 0
+
     def __init__(self, D: np.ndarray):
         self.D = D
 
@@ -34,6 +43,9 @@ class ShiftTransformationStrategy(TransformationStrategy):
 
 
 class RotTransformationStrategy(TransformationStrategy):
+    TRANSLATION = 0
+    ROTATION = 1
+
     def __init__(self, M: np.ndarray):
         self.M = M
 
@@ -49,6 +61,9 @@ class RotTransformationStrategy(TransformationStrategy):
 
 
 class RotShiftTransformationStrategy(ShiftTransformationStrategy, RotTransformationStrategy):
+    TRANSLATION = 1
+    ROTATION = 1
+
     def __init__(self, D: np.ndarray, M: np.ndarray):
         ShiftTransformationStrategy.__init__(self, D)
         RotTransformationStrategy.__init__(self, M)

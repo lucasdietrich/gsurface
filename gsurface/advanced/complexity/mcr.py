@@ -10,7 +10,7 @@ class ModelComplexityRepresentation:
     _mcr_rec = re.compile(r"^((iM(?P<imodel>\d+))|(?P<model>M))"
                          r"(-(S(?P<surface>\d*))(T(?P<translation>\d*))?(R(?P<rotation>\d*))?)?"
                          r"(-(F(?P<force>\d*))?(I(?P<interaction>\d*))?)?"
-                         r"-(T(?P<time>\d+))$")
+                         r"(-(T(?P<time>\d+)))?$")
 
     imodel: int
     model: int
@@ -35,7 +35,7 @@ class ModelComplexityRepresentation:
         self.time = int(self.time) if self.time else 0
 
     def complexity(self) -> int:
-        return self.model * self.surface * (1 + self.translation + self.rotation) * (1 + self.force + self.interaction) * self.time
+        return self.model * self.surface * (1 + self.translation + self.rotation) * (1 + self.force + self.interaction) * (self.time + 1)
 
     def mcr_number(self) -> int:
         return int(math.log2(self.complexity()))

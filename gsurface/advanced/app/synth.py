@@ -2,9 +2,11 @@
 
 from typing import Union
 
-from gsurface.imodel import SurfaceGuidedInteractedMassSystems
-from gsurface.model import SurfaceGuidedMassSystem
+from gsurface import SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems
+
+Model = Union[SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems]
 
 
-def process(model: Union[SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems]):
-    pass;
+class Solver:
+    def __init__(self, model: Model):
+        pass

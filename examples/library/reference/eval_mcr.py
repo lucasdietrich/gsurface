@@ -7,6 +7,7 @@ mcrs = [
     'iM2-I-T100',
     'M-T1000',
     'M-S3T3R2-T1000',
+    'M-S3T3R2'
 ]
 
 for mcr in mcrs:
