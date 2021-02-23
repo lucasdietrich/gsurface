@@ -1,8 +1,9 @@
 import abc
 
 import numpy as np
-from ode.solver import rk4
 from scipy.integrate import odeint
+
+from .solver import rk4
 
 
 class ODESystem(abc.ABC):

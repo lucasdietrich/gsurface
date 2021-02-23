@@ -3,7 +3,7 @@ import json
 from json import JSONEncoder, JSONDecoder
 from typing import List, Dict, Tuple, Union, Type
 
-from gsurface.serialize.encoder import ImplicitEncoder, ImplicitDecoder
+from gsurface.serialize.encoder.implicit import ImplicitEncoder, ImplicitDecoder
 from .interface import SerializableInterface
 
 SerializableType = Union[List, Dict, Tuple, SerializableInterface]

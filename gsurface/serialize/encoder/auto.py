@@ -1,6 +1,7 @@
 from json.decoder import JSONDecoder
 
-from gsurface.serialize.encoder import ExplicitDecoder, ImplicitDecoder
+from gsurface.serialize.encoder.explicit import ExplicitDecoder
+from gsurface.serialize.encoder.implicit import ImplicitDecoder
 
 
 class AutoDecoder(JSONDecoder):
