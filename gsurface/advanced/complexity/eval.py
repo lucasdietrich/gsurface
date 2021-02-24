@@ -5,6 +5,8 @@ from .mcr import ModelComplexityRepresentation
 
 ModelType = Union[SurfaceGuidedMassSystem, SurfaceGuidedInteractedMassSystems]
 
+# TODO : calculate translation/rotation in model.dimension()
+
 
 def eval_mcr(model: ModelType) -> ModelComplexityRepresentation:
     if isinstance(model, SurfaceGuidedMassSystem):
@@ -25,6 +27,7 @@ def eval_mcr(model: ModelType) -> ModelComplexityRepresentation:
 
         return ModelComplexityRepresentation(
             imodel=m,
+            model=0,
             surface=m,  # TODO : detect surface duplicate
             translation=sum(m.surface.transformation.TRANSLATION for m in model.models),
             rotation=sum(m.surface.transformation.ROTATION for m in model.models),

@@ -3,8 +3,8 @@ from __future__ import annotations
 
 # todo find why abstract class does not work ?
 class SerializableInterface:
-    def __init__(self, **kargs):
-        pass
+    # def __init__(self, **kargs):
+    #     pass
     """
     The class implementation of this interface need to respect following rules:
         * if __init__ method need parameters, their must be saved with the same name (even if not used)

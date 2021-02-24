@@ -183,3 +183,5 @@ Python Package Configuration :
 copy classes
 
 smart retrieve surface/force... duplicate from serialized model
+
+add cli commands
