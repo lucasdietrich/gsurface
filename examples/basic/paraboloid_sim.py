@@ -1,14 +1,20 @@
-from gsurface.surface import EllipticParaboloid, HyperbolicParaboloid
-from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, mlab
-from gsurface.model import SurfaceGuidedMassSystem, build_s0
-from gsurface.forces import Gravity, ViscousFriction, SpringForce, LengthedSpringForce
-from gsurface import Tyi, Emi
-from gsurface.plotter.matplotlib import matplotlib_plot_solutions
+"""
+
+
+
+"""
 
 import numpy as np
 
-# choose
-surface_class = EllipticParaboloid  # or EllipticParaboloid
+from gsurface import Tyi
+from gsurface.forces import Gravity, ViscousFriction
+from gsurface.model import SurfaceGuidedMassSystem, build_s0
+from gsurface.plotter import mayavi_plot_surfaces, SurfacePlot, mlab
+from gsurface.plotter.matplotlib import matplotlib_plot_solutions
+from gsurface.surface import EllipticParaboloid, HyperbolicParaboloid
+
+# choose between elliptic or hyperbolic paraboloid surface
+surface_class = EllipticParaboloid
 
 if surface_class is HyperbolicParaboloid:
     para = HyperbolicParaboloid(1.0, 5).setlims(v_ul=10)
@@ -19,8 +25,10 @@ else:
 
 surface = para.build_surface(*para.mesh(50, 50))
 
+# check surface definition
 print(para, para.check(20, 20))
 
+# create model
 model = SurfaceGuidedMassSystem(
     surface=para,
     s0=s0,
@@ -31,14 +39,17 @@ model = SurfaceGuidedMassSystem(
     ]
 )
 
+# solve
 time = np.linspace(0, 20, 2000)
 
 data = model.solve(time)
 
+# calculate other physics quantities
 solutions = model.solutions(data, time)
 
 trajectory = solutions[Tyi]
 
+# plot
 matplotlib_plot_solutions(time, data, solutions)
 
 mayavi_plot_surfaces([

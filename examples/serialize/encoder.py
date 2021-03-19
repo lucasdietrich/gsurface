@@ -1,4 +1,5 @@
 from gsurface.examples import tore_sim
+
 from gsurface.serialize import save, load
 from gsurface.serialize.encoder import ExplicitEncoder, ExplicitDecoder, ImplicitDecoder, ImplicitEncoder, AutoDecoder
 

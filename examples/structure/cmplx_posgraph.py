@@ -3,9 +3,7 @@ import pprint
 import numpy as np
 
 from gsurface.advanced.structure import ExplStructureGraph, Solid
-
 from gsurface.advanced.structure.pmodel import PlanExplStructureSystem
-
 from gsurface.serialize import save_attached
 
 N = 7

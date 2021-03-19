@@ -9,7 +9,7 @@ from gsurface.forces import StaticFieldElectroMagneticForce, SpringForce, Viscou
 from gsurface.serialize import save, load
 from gsurface.surface import Plan, Tore, Sphere, Catenoid
 
-filename = "_tmp/serialized_plan.txt"
+filename = "../_tmp/serialized_plan.txt"
 
 plan = Plan(1, 2, 3, 1)
 plan.translate(np.array([1.0, 2.0, 0.0]))
