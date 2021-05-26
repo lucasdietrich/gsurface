@@ -1,6 +1,6 @@
 # gsurface library
 
-This library offers tools for simulating and plotting single or structured point mass(es) guided by 2D surfaces according to a the Newton 2nd Law Approach
+This library offers tools for simulating and plotting single or structured point mass(es) guided by 2D surfaces according to a Newton 2nd Law Approach
 
 Following surfaces are defined: Plan, Sphere, Tore, Catenoid, Canonical Corner, Eggbox, Paraboloids + TranslatedSurfaceGenerator, RevolutionSurfaceGenerator
 
@@ -68,8 +68,6 @@ system_tore = SurfaceGuidedMassSystem(
 Code snippet :
 
 ```python
-import time as timelib
-
 from gsurface.forces import Gravity, ViscousFriction
 from gsurface.forces.interaction import OneSideSpringInteraction
 from gsurface.imodel import *
