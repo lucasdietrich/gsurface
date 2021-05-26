@@ -4,7 +4,8 @@ This example show how to create a surface and plot it
 
 """
 
-from gsurface.plotter import mayavi_plot_surface, mlab
+from gsurface.plotter import mayavi_plot_surface
+from gsurface.surface import Catenoid
 
 surface = Catenoid(1.0)
 
