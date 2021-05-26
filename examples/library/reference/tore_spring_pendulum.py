@@ -1,18 +1,14 @@
-from gsurface import SurfaceGuidedMassSystem, SpringForce, LengthedSpringForce, Gravity, \
-    AirFriction, ViscousFriction, build_s0
-
-from gsurface.surface import Tore
-
-from gsurface.indexes import *
-
-from gsurface.plotter import matplotlib_plot_solutions, mayavi_animate_surface_trajectory
-
+import numpy as np
 from mayavi import mlab
 
-import numpy as np
+from gsurface import SurfaceGuidedMassSystem, SpringForce, Gravity, \
+    ViscousFriction, build_s0
+from gsurface.indexes import *
+from gsurface.plotter import matplotlib_plot_solutions, mayavi_animate_surface_trajectory
+from gsurface.surface import Tore
 
 m = 1.0
-system_tore = SurfaceGuidedMassSystem(
+system = SurfaceGuidedMassSystem(
     surface=Tore(0.5, 1.0),
     s0=build_s0(u0=0.0, du0=0.5, v0=1.0, dv0=0.0),
     m=m,
@@ -23,8 +19,6 @@ system_tore = SurfaceGuidedMassSystem(
         ViscousFriction(mu=0.5),
     ]
 )
-
-system = system_tore
 
 # simulate
 time = np.linspace(0, 10, 5000)
